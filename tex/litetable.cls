@@ -12,7 +12,7 @@
 %% !Mode:: "TeX:UTF-8"                                                                                        *
 %% ************************************************************************************************************
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{litetable}[2023/11/05 v2.1a LiteTable document class]
+\ProvidesClass{litetable}[11/11/2023 v2.1b LiteTable document class]
 \LoadClass[tikz,margin=10pt]{standalone}
 % ---------- 全局选项 ---------- %
 \RequirePackage{kvoptions}
