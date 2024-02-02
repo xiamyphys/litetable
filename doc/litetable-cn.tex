@@ -10,24 +10,27 @@
 \PassOptionsToPackage{no-math}{fontspec}
 \documentclass[11pt]{article}
 \usepackage{geometry}
-\usepackage{indentfirst,setspace}
-\usepackage[toc]{multitoc}
-\setlength{\parindent}{2em}
-\setstretch{1.25}
 \usepackage{pdfpages}
 \usepackage[level]{datetime}
 \usepackage{unicode-math,xeCJK}
 \usepackage{authblk}
+\usepackage{indentfirst,setspace}
+\usepackage[toc]{multitoc}
+\setstretch{1.25}
 \setmainfont{Libertinus Serif}
 \setsansfont{Libertinus Sans}
-\setCJKmainfont{SimSong}[BoldFont=Chiron Sung HK, ItalicFont=Kaiti SC]
+\setCJKmainfont{Chiron Sung HK}
+[
+  BoldFont=Chiron Sung HK Bold,
+  ItalicFont=Kaiti SC
+]
 \makeatletter
 \usepackage{listings,dirtree}
 \lstdefinestyle{TeX}{
     language      =  [LaTeX]TeX,
     texcsstyle    =  *\color{H7},
     numbers       =  none,
-    basicstyle    =  {\small\color{H6}\tt},
+    basicstyle    =  {\scriptsize\color{H6}\tt},
     mathescape    =  false,
     breaklines    =  true,
     columns       =  fixed,
@@ -52,7 +55,6 @@
 \definecolor{H7}{Hsb}{290,.8,.8}% 浪漫紫 (Hangzhou Metro 7 )
 \hypersetup{colorlinks,urlcolor=H1,linkcolor=H2,filecolor=filecolor,pdfstartview=FitH,pdfview=FitH,pdfcreator=XeTeX output}
 
-\renewcommand*\l@subsection{\@dottedtocline{2}{1.5em}{2.1em}}
 \def\pkg#1{\texorpdfstring{\textcolor{pkgcolor}{\textsf{#1}}}{“#1”}}
 \def\mode#1{\texorpdfstring{\textcolor{moducolor}{\textsf{#1}}}{“#1”}}
 \def\cmd#1{\texorpdfstring{\textcolor{cmdcolor}{\textsf{#1}}}{“#1”}}
@@ -66,7 +68,7 @@
 \yyyymmdddate
 \date{\today}
 \affil[1]{\href{mailto:xiamyphys@gmail.com}{\texttt{xiamyphys@gmail.com}}}
-\date{\today\quad Version 2.2a\thanks{%
+\date{\today\quad Version 2.3a\thanks{%
   \url{https://github.com/xiamyphys/litetable}}}
 \begin{document}
 \maketitle
@@ -89,7 +91,7 @@
 同样，你也可以加入我的\textsf\LaTeX{} 技術交流群 \href{https://qm.qq.com/q/OnHzbNvVAG}{QQ Group: 760570712} 与我交流，来获取模板的内测版本.
 
 \subsection{所需宏集}
-本模板基于 \pkg{standalone} 文档类开发. 其需要 \pkg{tikz} 宏集去绘制图形，\pkg{kvoptions} 和 \pkg{etoolbox} 宏集用于提供全局选项，\pkg{expl3} 宏基用于支持数组，\pkg{ctex}宏集用于支持中文语言，\pkg{fontawesome5} 宏集提供一系列精美的图标.
+本模板基于 \pkg{standalone} 文档类开发. 其需要 \pkg{tikz} 宏集去绘制图形，\pkg{kvoptions} 和 \pkg{etoolbox} 宏集用于提供全局模式，\pkg{expl3} 宏基用于支持数组，\pkg{ctex}宏集用于支持中文语言，\pkg{fontawesome5} 宏集提供一系列精美的图标.
 
 我强烈建议您使用终端机去执行以下命令，以将所有宏集更新到最新版本
 \begin{verbatim}
@@ -97,26 +99,29 @@
     tlmgr update --all
 \end{verbatim}
 
-如果您所在的地区存在网路封锁，你可以选择合适的镜像网站或其他方法\footnote{请遵循当地的网路条例.}. 欲详细了解，请前往 \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my TEX distribution?}
+如果您所在的地区存在网路封锁（如GFW干扰），你可以选择合适的镜像网站或其他方法\footnote{请遵守当地的网路条例.}. 欲详细了解，请前往 \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my TEX distribution?}
 
-\subsection{载入 \pkg{LiteTable} 和其模式}
+\subsection{载入 \pkg{LiteTable} 和其选项}
 将文件 \verb|litetable.cls| 保存至你的项目根目录，然后创立一个 \verb|.tex| 文件，只需在第一行输入命令 \verb|\documentclass{litetable}| 即可.
 
-本模板提供了三个模式：\mode{date}，\mode{style} 和 \mode{font}. 只需将你想要使用的模式选项分别添加在你的 \verb|.tex| 文件中命令 \verb|\documentclass[options]{litetable}| 的方括号中即可.
+本模板提供了三个选项：\mode{date}，\mode{style}，\mode{direction} 和 \mode{font}. 只需将你要使用的选项模式分别添加在你的 \verb|.tex| 文件中命令 \verb|\documentclass[options]{litetable}| 的方括号中即可.
 
 \newpage
-\section{\pkg{LiteTable} 的模式}
+\section{\pkg{LiteTable} 的全局选项}
 \begin{verbatim}
   \documentclass[options]{litetable}
 \end{verbatim}
-\subsection{\mode{date} 模式}
-此模式有两个选项，\mode{en} 和 \mode{cn}，可分别使工作日以英文或大陆简体显示，默认为英文.
+\subsection{\mode{date} 选项}
+此选项有两个模式，\mode{en} 和 \mode{cn}，可分别使工作日以英文或大陆简体显示，默认为英文.
 
-\subsection{\mode{style} 模式}
-此模式有两个选项，\mode{round} 和 \mode{sharp}，可分别使课程块圆角或直角显示，默认为直角.
+\subsection{\mode{style} 选项}
+此选项有两个模式，\mode{round} 和 \mode{sharp}，可分别使课程块圆角或直角显示，默认为直角.
 
-\subsection{\mode{font} 模式}
-此模式有两个选项，\mode{times} 和 \mode{libertinus}，可分别使字体为 ``Times New Roman'' 或 ``Libertinus''，默认为 ``Times New Roman''.\footnote{在使用 ``Libertinus'' 选项前请确保电脑中已安装该字体.}
+\subsection{\mode{direction} 选项}
+此选项有两个模式，\mode{portrait} 和 \mode{landscape}， 可分别使课程表以纵向或横向显示.
+
+\subsection{\mode{font} 选项}
+此选项有两个模式，\mode{times} 和 \mode{libertinus}，可分别使字体为 ``Times New Roman'' 或 ``Libertinus''，默认为 ``Times New Roman''.\footnote{在使用 ``Libertinus'' 模式前请确保电脑中已安装该字体.}
 
 \section{\pkg{LiteTable} 的命令}
 
@@ -129,19 +134,19 @@
 
 \subsection{The \cmd{timelist} command}
 \begin{verbatim}
-    \timelist{
-      8:05,8:55,10:00,10:50,11:40,13:30,14:20,15:15,16:05,18:30,19:20,20:10;
-      8:50,9:40,10:45,11:35,12:25,14:15,15:05,16:00,16:50,19:15,20:05,20:55
-    }
+  \timelist{
+    8:05,8:55,10:00,10:50,11:40,13:30,14:20,15:15,16:05,18:30,19:20,20:10;
+    8:50,9:40,10:45,11:35,12:25,14:15,15:05,16:00,16:50,19:15,20:05,20:55
+  }
 \end{verbatim}
 
 此命令可将时间添加至课程表的左侧，内容的第一行是每节课程开始时间，第二行是每节课程的结束时间，时间之间用逗号（\verb|,|）分隔，第一行与第二行之间用分号（\verb|;|）分隔.
 
-本课程表目前只支持每天12节课. 在后续更新中，将支持自定义每天的课程节数，敬请期待！
+课程表可根据你输入的时间组数自动生成相应的行数. 如上方代码共有12组时间，就会生成12行的课程表.
 
 \subsection{\cmd{course} 命令}
 \begin{verbatim}
-    \course{H5}{3}{5}{AQM}{Building 6·225}{Yuan Li \& Mengnan Chen}{Week 1 -- 18}
+  \course{H5}{3}{5}{AQM}{Building 6·225}{Yuan Li \& Mn Chen}{Week 1 -- 18}
 \end{verbatim}
 
 此命令共有7个变量.
@@ -161,27 +166,31 @@
 \begin{verbatim}
   \more{·School Start: 04 / 03 / 2024 ·Summer Vacation: 05 / 07 / 2024}
 \end{verbatim}
+
 此命令可在课程表末尾添加备注信息.
 
 \subsection{\cmd{sticker} 命令}
 \begin{verbatim}
   \sticker{favicon}
 \end{verbatim}
+
 在使用此命令后页面的右下方会添加一张贴纸.
 
-\newpage
 \section{版本历史}
 
-课程表的设计源于杭电助手（\href{https://www.hdu.edu.cn}{杭州电子科技大学}\footnote{https://en.wikipedia.org/wiki/Hangzhou\_Dianzi\_University}）学生课表页面\footnote{仅本校师生可访问.} 页面排版十分精美，于是本人使用\LaTeX{} 复刻出了课程表样式，并制作成模板分享给大家.
+课程表的设计源于杭电助手（\href{https://www.hdu.edu.cn}{杭州电子科技大学}）学生课表页面（仅本校师生可访问）. 页面排版十分精美，于是本人使用\LaTeX{} 复刻出了课程表样式，并制作成模板分享给大家.
 
-\textsf{\bfseries Version 1.0} 于01/09/2023完成开发，并发布在\href{https://www.latexstudio.net/index/details/index/mid/3625.html}{LaTeX 工作室} (杭州萧山)和\href{http://xhslink.com/od7Ycw}{小红书}上，赢得了许多人的喜爱.
+\textsf{\bfseries Version 1.0} 于01/09/2023完成开发，并发布在\href{https://www.latexstudio.net/index/details/index/mid/3625.html}{\LaTeX{}工作室} (杭州萧山)和\href{http://xhslink.com/od7Ycw}{小红书}上，赢得了许多人的喜爱.
 
-\textsf{\bfseries Version 2.0a}于01/11/2023完成开发，并发布在\href{https://www.latexstudio.net/index/details/index/mid/3636.html}{LaTeX 工作室} (杭州萧山)和\href{http://xhslink.com/od7Ycw}{小红书}上. 此版本使用 \verb|.cls| 文件，使 \verb|main.tex| 文件更简洁. 同时，此版本添加了全局选项，可设置 ``课程块" 显示为圆角或直角. 此版本也支持一个 \verb|.tex| 文件中生成多张课表.
+\textsf{\bfseries Version 2.0a}于01/11/2023完成开发，并发布在\href{https://www.latexstudio.net/index/details/index/mid/3636.html}{\LaTeX{}工作室} (杭州萧山)和\href{http://xhslink.com/od7Ycw}{小红书}上. 此版本使用 \verb|.cls| 文件，使 \verb|main.tex| 文件更简洁. 同时，此版本添加了全局模式，可设置 ``课程块" 显示为圆角或直角. 此版本也支持一个 \verb|.tex| 文件中生成多张课表.
 
 \textsf{\bfseries Version 2.1a} 于05/11/2023完成开发. 支持 libertinus 字体.
 
 \textsf{\bfseries Version 2.2a} 于31/01/2024完成开发. 此版本修复了分辨率超出的bug，更改纸张类型为美国信纸并支持自定义课程起始和结束时间.
 
+\textsf{\bfseries Version 2.3a} 于02/02/2024完成开发. 此版本支持根据所输入的时间组数自动生成相应的行数，并支持课程表以纵向或横向显示.
+
+\setstretch{1}
 \datechange{01/09/2023}{Version 2.0a}
 \begin{itemize}
     \item 支持课程块显示为圆角或直角.
@@ -199,12 +208,21 @@
     \item 更改纸张类型为美国信纸.
     \item 支持自定义课程起始和结束时间.
     \item 支持在页面右下角添加一个你喜欢的小贴纸.
+    \item 提供简体中文说明文档.
 \end{itemize}
 
-\newpage\setstretch{1}
+\datechange{2024/02/02}{Version 2.3a}
+\begin{itemize}
+  \item 支持根据所输入的时间组数自动生成相应的行数.
+  \item 课程表可纵向或横向显示.
+\end{itemize}
+
+
+\newpage\setstretch{1.5}
 \appendix
 \section{代码示例}
-\lstinputlisting[style=TeX]{litetable-demo.tex}
+\lstinputlisting[style=TeX]{litetable-demo2.tex}
 
-\includepdf[pages=last-1,nup=1x2,angle=90]{litetable-demo.pdf}
+\includepdf[pages=-]{litetable-demo2.pdf}
+\includepdf[pages=-,nup=1x2]{litetable-demo1.pdf}
 \end{document}

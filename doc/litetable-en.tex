@@ -14,13 +14,15 @@
 \usepackage[level]{datetime}
 \usepackage{unicode-math,xeCJK}
 \usepackage{authblk}
+\usepackage{indentfirst,setspace}
+% \usepackage[toc]{multitoc}
+% \setstretch{1.25}
 \setmainfont{Libertinus Serif}
 \setsansfont{Libertinus Sans}
-\setmonofont{NotoSansMono}[
-  Scale=MatchLowercase,
-  Extension=.ttf,
-  UprightFont=*-Light,
-  BoldFont=*-Medium
+\setCJKmainfont{Chiron Sung HK}
+[
+  BoldFont=Chiron Sung HK Bold,
+  ItalicFont=Kaiti SC
 ]
 \makeatletter
 \usepackage{listings,dirtree}
@@ -28,7 +30,7 @@
     language      =  [LaTeX]TeX,
     texcsstyle    =  *\color{H7},
     numbers       =  none,
-    basicstyle    =  {\small\color{H6}\tt},
+    basicstyle    =  {\footnotesize\color{H6}\tt},
     mathescape    =  false,
     breaklines    =  true,
     columns       =  fixed,
@@ -53,7 +55,6 @@
 \definecolor{H7}{Hsb}{290,.8,.8}% 浪漫紫 (Hangzhou Metro 7 )
 \hypersetup{colorlinks,urlcolor=H1,linkcolor=H2,filecolor=filecolor,pdfstartview=FitH,pdfview=FitH,pdfcreator=XeTeX output}
 
-\renewcommand*\l@subsection{\@dottedtocline{2}{1.5em}{2.1em}}
 \def\pkg#1{\texorpdfstring{\textcolor{pkgcolor}{\textsf{#1}}}{“#1”}}
 \def\mode#1{\texorpdfstring{\textcolor{moducolor}{\textsf{#1}}}{“#1”}}
 \def\cmd#1{\texorpdfstring{\textcolor{cmdcolor}{\textsf{#1}}}{“#1”}}
@@ -67,17 +68,18 @@
 \yyyymmdddate
 \date{\today}
 \affil[1]{\href{mailto:xiamyphys@gmail.com}{\texttt{xiamyphys@gmail.com}}}
-\date{\today\quad Version 2.2a\thanks{%
+\date{\today\quad Version 2.3a\thanks{%
   \url{https://github.com/xiamyphys/litetable}}}
 \begin{document}
 \maketitle
 
+\vspace{-2em}
 \begin{abstract}
 This is the document for \pkg{LiteTable} template, which provides a beautiful design of class schedule with colorful course blocks.
 
 \end{abstract}
 
-\tableofcontents
+\tableofcontents\clearpage
 
 \section{Introduction}
 
@@ -97,26 +99,29 @@ I strongly suggest that you should use cmd to implement the commands to update a
     tlmgr update --all
 \end{verbatim}
 
-If you are in some areas with awful Internet environment, you can choose proper mirror source or use other means\footnote{Please comply with local network regulations.}. To learn more, please refer to \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my TEX distribution?}
+If you are in some areas with awful Internet environment (such as GFWz), you can choose proper mirror source or use other means\footnote{Please comply with local network regulations.}. To learn more, please refer to \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my \TeX{} distribution?}
 
-\subsection{Loading \pkg{LiteTable} and its modes}
+\subsection{Loading \pkg{LiteTable} and its options}
 Save the file \verb|litetable.cls| to your project's root directory, and then create a \verb|.tex| file, just input the command \verb|\documentclass{litetable}| on the first line.
 
-The template provides three modes, \mode{date}, \mode{style} and \mode{font}. Just add the options of the modes you want separately in the square bracket of the command \verb|\documentclass[options]{litetable}| in your \verb|.tex| file.
+The template provides four options, \mode{date}, \mode{style}, \mode{direction} and \mode{font}. Just add the modes of the options you want separately in the square bracket of the command \verb|\documentclass[options]{litetable}| in your \verb|.tex| file.
 
 \newpage
-\section{Modes of \pkg{LiteTable}}
+\section{Global Options of \pkg{LiteTable}}
 \begin{verbatim}
   \documentclass[options]{litetable}
 \end{verbatim}
-\subsection{The \mode{date} mode}
-This mode has two options, \mode{en} and \mode{cn}, which can make the weekdays display in English or 大陆简体, and the dafault option is English.
+\subsection{The \mode{date} option}
+This option has two modes, \mode{en} and \mode{cn}, which can make the weekdays display in English or 大陆简体, and the dafault mode is English.
 
-\subsection{The \mode{style} mode}
-This mode has two options, \mode{round} and \mode{sharp}, which can make the course block's corners be round or sharp, and the default option is sharp.
+\subsection{The \mode{style} option}
+This option has two modes, \mode{round} and \mode{sharp}, which can make the course block's corners be round or sharp, and the default mode is sharp.
 
-\subsection{The \mode{font} mode}
-This mode has two options, \mode{times} and \mode{libertinus}, which can make the font to be ``Times New Roman'' or ``Libertinus'', and the default option is ``Times New Roman''.\footnote{Please ensure that your computer has been already installed the font ``Libertinus'' when using this option.}
+\subsection{The \mode{direction} option}
+This option has two modes, \mode{portrait} and \mode{landscape}, which can make the timetable displayed portrait or horizontally.
+
+\subsection{The \mode{font} option}
+This option has two modes, \mode{times} and \mode{libertinus}, which can make the font to be ``Times New Roman'' or ``Libertinus'', and the default mode is ``Times New Roman''.\footnote{Please ensure that your computer has been already installed the font ``Libertinus'' when using this option.}
 
 \section{Commands of \pkg{LiteTable}}
 
@@ -137,7 +142,7 @@ This command can create an empty class schedule with the title ``Timetable -- Se
 
 This command can add time to the left side of the timetable, and the first line of the content is the start time of the class while the second line of the content is the end time of the class, each time separates with comma (\verb|,|), the first line and the second line separates with semicolon (\verb|;|).
 
-The timetable currently only supports 12 classes per day. In the future updates, customization of the number of courses per day will be supported.
+The timetable can automatically generate the corresponding number of rows based on the number of time groups you enter. For example, the code above has 12 groups of times, a 12-row timetable will be generated.
 
 \subsection{The \cmd{course} command}
 \begin{verbatim}
@@ -169,42 +174,52 @@ This command can add remark at the end of the class schedule.
 \end{verbatim}
 There will be a sticker on the southeast of the page after you add,otherwise it won't.
 
-\newpage
 \section{Version History}
 
 The design of this course schedule originated from the student course schedule web page\footnote{Only those studying at or graduated from Hangzhou Dianzi University can have the permission of access.} of the \href{https://www.hduhelp.cn/}{HDUHelp} in \href{https://www.hdu.edu.cn}{Hangzhou Dianzi University}\footnote{https://en.wikipedia.org/wiki/Hangzhou\_Dianzi\_University}. The layout is very beautiful and then I used \LaTeX{} to imitate that style and made a class schedule template to share with everyone.
 
-\textsf{\bfseries Version 1.0} was finished on 1 September, 2023 and released on \href{https://www.latexstudio.net/index/details/index/mid/3625.html}{LaTeX Studio} (Xiaoshan, Hangzhou) and \href{http://xhslink.com/od7Ycw}{Xiaohongshu}, where won the favor of many people.
+\textsf{\bfseries Version 1.0} was finished on 1 September, 2023 and released on \href{https://www.latexstudio.net/index/details/index/mid/3625.html}{\LaTeX{} Studio} (Xiaoshan, Hangzhou) and \href{http://xhslink.com/od7Ycw}{Xiaohongshu}, where won the favor of many people.
 
-\textsf{\bfseries Version 2.0a} was finished developing on 1 November, 2023 and released on \href{https://www.latexstudio.net/index/details/index/mid/3636.html}{LaTeX Studio} (Xiaoshan, Hangzhou) and \href{http://xhslink.com/od7Ycw}{Xiaohongshu}. This version used \verb|.cls| files to make the \verb|main.tex| file more concise. Also, this version have added a global option to choose whether the corners of the ``course Block" to be round or sharp. And this version support adds multiply class schedules in one \verb|.tex| file.
+\textsf{\bfseries Version 2.0a} was finished developing on 1 November, 2023 and released on \href{https://www.latexstudio.net/index/details/index/mid/3636.html}{\LaTeX{} Studio} (Xiaoshan, Hangzhou) and \href{http://xhslink.com/od7Ycw}{Xiaohongshu}. This version used \verb|.cls| files to make the \verb|main.tex| file more concise. Also, this version have added a global option to choose whether the corners of the ``course Block" to be round or sharp. And this version support adds multiply class schedules in one \verb|.tex| file.
 
 \textsf{\bfseries Version 2.1a} was finished developing on 5 November, 2023. Supports the libertinus font.
 
-\textsf{\bfseries Version 2.2a} was finished developing on 31 January, 2024. This Version fixed the bug of resolution exceeded, changed paper type to US letter and support custom course start time and end time.
+\textsf{\bfseries Version 2.2a} was finished developing on 31 January, 2024. This version fixed the bug of resolution exceeded, changed paper type to US letter and support custom course start time and end time.
 
-\datechange{01/09/2023}{Version 2.0a}
+\textsf{\bfseries Version 2.3a} was finished developing on 2 February, 2024. This version supports automatically generate the corresponding number of rows based on the number of time groups you enter, and in this version, timetable can be displayed horizontally or portrait as you like.
+
+\setstretch{.5}
+\datechange{2023/09/01}{Version 2.0a}
 \begin{itemize}
     \item Supports the course block's corners be round or sharp.
     \item Supports multiply class schedules in one \verb|.tex| file.
 \end{itemize}
 
-\datechange{05/11/2023}{Version 2.1a}
+\datechange{2023/11/05}{Version 2.1a}
 \begin{itemize}
     \item Supports the libertinus font.
 \end{itemize}
 
-\datechange{31/01/2024}{Version 2.2a}
+\datechange{2024/01/31}{Version 2.2a}
 \begin{itemize}
     \item Fixed the bug of resolution exceeded.
     \item Changed paper type to US letter.
     \item Support custom course start time and end time.
     \item Support add sticker as you like at the southeast of the page.
+    \item Provide simplified Chinese documentation.
 \end{itemize}
 
-\newpage
+\datechange{2024/02/02}{Version 2.3a}
+\begin{itemize}
+  \item Supports automatically generate the corresponding number of rows based on the number of time groups you enter.
+  \item Timetable can be displayed portrait or horizontally as you like.
+\end{itemize}
+
+\newpage\setstretch{1}
 \appendix
 \section{Document Example}
-\lstinputlisting[style=TeX]{litetable-demo.tex}
+\lstinputlisting[style=TeX]{litetable-demo1.tex}
 
-\includepdf[pages=last-1,nup=1x2,angle=90]{litetable-demo.pdf}
+\includepdf[pages=-,nup=1x2]{litetable-demo1.pdf}
+\includepdf[pages=-]{litetable-demo2.pdf}
 \end{document}
