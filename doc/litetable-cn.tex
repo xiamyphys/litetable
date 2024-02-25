@@ -49,7 +49,7 @@
 \yyyymmdddate
 \date{\today}
 \affil{\href{mailto:xiamyphys@gmail.com}{\texttt{xiamyphys@gmail.com}}}
-\date{\today\quad Version 2.3a\thanks{%
+\date{\today\quad Version 2.4a\thanks{%
   \url{https://github.com/xiamyphys/litetable}}}
 \begin{document}
 \maketitle
@@ -207,7 +207,7 @@
 \end{verbatim}
 在使用此命令后页面的右下方会添加一张贴纸.
 
-\subsection{The \cmd{(re)rotatepage} command}
+\subsection{\cmd{(re)rotatepage} 命令}
 \cmd{rotatepage}命令可临时更改课程表的方向，\cmd{rerotatepage} 命令可恢复课程表原来的方向.
 
 \section{已知问题：分辨率溢出}
@@ -223,11 +223,11 @@
 
 \section{版本历史}
 
-课程表的设计源于杭电助手（\href{https://www.hdu.edu.cn}{杭州电子科技大学}）学生课表页面（仅本校师生可访问）. 页面排版十分精美，于是本人使用\LaTeX{} 复刻出了课程表样式，并制作成模板分享给大家.
+课程表的设计源于\href{https://www.hdu.edu.cn}{杭州电子科技大学}杭电助手学生课表页面（仅本校师生可访问）. 页面排版十分精美，于是本人使用 \textsf{\LaTeX{}} 复刻出了课程表样式，并制作成模板分享给大家.
 
-\textsf{\bfseries Version 1.0} 于01/09/2023完成开发，并发布在\href{https://www.latexstudio.net/index/details/index/mid/3625.html}{\LaTeX{}工作室} (杭州萧山)和\href{http://xhslink.com/od7Ycw}{小红书}上，赢得了许多人的喜爱.
+\textsf{\bfseries Version 1.0} 于01/09/2023完成开发，并发布在 \href{https://www.latexstudio.net/index/details/index/mid/3625.html}{\textsf{\LaTeX}工作室} （杭州萧山）和\href{http://xhslink.com/od7Ycw}{小红书}上，赢得了许多人的喜爱.
 
-\textsf{\bfseries Version 2.0a}于01/11/2023完成开发，并发布在\href{https://www.latexstudio.net/index/details/index/mid/3636.html}{\LaTeX{}工作室} (杭州萧山)和\href{http://xhslink.com/od7Ycw}{小红书}上. 此版本使用 \verb|.cls| 文件，使 \verb|main.tex| 文件更简洁. 同时，此版本添加了全局模式，可设置 ``课程块'' 显示为圆角或直角. 此版本也支持一个 \verb|.tex| 文件中生成多张课表.
+\textsf{\bfseries Version 2.0a}于01/11/2023完成开发，并发布在 \href{https://www.latexstudio.net/index/details/index/mid/3636.html}{\textsf{\LaTeX}工作室} （杭州萧山）和\href{http://xhslink.com/od7Ycw}{小红书}上. 此版本使用 \verb|.cls| 文件，使 \verb|main.tex| 文件更简洁. 同时，此版本添加了全局模式，可设置 ``课程块'' 显示为圆角或直角. 此版本也支持一个 \verb|.tex| 文件中生成多张课表.
 
 \textsf{\bfseries Version 2.1a} 于05/11/2023完成开发. 支持 libertinus 字体.
 
@@ -281,11 +281,11 @@
 
 \appendix
 
+\includepdf[pages={1,3}]{litetable-demo.pdf}
 \includepdf[pages={2,4},nup=1x2,pagecommand={
   \tikz[remember picture, overlay]
   \node [rotate=90,below,yshift=-1em] at (current page.west) {\bfseries\LARGE Document Example: \texttt{litetable-demo.tex}};
   }
 ]{litetable-demo.pdf}
-\includepdf[pages={1,3}]{litetable-demo.pdf}
 
 \end{document}
