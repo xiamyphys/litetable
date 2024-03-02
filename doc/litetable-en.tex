@@ -5,24 +5,23 @@
 %% * either version 1.3c of this license or any later   *
 %% * version.                                           *
 %% ******************************************************
-\PassOptionsToPackage{quiet}{xeCJK}
-\PassOptionsToPackage{quiet, no-math}{fontspec}
+% \PassOptionsToPackage{quiet}{xeCJK}
+% \PassOptionsToPackage{quiet, no-math}{fontspec}
 \documentclass[11pt]{article}
 \usepackage{geometry,pdfpages,caption,indentfirst,setspace}
 \captionsetup[table]{name={\textsc{Table}},labelsep=period}
 \usepackage[level]{datetime}
-\usepackage{unicode-math,xeCJK,fontawesome5}
 \usepackage{authblk,xltxtra,bigfoot,enumitem}
 \usepackage{booktabs,diagbox,ragged2e,tabularx}
 \renewcommand\tabularxcolumn[1]{>{\Centering}m{#1}}
 \usepackage[toc]{multitoc}
 \usepackage[mono=false]{libertine}
 % \setstretch{1.15}
-\setCJKmainfont{Chiron Sung HK}
-[BoldFont=Chiron Sung HK Bold,
-  ItalicFont=Kaiti SC]
-\usepackage{hyperref,cprotect,xcolor,verbatim,tikz}
-
+% \setCJKmainfont{Chiron Sung HK}
+% [BoldFont=Chiron Sung HK Bold,
+%   ItalicFont=Kaiti SC]
+\usepackage{hyperref,xcolor,tikz}
+\hypersetup{colorlinks,urlcolor=H6,linkcolor=H2,filecolor=filecolor,pdfstartview=FitH,pdfview=FitH,pdfcreator=XeTeX output}
 \definecolor{pkgcolor}{Hsb}{103,.8,.5}
 \definecolor{moducolor}{Hsb}{290,.8,.5}
 \definecolor{cmdcolor}{Hsb}{188,.8,.5}
@@ -41,22 +40,19 @@
 \definecolor{W5}{HTML}{5270CC}
 \definecolor{W6}{HTML}{8F52CC}
 \definecolor{W7}{HTML}{CC52AD}
-\hypersetup{colorlinks,urlcolor=H6,linkcolor=H2,filecolor=filecolor,pdfstartview=FitH,pdfview=FitH,pdfcreator=XeTeX output}
-
 \def\pkg#1{\texorpdfstring{\textcolor{pkgcolor}{\textsf{#1}}}{“#1”}}
 \def\mode#1{\texorpdfstring{\textcolor{moducolor}{\textsf{#1}}}{“#1”}}
 \def\cmd#1{\texorpdfstring{\textcolor{cmdcolor}{\textsf{#1}}}{“#1”}}
 \def\datechange#1#2{%
   \noindent{\makebox[\textwidth][r]{\color{H7}\rule{1.15\textwidth}{.4pt}}}
   \noindent\makebox[0pt][r]{\makebox[-3em][r]{\small\textbf{\textcolor{H7}{#1}}}\;\;}{\sffamily Update: \ignorespaces#2}}
-\makeatother
 
 \title{\bfseries The \pkg{LiteTable} Template: Colorful Timetable}
 \author{Xia Mingyu, \href{https://www.hdu.edu.cn}{Hangzhou Dianzi University}}
 \yyyymmdddate
 \date{\today}
 \affil{\href{mailto:xiamyphys@gmail.com}{\ttfamily xiamyphys@gmail.com}}
-\date{\today\quad Version 2.4b\thanks{%
+\date{\today\quad Version 2.4c\thanks{%
   \url{https://github.com/xiamyphys/litetable}}}
 \begin{document}
 \maketitle
@@ -87,16 +83,17 @@ For portable version, simply download latest \verb|litetable.cls| file from \hre
 
 However, I strongly suggest that you should use terminal/cmd to implement the commands to update all the packages (and install this package) to the latest version or switch to portable version instead
 \begin{verbatim}
-    sudo tlmgr update --self
-    sudo tlmgr update --all
+    sudo tlmgr update --self --all
 \end{verbatim}
 
-If you are in some areas with awful Internet environment (such as GFW), you can choose proper mirror source or use other means\footnote{Please comply with local network regulations.}. To learn more, please refer to \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my \TeX{} distribution?}
+If you are in some areas with awful Internet environment (such as GFW), you can choose proper mirror source or use other means\footnote{Please comply with local network regulations.}. To learn more, please refer to \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my \textsf{\TeX} distribution?}
 
-The template provides two options, \mode{direction} and \mode{font}. Just add the modes of the options you want separately in the square bracket of the command \verb|\documentclass[ ]{litetable}| in your \verb|.tex| file.
+The template provides two options, \mode{direction} and \mode{font}. Add the modes of the options you want in the square bracket of the command \verb|\documentclass[ ]{litetable}| in \verb|.tex| file.
 
 \subsection{Compatibility}
 The test environments are macOS + Mac\TeX{} 2023 / Overleaf and they all work fine for \XeLaTeX{} compiler, Windows, Linux and Unix platforms compatibility unknown.
+
+This template is developed on macOS platform and using the font ``Heiti SC''. If this font is not installed on your computer, please use the command \verb|\setCJKfamilyfont{zhhei}{ }| after \verb|\documentclass{litetable}| to replace ``Heiti SC'' to the font exists in your computer.
 
 \section{Global Options of \pkg{LiteTable}}
 \begin{verbatim}
@@ -107,57 +104,52 @@ The test environments are macOS + Mac\TeX{} 2023 / Overleaf and they all work fi
 This option has two modes, \mode{portrait} and \mode{landscape}, which can make the timetable displayed portrait or horizontally.
 
 \subsection{The \mode{font} option}
-This option has two modes, \mode{times} and \mode{libertinus}, which can make the font to be ``Times New Roman'' or ``Libertinus'', and the default mode is ``Times New Roman''.\footnote{Please ensure that your computer has been already installed the font ``Libertinus'' when using this option.}
+This option has two modes, \mode{times} and \mode{libertinus}, which can make the font to be ``Times New Roman'' or ``Libertinus'', and the default mode is ``Times New Roman''\footnote{Please ensure that your computer has been already installed the font when using this option.}.
 
 \section{Commands of \pkg{LiteTable}}
 
 \subsection{The \cmd{makeframe} command}
 \begin{verbatim}
-  \makeframe{Timetable -- Semester 5}
+  \makeframe[Sem 6]{Timetable}
 \end{verbatim}
 
-This command can create an empty class schedule with the title ``Timetable -- Semester 5''.
+This command has two variables can create an empty class schedule. The second variable can assign the title while the first optional one can add a button that forward to the next page on the right.
 
 \subsection{The \cmd{weeklist} command}
 \begin{verbatim}
   \weeklist{
-    \bfseries\textcolor{W1}{\faIcon{moon}~Monday},
-    \bfseries\textcolor{W2}{\faIcon{fire}~Tuesday},
-    \bfseries\textcolor{W3}{\faIcon{water}~Wednesday},
-    \bfseries\textcolor{W4}{\faIcon{tree}~Thursday},
-    \bfseries\textcolor{W5}{\faIcon{coins}~Friday};
+    \textcolor{W1}{Monday},    \textcolor{W2}{Tuesday},
+    \textcolor{W3}{Wednesday}, \textcolor{W4}{Thursday},
+    \textcolor{W5}{Friday};
     0,.17,.34,.56,.78,1
   }
 \end{verbatim}
 
 
-This command can add workdays to the top side of the timetable, you can also adjust the format that you like, such as name, color and even the icon\footnote{Supports by the \pkg{fontawesome5} package.} before it.
-
-You can also custom every width of the columns in the timetable, just like the Figure above.
-
 \begin{figure}[!ht]
   \centering
   \tikz
-{
-  \tikzset{every node/.style={font=\small}}
-  \draw [thick,->,>=stealth] ({-1/16*5.1 in},0) -- (5.1 in,0);
-  \draw ({-5.1 in/16},-.1) --++ (0,.2) node [above] {\verb|-1/15|};
-  \draw ({0.0*5.1 in},-.1) --++ (0,.2) node [above] {\verb|0|};
-  \draw ({.17*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.17|};
-  \draw ({.34*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.34|};
-  \draw ({.56*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.56|};
-  \draw ({.78*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.78|};
-  \draw ({1.0*5.1 in},-.1) --++ (0,.2) node [above] {\verb|1|};
-  \node [above] at ({.085*5.1 in},0) {\sffamily\textcolor{W1}{\faIcon{moon}~Monday}};
-  \node [above] at ({.255*5.1 in},0) {\sffamily\textcolor{W2}{\faIcon{fire}~Tuesday}};
-  \node [above] at ({.45*5.1 in},0) {\sffamily\textcolor{W3}{\faIcon{water}~Wednesday}};
-  \node [above] at ({.67*5.1 in},0) {\sffamily\textcolor{W4}{\faIcon{tree}~Thursday}};
-  \node [above] at ({.89*5.1 in},0) {\sffamily\textcolor{W5}{\faIcon{coins}~Friday}};
-}
-\caption*{The second line of array in the \cmd{weeklist} command corresponds to the axis coordinates.}
+  {
+    \tikzset{every node/.style={font=\small}}
+    \draw [thick,->,>=stealth] ({-1/16*5.1 in},0) -- (5.1 in,0);
+    \draw ({-5.1 in/16},-.1) --++ (0,.2) node [above] {\verb|-1/15|};
+    \draw ({0.0*5.1 in},-.1) --++ (0,.2) node [above] {\verb|0|};
+    \draw ({.17*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.17|};
+    \draw ({.34*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.34|};
+    \draw ({.56*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.56|};
+    \draw ({.78*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.78|};
+    \draw ({1.0*5.1 in},-.1) --++ (0,.2) node [above] {\verb|1|};
+    \node [above] at ({.085*5.1 in},0) {\sffamily\textcolor{W1}{Monday}};
+    \node [above] at ({.255*5.1 in},0) {\sffamily\textcolor{W2}{Tuesday}};
+    \node [above] at ({.45*5.1 in},0) {\sffamily\textcolor{W3}{Wednesday}};
+    \node [above] at ({.67*5.1 in},0) {\sffamily\textcolor{W4}{Thursday}};
+    \node [above] at ({.89*5.1 in},0) {\sffamily\textcolor{W5}{Friday}};
+  }
+  \caption*{The second line of array in the \cmd{weeklist} command corresponds to the axis coordinates.}
 \end{figure}
 
-The timetable can automatically generate the corresponding number of columns based on the number of workdays you enter. For example, the code above has 5 workdays, a 5-column timetable will be generated.
+
+This command can add workdays to the top side of the timetable, you can adjust the format (the icon before it), every width of the columns in the timetable like the figure. The timetable can automatically generate the corresponding number of columns based on the number of workdays you enter. For example, the code above has 5 workdays, a 5-column timetable will be generated.
 
 \subsection{The \cmd{timelist} command}
 \begin{verbatim}
@@ -214,7 +206,7 @@ This command can assign the default value of the 7th variable of the command \cm
 
 There are 7 variables in this command.
 \begin{itemize}
-  \item The 1st one is the color of the class that you want, from ``H1'' to ``H9'', it's optional and the default value is ``H1''.
+  \item The 1st one is the color of the class, from ``H1'' to ``H9'', it's optional and the default is ``H1''.
   \item The 2nd -- 6th ones is the starting number and ending number, name, address, teacher(s) of the class.
   \item The last one is the start week and end week of the timetable, it's optional and the default value is the value that you've adjusted in the command \cmd{weeks} or it will be ``Week 1 -- 12''.
 \end{itemize}
@@ -231,46 +223,48 @@ This command can switch the current weekday to the next day, then the course wil
 
 \subsection{The \cmd{more} command}
 \begin{verbatim}
-  \more{ · School Start: 04 / 03 / 2024  · Summer Vacation: 05 / 07 / 2024}
+  \more{· School Start: 04 / 03 / 2024  · Summer Vacation: 05 / 07 / 2024}
 \end{verbatim}
+
 This command can add remark at the end of the class schedule.
 
 \subsection{The \cmd{sticker} command}
 \begin{verbatim}
   \sticker{favicon}
 \end{verbatim}
+
 There will be a sticker on the southeast of the page after you add, otherwise it won't.
 
 \section{Version History}
 
-The design of this course schedule originated from the student course schedule web page (only teachers and students of this school can access) of the \href{https://www.hduhelp.cn/}{HDUHelp} in \href{https://www.hdu.edu.cn}{Hangzhou Dianzi University}. The layout is very beautiful and then I used \textsf{\LaTeX} to imitate that style and made a class schedule template to share with everyone.
+The design of this course schedule originated from the student course schedule web page (only personnel of this school can access) of the \href{https://www.hduhelp.cn/}{HDUHelp} in \href{https://www.hdu.edu.cn}{Hangzhou Dianzi University}. The layout is very beautiful and I used \textsf{\LaTeX} to imitate that style and made a template to share with everyone.
 
-\textsf{\bfseries Version 1.0} was finished on 2023/09/01 and released on \href{https://www.latexstudio.net}{\textsf{\LaTeX} Studio} (Hangzhou), where has won the favor of many people.
-
+\textsf{\bfseries Version 1.0} was finished on 2023/09/01 and released on \href{https://www.latexstudio.net}{\textsf{\LaTeX} Studio} (Hsiaoshan, Hangzhou), where has won the favor of many people.
+\clearpage
 \setlist[itemize]{noitemsep, topsep=0pt}
 \datechange{2023/11/01}{Version 2.0a}
 \begin{itemize}
-    \item Supports the course block's corners be round or sharp.
-    \item Supports multiply class schedules in one \verb|.tex| file.
+    \item Supports to set the course block's corners be round or sharp.
+    \item Supports to add multiply class schedules in one \verb|.tex| file.
 \end{itemize}
 
 \datechange{2023/11/05}{Version 2.1a}
 \begin{itemize}
-    \item Supports the libertinus font.
+    \item Supports to use the libertinus font.
 \end{itemize}
 
 \datechange{2024/01/31}{Version 2.2a}
 \begin{itemize}
     \item Fixed the bug of resolution exceeded.
     \item Changed paper type to US letter.
-    \item Support custom course start time and end time.
-    \item Support add sticker as you like at the southeast of the page.
+    \item Support to custom course start time and end time.
+    \item Support to add sticker as you like at the southeast of the page.
     \item Provide simplified Chinese documentation.
 \end{itemize}
 
 \datechange{2024/02/02}{Version 2.3a}
 \begin{itemize}
-  \item Supports automatically generate the corresponding number of rows based on the number of time groups you enter.
+  \item Supports to generate the corresponding number of rows based on the number of time groups you enter automatically.
   \item Timetable can be displayed portrait or horizontally as you like.
 \end{itemize}
 
@@ -281,19 +275,23 @@ The design of this course schedule originated from the student course schedule w
 
 \datechange{2024/02/24}{Version 2.4a}
 \begin{itemize}
-  \item Supports custom workday display style.
-  \item Supports hiding time and only showing course program number vertically aligned.
-  \item Supports setting default first and last week.
+  \item Supports to custom workday display style.
+  \item Supports to hide time and only showing course program number vertically aligned.
+  \item Supports to set default first and last week.
 \end{itemize}
 
-\datechange{\today}{Version 2.4b}
+\datechange{2024/03/01}{Version 2.4b}
 \begin{itemize}
   \item Fixed the error of \emph{resolution exceed} in the \mode{landscape} mode and added over 7 workdays.
-  \item Supports custom every width of the columns in the timetable.
+  \item Supports to custom every width of the columns in the timetable.
   \item Optimized the design of round corners, supports custom the radius of corners.
+  \item Thanks for @egreg's code solution on \TeX{} StackExchange for \href{https://tex.stackexchange.com/a/711657/299948}{Printing the number of each rows' elements in an array respectively}.
 \end{itemize}
 
-\small Thanks for @egreg's code on \TeX{} Exchange for \href{https://tex.stackexchange.com/a/711657/299948}{print number of each rows' elements of an array}.
+\datechange{\today}{Version 2.4c}
+\begin{itemize}
+  \item Supports to add the `Semester' button on the right side of the title.
+\end{itemize}
 
 \appendix
 \includepdf[pages={2,4},nup=1x2,pagecommand={
