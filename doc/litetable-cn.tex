@@ -8,10 +8,9 @@
 \PassOptionsToPackage{quiet}{xeCJK}
 \PassOptionsToPackage{quiet, no-math}{fontspec}
 \documentclass[11pt]{article}
-\usepackage{geometry,pdfpages,caption,indentfirst,setspace}
+\usepackage{geometry,pdfpages,caption,indentfirst,setspace,xeCJK}
 \captionsetup[table]{name={\textsc{Table}},labelsep=period}
 \usepackage[level]{datetime}
-\usepackage{unicode-math,xeCJK,fontawesome5}
 \usepackage{authblk,xltxtra,bigfoot,enumitem}
 \usepackage{booktabs,diagbox,ragged2e,tabularx}
 \renewcommand\tabularxcolumn[1]{>{\Centering}m{#1}}
@@ -21,8 +20,8 @@
 \setCJKmainfont{Chiron Sung HK}
 [BoldFont=Chiron Sung HK Bold,
   ItalicFont=Kaiti SC]
-\usepackage{hyperref,cprotect,xcolor,verbatim,tikz}
-
+\usepackage{hyperref,xcolor,tikz}
+\hypersetup{colorlinks,urlcolor=H6,linkcolor=H2,filecolor=filecolor,pdfstartview=FitH,pdfview=FitH,pdfcreator=XeTeX output}
 \definecolor{pkgcolor}{Hsb}{103,.8,.5}
 \definecolor{moducolor}{Hsb}{290,.8,.5}
 \definecolor{cmdcolor}{Hsb}{188,.8,.5}
@@ -41,22 +40,19 @@
 \definecolor{W5}{HTML}{5270CC}
 \definecolor{W6}{HTML}{8F52CC}
 \definecolor{W7}{HTML}{CC52AD}
-\hypersetup{colorlinks,urlcolor=H6,linkcolor=H2,filecolor=filecolor,pdfstartview=FitH,pdfview=FitH,pdfcreator=XeTeX output}
-
 \def\pkg#1{\texorpdfstring{\textcolor{pkgcolor}{\textsf{#1}}}{“#1”}}
 \def\mode#1{\texorpdfstring{\textcolor{moducolor}{\textsf{#1}}}{“#1”}}
 \def\cmd#1{\texorpdfstring{\textcolor{cmdcolor}{\textsf{#1}}}{“#1”}}
 \def\datechange#1#2{%
   \noindent{\makebox[\textwidth][r]{\color{H7}\rule{1.15\textwidth}{.4pt}}}
   \noindent\makebox[0pt][r]{\makebox[-3em][r]{\small\textbf{\textcolor{H7}{#1}}}\;\;}{\sffamily Update: \ignorespaces#2}}
-\makeatother
 
 \title{\bfseries\pkg{LiteTable} -- 多彩的课程表\textsf{\LaTeX} 模板}
 \author{\href{https://www.hdu.edu.cn}{杭州电子科技大学}, 夏明宇}
 \yyyymmdddate
 \date{\today}
 \affil{\href{mailto:xiamyphys@gmail.com}{\texttt{xiamyphys@gmail.com}}}
-\date{\today\quad Version 2.4b\thanks{%
+\date{\today\quad Version 2.4c\thanks{%
   \url{https://github.com/xiamyphys/litetable}}}
 \begin{document}
 \maketitle
@@ -73,9 +69,7 @@
 \section{Introduction}
 
 \subsection{本模板的目的}
-本模板提供了一个多彩的课程表设计. 
-
-如果你在使用本模板时遇到问题，或者有更好的建议，或者你想参与本模板或本人其他模板的开发，欢迎通过邮件 \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com} 联络我.
+本模板提供了一个多彩的课程表设计. 如果在使用本模板时遇到问题或有更好的建议，或者你想参与本模板或本人其他模板的开发，欢迎通过邮件 \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com} 联络我.
 
 同样，你也可以加入我的\textsf\LaTeX{} 技術交流群 \href{https://qm.qq.com/q/OnHzbNvVAG}{QQ Group: 760570712} 与我交流，来获取模板的内测版本.
 
@@ -87,16 +81,17 @@
 
 然而我强烈建议您使用终端机去执行以下命令，以将所有宏集更新到最新版本，并安装此模板
 \begin{verbatim}
-    sudo tlmgr update --self
-    sudo tlmgr update --all
+    sudo tlmgr update --self --all
 \end{verbatim}
 
-如果您所在的地区存在网路封锁（如 GFW 干扰），你可以选择合适的镜像网站或其他方法\footnote{请遵守当地的网路条例.}. 欲详细了解，请前往 \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my TEX distribution?}
+如果您所在的地区存在网路封锁（如 GFW 干扰），你可以选择合适的镜像网站或其他方法\footnote{请遵守当地的网路条例.}. 欲详细了解，请前往 \href{https://tex.stackexchange.com/questions/55437/how-do-i-update-my-tex-distribution}{How do I update my \textsf{\TeX} distribution?}
 
-本模板提供了两个选项：\mode{direction} 和 \mode{font}. 只需将你要使用的选项模式分别添加在你的 \verb|.tex| 文件中命令 \verb|\documentclass[ ]{litetable}| 的方括号中即可.
+本模板提供了两个选项：\mode{direction} 和 \mode{font}. 将你要使用的选项模式添加在 \verb|.tex| 文件中命令 \verb|\documentclass[ ]{litetable}| 的方括号中即可.
 
 \subsection{兼容性}
 所使用的测试环境为 macOS + MacTeX 2023 / Overleaf，都可在 \XeLaTeX{} 编译方式下顺利运行, Windows, Linux 和 Unix 平台兼容性未知.
+
+此模板在 macOS 平台开发，使用 ``Heiti SC'' 字体. 如果你未安装此字体，请在命令 \verb|\documentclass{litetable}| 后使用命令 \verb|\setCJKfamilyfont{zhhei}{ }| 将 ``Heiti SC'' 替换为电脑中存在的字体.
 
 \section{\pkg{LiteTable} 的全局选项}
 \begin{verbatim}
@@ -107,57 +102,52 @@
 此选项有两个模式，\mode{portrait} 和 \mode{landscape}， 可使课程表纵向或横向显示，默认为纵向.
 
 \subsection{\mode{font} 选项}
-此选项有两个模式，\mode{times} 和 \mode{libertinus}，可使字体为 ``Times New Roman'' 或 ``Libertinus''，默认为 ``Times New Roman''\footnote{在使用 ``Libertinus'' 模式前请确保电脑中已安装该字体.}.
+此选项有两个模式，\mode{times} 和 \mode{libertinus}，可使字体为 ``Times New Roman'' 或 ``Libertinus''，默认为 ``Times New Roman''\footnote{使用 \mode{libertinus} 模式时请确保已安装该字体.}.
 
 \section{\pkg{LiteTable} 的命令}
 
 \subsection{\cmd{makeframe} 命令}
 \begin{verbatim}
-  \makeframe{Timetable -- Semester 5}
+  \makeframe[Sem 6]{Axia's Timetable}
 \end{verbatim}
 
-此命令可建立一个标题为 ``Timetable -- Semester 5'' 的空白课程表.
+此命令有两个参数，用于建立空白课程表. 第二个参数用于设置标题，第一个可选参数用于在标题右侧添加可跳转至第二页的学期按钮.
 
 \subsection{\cmd{weeklist} 命令}
 \begin{verbatim}
   \weeklist{
-    \bfseries\textcolor{W1}{\faIcon{moon}~星期一},
-    \bfseries\textcolor{W2}{\faIcon{fire}~星期二},
-    \bfseries\textcolor{W3}{\faIcon{water}~星期三},
-    \bfseries\textcolor{W4}{\faIcon{tree}~星期四},
-    \bfseries\textcolor{W5}{\faIcon{coins}~星期五},
-    \bfseries\textcolor{W6}{\faIcon{mountain}~星期六};
+    \textcolor{W1}{星期一}, \textcolor{W2}{星期二},
+    \textcolor{W3}{星期三}, \textcolor{W4}{星期四},
+    \textcolor{W5}{星期五}, \textcolor{W6}{星期六};
     0,.175,.35,.525,.7,.875,1
   }
 \end{verbatim}
 
-此命令可在课程表顶部添加工作日，你可以自由决定显示样式，包括前面的 logo\footnote{由 \pkg{fontawesome5} 宏集支持.}. 你可以自定义课程表中每一列的宽度，如上图所示.
-
 \begin{figure}[!ht]
   \centering
   \tikz
-{
-  \tikzset{every node/.style={font=\footnotesize}}
-  \draw [thick,->,>=stealth] ({-1/16*5.1 in},0) -- (5.1 in,0);
-  \draw ({-5.10 in/16},-.1) --++ (0,.2) node [above] {\verb|-1/15|};
-  \draw ({0.00*5.1 in},-.1) --++ (0,.2) node [above] {\verb|0|};
-  \draw ({.175*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.175|};
-  \draw ({.350*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.35|};
-  \draw ({.525*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.525|};
-  \draw ({.700*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.7|};
-  \draw ({.875*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.875|};
-  \draw ({1.00*5.1 in},-.1) --++ (0,.2) node [above] {\verb|1|};
-  \node [above] at ({.0875*5.1 in},0) {\textcolor{W1}{\faIcon{moon}~星期一}};
-  \node [above] at ({.2625*5.1 in},0) {\textcolor{W2}{\faIcon{fire}~星期二}};
-  \node [above] at ({.4375*5.1 in},0) {\textcolor{W3}{\faIcon{water}~星期三}};
-  \node [above] at ({.6125*5.1 in},0) {\textcolor{W4}{\faIcon{tree}~星期四}};
-  \node [above] at ({.7875*5.1 in},0) {\textcolor{W5}{\faIcon{coins}~星期五}};
-  \node [above] at ({.9375*5.1 in},0) {\textcolor{W6}{\faIcon{mountain}~星期六}};
-}
-\caption*{命令 \cmd{weeklist} 中的第二行数组与坐标相对应.}
+  {
+    \tikzset{every node/.style={font=\footnotesize}}
+    \draw [thick,->,>=stealth] ({-1/16*5.1 in},0) -- (5.1 in,0);
+    \draw ({-5.10 in/16},-.1) --++ (0,.2) node [above] {\verb|-1/15|};
+    \draw ({0.00*5.1 in},-.1) --++ (0,.2) node [above] {\verb|0|};
+    \draw ({.175*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.175|};
+    \draw ({.350*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.35|};
+    \draw ({.525*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.525|};
+    \draw ({.700*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.7|};
+    \draw ({.875*5.1 in},-.1) --++ (0,.2) node [above] {\verb|.875|};
+    \draw ({1.00*5.1 in},-.1) --++ (0,.2) node [above] {\verb|1|};
+    \node [above] at ({.0875*5.1 in},0) {\textcolor{W1}{星期一}};
+    \node [above] at ({.2625*5.1 in},0) {\textcolor{W2}{星期二}};
+    \node [above] at ({.4375*5.1 in},0) {\textcolor{W3}{星期三}};
+    \node [above] at ({.6125*5.1 in},0) {\textcolor{W4}{星期四}};
+    \node [above] at ({.7875*5.1 in},0) {\textcolor{W5}{星期五}};
+    \node [above] at ({.9375*5.1 in},0) {\textcolor{W6}{星期六}};
+  }
+  \caption*{命令 \cmd{weeklist} 中的第二行数组与坐标相对应.}
 \end{figure}
 
-课程表可根据你输入的时间组数自动生成相应的列数. 如上方代码共有 5 个工作日，就会生成 5 列的课程表.
+此命令可在课程表顶部添加工作日，你可以自由决定显示样式，甚至是前面的 logo. 你可以自定义课程表中每一列的宽度，如图所示. 课程表可根据你输入的时间组数自动生成相应的列数. 如上方代码共有 5 个工作日，就会生成 5 列的课程表.
 
 \subsection{\cmd{timelist} 命令}
 \begin{verbatim}
@@ -231,14 +221,16 @@
 
 \subsection{\cmd{more} 命令}
 \begin{verbatim}
-  \more{ · School Start: 04 / 03 / 2024  · Summer Vacation: 05 / 07 / 2024}
+  \more{· School Start: 04 / 03 / 2024 ·  Summer Vacation: 05 / 07 / 2024}
 \end{verbatim}
+
 此命令可在课程表末尾添加备注信息.
 
 \subsection{\cmd{sticker} 命令}
 \begin{verbatim}
   \sticker{favicon}
 \end{verbatim}
+
 在使用此命令后页面的右下方会添加一张贴纸.
 
 \section{版本历史}
@@ -246,7 +238,7 @@
 课程表的设计源于\href{https://www.hdu.edu.cn}{杭州电子科技大学}杭电助手学生课表页面（仅本校师生可访问）. 页面排版十分精美，于是本人使用 \textsf{\LaTeX{}} 复刻出了课程表样式，并制作成模板分享给大家.
 
 \textsf{\bfseries Version 1.0} 于01/09/2023完成开发，并发布在 \href{https://www.latexstudio.net/index/details/index/mid/3625.html}{\textsf{\LaTeX}工作室} （杭州萧山）上，赢得了许多人的喜爱.
-
+\clearpage
 \setlist[itemize]{noitemsep, topsep=0pt}
 \datechange{2023/11/01}{Version 2.0a}
 \begin{itemize}
@@ -286,14 +278,18 @@
   \item 支持设置默认首末周.
 \end{itemize}
 
-\datechange{\today}{Version 2.4b}
+\datechange{2024/03/01}{Version 2.4b}
 \begin{itemize}
   \item 修复了在 \mode{landscape} 模式中添加超过 7 个工作日时 \emph{分辨率溢出}的错误.
   \item 支持自定义课程表中每一列的宽度.
   \item 优化圆角设计，支持自定义圆角半径.
+  \item 感谢 @egreg 在 \TeX{} Exchange 上提供的 \href{https://tex.stackexchange.com/a/711657/299948}{输出数组中每一列元素个数} 的代码方案.
 \end{itemize}
 
-感谢 @egreg 在 \TeX{} Exchange 上提供的 \href{https://tex.stackexchange.com/a/711657/299948}{输出数组中每一列元素个数} 的代码.
+\datechange{\today}{Version 2.4c}
+\begin{itemize}
+  \item 支持在标题右侧添加学期按钮.
+\end{itemize}
 
 \appendix
 \includepdf[pages={1,3}]{litetable-demo.pdf}

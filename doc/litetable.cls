@@ -14,7 +14,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \PassOptionsToPackage{quiet}{xeCJK}
 \PassOptionsToPackage{no-math}{fontspec}
-\ProvidesClass{litetable}[2024/03/02/ v2.4c LiteTable document class]
+\ProvidesClass{litetable}[2024/03/03/ v2.4c LiteTable document class]
 
 % ---------- 全局选项 ---------- %
 \RequirePackage{kvoptions}
