@@ -14,7 +14,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \PassOptionsToPackage{quiet}{xeCJK}
 \PassOptionsToPackage{no-math}{fontspec}
-\ProvidesClass{litetable}[2024/02/24/ v2.4b LiteTable document class]
+\ProvidesClass{litetable}[2024/03/03/ v2.4c LiteTable document class]
 
 % ---------- 全局选项 ---------- %
 \RequirePackage{kvoptions}
@@ -69,6 +69,9 @@
 \definecolor{darkergray}{HTML}{F1F3F5} % 深色块
 \definecolor{lightergray}{HTML}{FCFDFE} % 浅色块
 \definecolor{blackgray}{HTML}{1A1D21} % 序号颜色
+\definecolor{SEM}{HTML}{DEEAF8} % 学期按钮
+\definecolor{SEM*}{HTML}{3085F3}
+\definecolor{SEM**}{HTML}{007DC3}
 \pagecolor{lightergray}
 \definecolor{H1}{HTML}{74A7A2} % 深绿
 \definecolor{H1*}{HTML}{E9EEED}
@@ -190,73 +193,82 @@
 \gdef\@weeknum{\arraycount[1]{weeklist}}
 
 \RequirePackage{fontawesome5}
+\RequirePackage[hidelinks]{hyperref}
 \newcounter{number}
-\def\sticker#1{\gdef\@sticker{#1}}
-\def\corner#1{\gdef\@corner{#1}}
-\def\makeframe#1{
-    \ifcsname @corner\endcsname
-      \tikzset{corner/.style={rounded corners=\@corner}}
-    \else
-      \tikzset{corner/.style={}}
-    \fi
-    \draw [darkergray] (0,0) rectangle (\pagewidth,\pageheight);
-    \fill [fill=darkergray,corner] (0,0) rectangle (\pagewidth,{1.5*\pageheight/(2*\@classnum+3.5)});% 顶部深灰色块
-    \node at (.5*\pagewidth,{.75*\pageheight/(2*\@classnum+3.5)}) {\huge\bfseries\sffamily #1}; % 标题
+\tikzset{
+  hyperlink node/.style={
+    alias=sourcenode,
+    append after command={
+      let \p1 = (sourcenode.north west),
+          \p2 = (sourcenode.south east),
+          \n1 = {\x2-\x1}, \n2 = {\y1-\y2} in
+            node [inner sep=0pt, outer sep=auto, anchor=north west,at=(\p1)]
+            {\Acrobatmenu{#1}{\XeTeXLinkBox{\phantom{\rule{\n1}{\n2}}}}}
+    }
+  }
+}
+\NewDocumentCommand{\makeframe}{ o m }{
+  \draw [lightergray] (0,0) rectangle (\pagewidth,\pageheight);
+  \fill [fill=darkergray] (0,0) rectangle (\pagewidth,{1.5*\pageheight/(2*\@classnum+3.5)});% 顶部深灰色块
+  \node at (.5*\pagewidth,{.75*\pageheight/(2*\@classnum+3.5)}) {\huge\bfseries\sffamily #2}; % 标题
+  \IfNoValueF{#1}{
+    \node [outer sep=auto,hyperlink node=NextPage,left,rectangle,fill=SEM,text=SEM*,draw=none,inner sep=1.75ex,rounded corners=6pt] at (.98*\pagewidth,{.75*\pageheight/(2*\@classnum+3.5)}) {\large\sffamily\;$\rightleftharpoons$~#1\;}; % 学期
+  }
 
-    \ifodd\@classnum
+  \ifodd\@classnum
     \foreach \a in {2,4,...,\@classnum,\@classnum+2}
-    \fill [fill=darkergray,yshift=(2*\a-1.5)*\pageheight/(2*\@classnum+3.5),corner] (0,0) rectangle (\pagewidth,{2*\pageheight/(2*\@classnum+3.5)}); % 中间深灰色块（循环）
+    \fill [fill=darkergray,yshift=(2*\a-1.5)*\pageheight/(2*\@classnum+3.5)] (0,0) rectangle (\pagewidth,{2*\pageheight/(2*\@classnum+3.5)}); % 中间深灰色块（循环）
     \else
     \foreach \a in {2,4,...,\@classnum}
-    \fill [fill=darkergray,yshift=(2*\a-1.5)*\pageheight/(2*\@classnum+3.5),corner] (0,0) rectangle (\pagewidth,{2*\pageheight/(2*\@classnum+3.5)}); % 中间深灰色块（循环）
-    \fill [fill=darkergray,yshift=(2.5+2*\@classnum)*\pageheight/(2*\@classnum+3.5),corner] (0,0) rectangle (\pagewidth,{\pageheight/(2*\@classnum+3.5)}); % 底部深灰色块
-    \fi
-
-    \foreach \a in {0,1,2,...,\@classnum}
-      \draw [densely dashed,gray!75,yshift=(2.5+2*\a)*\pageheight/(2*\@classnum+3.5)] (0,0)--(\pagewidth,0); % 分割虚线
+    \fill [fill=darkergray,yshift=(2*\a-1.5)*\pageheight/(2*\@classnum+3.5)] (0,0) rectangle (\pagewidth,{2*\pageheight/(2*\@classnum+3.5)}); % 中间深灰色块（循环）
+    \fill [fill=darkergray,yshift=(2.5+2*\@classnum)*\pageheight/(2*\@classnum+3.5)] (0,0) rectangle (\pagewidth,{\pageheight/(2*\@classnum+3.5)}); % 底部深灰色块
+  \fi
+  \foreach \a in {0,1,2,...,\@classnum}
+    \draw [densely dashed,gray!75,yshift=(2.5+2*\a)*\pageheight/(2*\@classnum+3.5)] (0,0)--(\pagewidth,0); % 分割虚线
     
-    % 时间标注
-    \setcounter{number}{0}
-    \ifcsempty{@timelist}{
-      \foreach \a in {1,2,...,\@classnum}
+  % 时间标注
+  \setcounter{number}{0}
+  \ifcsempty{@timelist}{
+    \foreach \a in {1,2,...,\@classnum}
     {
       \node [yshift=(1.5+2*\a)*\pageheight/(2*\@classnum+3.5)] at(\pagewidth/32,0)
       {\bfseries\large\color{blackgray}\texttt{\refstepcounter{number}\thenumber}};
     }
-    }{
-      \foreach \x in {1,2,...,\@classnum}
-    {
-      \node [yshift=(2*\x+.9)*\pageheight/(2*\@classnum+3.5)] at (\pagewidth/32,0)
-      {\bfseries\color{blackgray}\texttt{\refstepcounter{number}\thenumber}};
-      \node[yshift=(2*\x+1.55)*\pageheight/(2*\@classnum+3.5)] at (\pagewidth/32,0)
-      {\color{darkgray}\texttt{\arrayitem{timelist}{1}{\x}}};
-      \node[yshift=(2*\x+2.1)*\pageheight/(2*\@classnum+3.5)] at (\pagewidth/32,0)
-      {\color{darkgray}\texttt{\arrayitem{timelist}{2}{\x}}};
+  }{
+    \foreach \x in {1,2,...,\@classnum}
+      {
+        \node [yshift=(2*\x+.9)*\pageheight/(2*\@classnum+3.5)] at (\pagewidth/32,0)
+        {\bfseries\color{blackgray}\texttt{\refstepcounter{number}\thenumber}};
+        \node[yshift=(2*\x+1.55)*\pageheight/(2*\@classnum+3.5)] at (\pagewidth/32,0)
+        {\color{darkgray}\texttt{\arrayitem{timelist}{1}{\x}}};
+        \node[yshift=(2*\x+2.1)*\pageheight/(2*\@classnum+3.5)] at (\pagewidth/32,0)
+        {\color{darkgray}\texttt{\arrayitem{timelist}{2}{\x}}};
     }
-    }
+  }
 
-    % 星期标注
-    \foreach \a in {1,2,...,\@weeknum}
+  % 星期标注
+  \foreach \a in {1,2,...,\@weeknum}
       \node [xshift=\pagewidth/16] at ({.5*(\arrayitem{weeklist}{2}{\a}+\arrayitem{weeklist}{2}{\a+1})*15*\pagewidth/16},{2*\pageheight/(2*\@classnum+3.5)})
       {\arrayitem{weeklist}{1}{\a}};
 
-    \ifcsname @sticker\endcsname
+  \ifcsname @sticker\endcsname
     \node [opacity=.3,above left,yshift=(1.5+2*\@classnum)*\pageheight/(2*\@classnum+3.5),inner sep=0pt,outer sep=auto,scale=15] at (\pagewidth,{\pageheight/(2*\@classnum+3.5)}) {\includegraphics[width=\dimeval{\pagewidth/16/\@weeknum}]{\@sticker}};\fi
 }
 
 \newcounter{weekday}
 \def\newday{\addtocounter{weekday}{1}}
 \AtEndEnvironment{tikzpicture}{\setcounter{weekday}{0}}
-
+\def\sticker#1{\gdef\@sticker{#1}}
+\def\corner#1{\gdef\@corner{#1}}
 \def\weeks#1{\gdef\@weeks{#1}}
-\ifcsname @weeks\endcsname
-  \relax
-\else
-  \let\@weeks\relax
-\fi
 
 \NewDocumentCommand{\course}{O{H1} m m m m m O{\@weeks}}
 {
+  \ifcsname @corner\endcsname
+    \tikzset{corner/.style={rounded corners=\@corner}}
+  \else
+    \tikzset{corner/.style={}}
+  \fi
   \fill [#1,corner,
   yshift=(2*(#2-1))*\pageheight/(2*\@classnum+3.5),
   xshift=\pagewidth/16]
@@ -288,11 +300,13 @@
   ({.5*(\arrayitem{weeklist}{2}{\theweekday+1}+\arrayitem{weeklist}{2}{\theweekday+2})*15*\pagewidth/16},{2.5*\pageheight/(2*\@classnum+3.5)})
   {\heiti\bfseries\small #6}; % teacher
 
+  \ifcsname @weeks\endcsname
   \node [#1**,above left,
   yshift=2*#3*\pageheight/(2*\@classnum+3.5),
   xshift=\pagewidth/16] at
   ({\arrayitem{weeklist}{2}{\theweekday+2}*15*\pagewidth/16},{2.5*\pageheight/(2*\@classnum+3.5)})
-  {\heiti\footnotesize #7}; % weeks
+  {\heiti\footnotesize #7};
+  \fi % weeks
 }
 
 \def\more#1{
