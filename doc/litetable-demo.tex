@@ -1,175 +1,53 @@
-\documentclass[times]{litetable}
+\documentclass[letterpaper]{litetable}
 
-% \setCJKfamilyfont{zhhei}{Chiron Sung HK}
+% \usepackage[quiet]{xeCJK}
+% \setCJKsansfont{LXGW WenKai}[AutoFakeBold = 5]
+\usepackage{twemojis,newtxtext}
+\usepackage[scaled = .9]{helvet}
+\renewcommand*\familydefault{\sfdefault}
 
-\corner{6 pt}
-\sticker{favicon}
+\timelist[13]{%
+    08:05 - 08:50, 08:55 - 09:40, 10:00 - 10:45, 10:50 - 11:35, 11:40 - 12:25,% morning
+    13:30 - 14:15, 14:20 - 15:05, 15:15 - 16:00, 16:05 - 16:50,% afternoon
+    18:30 - 19:15, 19:20 - 20:05, 20:10 - 20:55,% evening
+}
+\weeklist[Weeks 1 - 16]{%
+    \scshape\texttwemoji{1f312}~Mon,    \scshape\texttwemoji{1f525}~Tue,
+    \scshape\texttwemoji{1f30a}~Wed,    \scshape\texttwemoji{1f332}~Thu,
+    \scshape\texttwemoji{1fa99}~Fri;    1,1,1,1,1
+}
 
 \begin{document}
 
-\timelist[12]{%
-  8:05,8:55,10:00,10:50,11:40,13:30,14:20,15:15,16:05,18:30,19:20;
-  8:50,9:40,10:45,11:35,12:25,14:15,15:05,16:00,16:50,19:15,20:05
-}
-\weeklist{
-  \heiti\bfseries\textcolor{W1}{\faIcon{moon}~星期一},
-  \heiti\bfseries\textcolor{W2}{\faIcon{fire}~星期二},
-  \heiti\bfseries\textcolor{W3}{\faIcon{water}~星期三},
-  \heiti\bfseries\textcolor{W4}{\faIcon{tree}~星期四},
-  \heiti\bfseries\textcolor{W5}{\faIcon{coins}~星期五};
-  0,.17,.34,.56,.78,1
-}
-\weeks{Week 1 -- 16}
-
-\begin{tikzpicture}
-  \makeframe[SEM 6]{Axia\!\texttt{'}\!s Timetable}
-  
-  % Mon.
-  \course[H5]{7}{8}{凝聚态物理}{第6教研楼 · 中225}{Mn Chen}
-
-  \newday % Tue.
-  \course[H1]{8}{9}{群论}{第6教研楼 · 中211}{Li Ge}
-  \course[H5]{10}{11}{介观物理}{第6教研楼 · 中211}{Yuan Li \& Mn Chen}
-
-  \newday % Wed.
-  \course[H6]{1}{2}{工程制图}{第7教研楼 · 中3012}{Hc Wang}
-  \course[H9]{8}{9}{形势与政策6}{第6教研楼 · 北302}{Xr Qi}[Double Week 10 -- 16]
-  \course[H9]{10}{11}{高级创业运营仿真}{第4教研楼 · 411 -- 413}{Li Zhang}[Week 1 -- 8]
-
-  \newday % Thu.
-  \course[H4]{1}{2}{跨文化交际}{第3教研楼 · 422}{Cl Zuo}
-  \course[H2]{3}{4}{无线电测向}{东边田径场}{Ys Yu}
-  \course[H5]{6}{8}{固体物理}{第6教研楼 · 北408}{Kw Sun}
-
-  \newday % Fri.
-  \course[H8]{1}{2}{光电显示技术}{第7教研楼 · 中3012}{Wt Su}
-  \course[H3]{6}{8}{研究生组会}{第6教研楼 · 中}{Yuan Li}
-
-  \more{ · School Start: 04 / 03 / 2024  · Summer Vacation: 05 / 07 / 2024}
+\begin{tikzpicture}[remember picture, overlay]
+    \maketable{Skyrmion's Timetable}[SEM 7]
+    \newday
+    \course [color = DarkGreen, subject = keyval, weeks = Week 1 - 12, location = U.K., teacher = David Carlisle] {1} {2}
+    \course [color = DarkCyan, subject = kvoptions, weeks = Week 7 - 14, location = D.E., teacher = Heiko Oberdiek] {6} {6}
+    \newday
+    \course [color = DarkBlue, subject = expl3, teacher = The {\LaTeX} Project] {3} {5}
+    \course [color = DarkBlue, subject = xparse, teacher = The {\LaTeX} Project] {7} {8}
+    \newday
+    \course [color = Indigo, subject = listofitems, location = French, teacher = Christian Tellechea] {10} {12}
+    \newday
+    \course [color = Crimson, subject = tikz\\library: calc, teacher = The PGF/TikZ Team] {7} {9}
+    \newday
+    \course [subject = xcolor, weeks = Week 1 - 16, location = Germany, teacher = Dr. Uwe Kern] {3} {4}
+    \more {School Starts: 06 / 09 / 2024\quad Summer Vacation: 26 / 01 / 2025}
 \end{tikzpicture}
 
-\rotatepage
+\clearpage
 
-\weeklist{
-  \bfseries\sffamily\textcolor{W1}{\faIcon{moon}~Monday},
-  \bfseries\sffamily\textcolor{W2}{\faIcon{fire}~Tuesday},
-  \bfseries\sffamily\textcolor{W3}{\faIcon{water}~Wednesday},
-  \bfseries\sffamily\textcolor{W4}{\faIcon{tree}~Thursday},
-  \bfseries\sffamily\textcolor{W5}{\faIcon{coins}~Friday},
-  \bfseries\sffamily\textcolor{W6}{\faIcon{mountain}~Saturday},
-  \bfseries\sffamily\textcolor{W7}{\faIcon{sun}~Sunday};
-  0,.16,.32,.48,.64,.8,.9,1
+\timelist[12]{}
+\weeklist{%
+    \scshape\texttwemoji{1f312}~Mon,    \scshape\texttwemoji{1f525}~Tue,
+    \scshape\texttwemoji{1f30a}~Wed,    \scshape\texttwemoji{1f332}~Thu,
+    \scshape\texttwemoji{1fa99}~Fri;    1,1,1,1,1
 }
 
-\begin{tikzpicture}
-  \makeframe[SEM 6]{Axia\!\texttt{'}\!s Timetable}
-  
-  % Mon.
-  \course[H5]{7}{8}{Introduction to Cond.}{Building 6 · Middle 225}{Mn Chen}
-
-  \newday % Tue.
-  \course[H1]{8}{9}{Group Theory}{Building 6 · Middle 211}{Li Ge}
-  \course[H5]{10}{11}{Mesoscopic Physics}{Building 6 · Middle 211}{Yuan Li \& Mn Chen}
-
-  \newday % Wed.
-  \course[H6]{1}{2}{Engineering Drawing}{Building 7 · North 3012}{Hc Wang}
-  \course[H9]{8}{9}{Situation \& Policy 6}{Building 6 · North 302}{Xr Qi}[Double Week 10 -- 16]
-  \course[H9]{10}{11}{Operational Simu.}{Building 4 · 411 -- 413}{Li Zhang}[Week 1 -- 8]
-
-  \newday % Thu.
-  \course[H4]{1}{2}{Intercultural Comm.}{Building 3 · 422}{Cl Zuo}
-  \course[H2]{3}{4}{Radio Direction}{Athletic Field}{Ys Yu}
-  \course[H5]{6}{8}{Solid State Physics}{Building 6 · North 408}{Kw Sun}
-
-  \newday % Fri.
-  \course[H8]{1}{2}{OE. Display}{Building 7 · North 3012}{Wt Su}
-  \course[H3]{6}{8}{Group Meeting}{Building 6 · Middle}{Yuan Li}
-
-  \more{ · School Start: 04 / 03 / 2024  · Summer Vacation: 05 / 07 / 2024}
+\begin{tikzpicture}[remember picture, overlay]
+    \maketable{Skyrmion's Timetable}[SEM 8]
 \end{tikzpicture}
 
-\rerotatepage
-
-\timelist{
-  8:05,8:55,10:00,10:50,11:40,13:30,14:20,15:15,16:05,18:30,19:20,20:10;
-  8:50,9:40,10:45,11:35,12:25,14:15,15:05,16:00,16:50,19:15,20:05,20:55
-}
-\weeklist
-{
-  \heiti\bfseries\textcolor{W1}{\faIcon{moon}~星期一},
-  \heiti\bfseries\textcolor{W2}{\faIcon{fire}~星期二},
-  \heiti\bfseries\textcolor{W3}{\faIcon{water}~星期三},
-  \heiti\bfseries\textcolor{W4}{\faIcon{tree}~星期四},
-  \heiti\bfseries\textcolor{W5}{\faIcon{coins}~星期五},
-  \heiti\bfseries\textcolor{W6}{\faIcon{mountain}~星期六};
-  0,.175,.35,.525,.7,.875,1
-}
-\weeks{Week 1 -- 18}
-
-\begin{tikzpicture}
-  \makeframe[SEM 5]{Axia\!\texttt{'}\!s Timetable} % make title & background
-  % Mon.
-  \course[H1]{1}{2}{羽毛球}{羽毛球场}{Ys Yu}
-  \course[H7]{3}{5}{光学镜头设计实验}{第6教研楼 · 南402}{Hao Ying}[Week 5 -- 15]
-  \newday % Tue.
-  \course[H9]{3}{5}{马克思主义原理}{第6教研楼 · 北320}{Yang Wang}
-  \course[H8]{6}{8}{光电检测技术}{第6教研楼 · 北320}{Xf Huang}
-  \newday % Wed.
-  \course[H7]{3}{4}{激光原理}{第6教研楼 · 中301}{Hd Mao}
-  \course[H9]{6}{7}{就业3 | 形策5}{6教中301 | 6教北208}{MJH | QXR}[Week 5 -- 14]
-  \course[H5]{8}{9}{计算物理}{第6教研楼 · 中215}{Wj Rao}
-  \course[H1]{10}{11}{论文写作指导}{第6教研楼 · 北416}{Yq Shi}
-  \newday % Thu.
-  \course[H6]{1}{2}{智能传感系统}{第6教研楼 · 北110}{Bx Cai}
-  \course[H5]{3}{5}{高等量子力学}{第6教研楼 · 中225}{Mn Chen \& Yuan Li}
-  \course[H3]{6}{8}{近代物理实验2}{第6教研楼 · 南}{Xx Chen}[Week 5 -- 16]
-  \course[H8]{10}{12}{光电信息技术实验}{第6教研楼 · 南302}{Yu Zhou}[Week 5 -- 15]
-  \newday % Fri.
-  \course[H7]{1}{2}{光学镜头设计}{第6教研楼 · 北422}{Hao Ying}
-  \course[H5]{3}{5}{光电子学}{第6教研楼 · 北202}{Rx Li \& Yuan Li}
-  \course[H8]{6}{7}{光电创新实践4}{第6教研楼 · 南302}{Ql Huang}[Week 5 -- 16]
-  \course[H5]{8}{9}{研究生组会}{第6教研楼 · 中}{Yuan Li}
-  \more{ · Hangzhou Asian Games: 23 / 09 / 2023 -- 08 / 10 / 2023  · School Starts: 11 / 09 / 2023
-         · Winter Vacation: 26 / 01 / 2024}
-\end{tikzpicture}
-
-\rotatepage
-
-\weeklist{
-  \bfseries\sffamily\textcolor{W1}{\faIcon{moon}~Monday},
-  \bfseries\sffamily\textcolor{W2}{\faIcon{fire}~Tuesday},
-  \bfseries\sffamily\textcolor{W3}{\faIcon{water}~Wednesday},
-  \bfseries\sffamily\textcolor{W4}{\faIcon{tree}~Thursday},
-  \bfseries\sffamily\textcolor{W5}{\faIcon{coins}~Friday},
-  \bfseries\sffamily\textcolor{W6}{\faIcon{mountain}~Saturday};
-  0,.175,.35,.525,.7,.875,1
-}
-
-\begin{tikzpicture}
-  \makeframe[SEM 5]{Axia\!\texttt{'}\!s Timetable} % make title
-  % Mon.
-  \course[H1]{1}{2}{Badminton}{Badminton Court}{Ys Yu}
-  \course[H7]{3}{5}{Lens Design Expt.}{Building 6 · South 402}{Hao Ying}[Week 5 -- 15]
-  \newday % Tue.
-  \course[H9]{3}{5}{Marx's Principles}{Building 6 · North 320}{Yang Wang}
-  \course[H8]{6}{8}{OE Detection Tech.}{Building 6 · North 320}{Xf Huang}
-  \newday % Wed.
-  \course[H7]{3}{4}{Laster Principle}{Building 6 Middle · 301}{Hd Mao}
-  \course[H9]{6}{7}{Empl Guide | Situ Policy}{Build 6 · 301 | Build 6 · 208}{MJH | QXR}[Week 5 -- 14]
-  \course[H5]{8}{9}{Computational Phys}{Building 6 · Middle 215}{Wj Rao}
-  \course[H1]{10}{11}{Essay Writing}{Building 6 · North 416}{Yq Shi}
-  \newday % Thu.
-  \course[H6]{1}{2}{Sensing System}{Building 6 · North 110}{Bx Cai}
-  \course[H5]{3}{5}{Quantum Mechanics$^\dagger$}{Building 6 · Middle 225}{Mn Chen \& Yuan Li}
-  \course[H3]{6}{8}{Modern Phys Expt. 2}{Building 6 · South}{Xx Chen}[Week 5 -- 16]
-  \course[H8]{10}{12}{OE Info Experiment}{Building 6 · South 302}{Yu Zhou}[Week 5 -- 15]
-  \newday % Fri.
-  \course[H7]{1}{2}{Optical Lens Design}{Building 6 · North 422}{Hao Ying}
-  \course[H5]{3}{5}{Optoelectronics}{Building 6 · North 202}{Rx Li \& Yuan Li}
-  \course[H8]{6}{7}{Innovative Practice 4}{Building 6 · South 302}{Ql Huang}[Week 5 -- 16]
-  \course[H5]{8}{9}{Group Meeting}{Building 6 · Middle}{Yuan Li}
-  \more{ · Hangzhou Asian Games: 23 / 09 / 2023 -- 08 / 10 / 2023
-         · School Starts: 11 / 09 / 2023  · Winter Vacation: 26 / 01 / 2024 }
-\end{tikzpicture}
 
 \end{document}
