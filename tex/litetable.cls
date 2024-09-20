@@ -20,10 +20,8 @@
 % !Mode:: "TeX:UTF-8"
 \ProvidesExplClass {litetable} {2024/09/22} {3.0a} {Colorful timetable}
 
-\RequirePackage{kvoptions}
-
-\DeclareDefaultOption{\PassOptionsToClass{\CurrentOption}{article}}
-\ProcessKeyvalOptions*\relax
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+\ProcessOptions\relax
 
 \LoadClass{article}
 
