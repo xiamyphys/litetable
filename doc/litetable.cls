@@ -195,7 +195,7 @@
         %         *\hunit+\paperwidth/15,
         %     \fpeval{-1.75-#2-#3}*\vunit)$) 
         %     {\cs_if_exist_use:c { course@location } \shortcourse@tmp@tl \cs_if_exist_use:c { course@teacher }};
-        \bool_lazy_and:nnTF {\tl_if_exist_p:N {\l_location_tl}} {\tl_if_exist_p:N {\l_teacher_tl}} { \def\shortcourse@tmp@tl{ ,~ } } { \def\shortcourse@tmp@tl{} }
+        \bool_lazy_and:nnTF {\tl_if_exist_p:N \l_location_tl} {\tl_if_exist_p:N \l_teacher_tl} { \def\shortcourse@tmp@tl{ ,~ } } { \def\shortcourse@tmp@tl{} }
         \node [below, \tl_use:N\l_color_tl!60, align = center] at ($
             (current~page.north~west)+
             (\fpeval{\@weeklistshifts[1,\theweekday]-\@weeklist[2,\theweekday]/2}
