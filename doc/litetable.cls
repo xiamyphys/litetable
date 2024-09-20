@@ -131,7 +131,7 @@
 \tl_new:N \l_course_subject_tl
 \tl_new:N \l_course_teacher_tl
 \tl_new:N \l_course_location_tl
-\str_new:N \l_course_weeks_str
+\tl_new:N \l_course_weeks_tl
 \keys_define:nn{course}{
     color.tl_set:N = \l_color_tl,
     color.initial:n = DarkSlateGray,
@@ -139,7 +139,7 @@
     subject.tl_set:N = \l_subject_tl,
     teacher.tl_set:N = \l_teacher_tl,
     location.tl_set:N = \l_location_tl,
-    weeks.str_set:N = \l_weeks_str,
+    weeks.tl_set:N = \l_weeks_tl,
     weeks.initial:n = \course@weeks,
     weeks.default:n = \course@weeks,
 }
@@ -188,20 +188,13 @@
             \fpeval{-1.75-#2-#3}*\vunit)$) 
             {\tl_use:N\l_subject_tl};
         }
-        % \bool_if:nTF { \cs_if_exist_p:c {course@location} && \cs_if_exist_p:c {course@teacher} } { \def\shortcourse@tmp@tl{ ,~ } } { \def\shortcourse@tmp@tl{} }
-        % \node [below, \course@color!60, align = center] at ($
-        %     (current~page.north~west)+
-        %     (\fpeval{\@weeklistshifts[1,\theweekday]-\@weeklist[2,\theweekday]/2}
-        %         *\hunit+\paperwidth/15,
-        %     \fpeval{-1.75-#2-#3}*\vunit)$) 
-        %     {\cs_if_exist_use:c { course@location } \shortcourse@tmp@tl \cs_if_exist_use:c { course@teacher }};
-        \bool_lazy_and:nnTF {\tl_if_exist_p:N \l_location_tl} {\tl_if_exist_p:N \l_teacher_tl} { \def\shortcourse@tmp@tl{ ,~ } } { \def\shortcourse@tmp@tl{} }
+        \bool_if:nTF {!\tl_if_empty_p:N \l_location_tl && !\tl_if_empty_p:N \l_teacher_tl} { \def\shortcourse@sep@tl{ ,~ } } { \def\shortcourse@sep@tl{} }
         \node [below, \tl_use:N\l_color_tl!60, align = center] at ($
             (current~page.north~west)+
             (\fpeval{\@weeklistshifts[1,\theweekday]-\@weeklist[2,\theweekday]/2}
                 *\hunit+\paperwidth/15,
             \fpeval{-1.75-#2-#3}*\vunit)$) 
-            {\tl_if_exist:NT { \l_location_tl } {\tl_use:N\l_location_tl} \shortcourse@tmp@tl \tl_if_exist:NT { \l_teacher_tl } {\tl_use:N\l_teacher_tl}};
+            {\tl_if_exist:NT { \l_location_tl } {\tl_use:N\l_location_tl} \shortcourse@sep@tl \tl_if_exist:NT { \l_teacher_tl } {\tl_use:N\l_teacher_tl}};
     }{  
         \cs_if_exist:NT {\l_subject_tl}{
         \node [above, \tl_use:N\l_color_tl!60, align = center, font = \large\bfseries] at ($
@@ -211,32 +204,19 @@
             \fpeval{-1.375-#2-#3}*\vunit)$) 
             {\tl_use:N\l_subject_tl};
         }
-        % \bool_if:nTF { \cs_if_exist_p:c {course@location} && \cs_if_exist_p:c {course@teacher} } { \def\courseinfo@tmp@tl{ \\ } } { \def\courseinfo@tmp@tl{} }
-        % \node [below, \course@color!60, align = center] at ($
-        %     (current~page.north~west)+
-        %     (\fpeval{\@weeklistshifts[1,\theweekday]-\@weeklist[2,\theweekday]/2}
-        %         *\hunit+\paperwidth/15,
-        %     \fpeval{-1.625-#2-#3}*\vunit)$) 
-        %     {\cs_if_exist_use:c { course@location } \courseinfo@tmp@tl \cs_if_exist_use:c { course@teacher }};
-        % \node [above~left, \course@color!60, inner~sep = {7.2pt-.5ex}] at ($
-        %     (current~page.north~west)+
-        %     (\@weeklistshifts[1,\theweekday]
-        %         *\hunit+\paperwidth/15,
-        %     \fpeval{-2.5-2*#3}*\vunit)
-        %     $) {\course@weeks};
-        \bool_lazy_and:nnTF {\tl_if_exist_p:N {\l_location_tl}} {\tl_if_exist_p:N {\l_teacher_tl}} { \def\courseinfo@tmp@tl{ \\ } } { \def\courseinfo@tmp@tl{} }
+        \bool_if:nTF { !\tl_if_empty_p:N \l_location_tl && !\tl_if_empty_p:N \l_teacher_tl} { \def\courseinfo@sep@tl{ \\ } } { \def\courseinfo@sep@tl{} }
         \node [below, \tl_use:N\l_color_tl!60, align = center] at ($
             (current~page.north~west)+
             (\fpeval{\@weeklistshifts[1,\theweekday]-\@weeklist[2,\theweekday]/2}
                 *\hunit+\paperwidth/15,
             \fpeval{-1.625-#2-#3}*\vunit)$) 
-            {\tl_if_exist:NT { \l_location_tl } {\tl_use:N\l_location_tl} \courseinfo@tmp@tl \tl_if_exist:NT { \l_teacher_tl } {\tl_use:N\l_teacher_tl}};
+            {\tl_if_exist:NT { \l_location_tl } {\tl_use:N\l_location_tl} \courseinfo@sep@tl \tl_if_exist:NT { \l_teacher_tl } {\tl_use:N\l_teacher_tl}};
         \node [above~left, \tl_use:N\l_color_tl!60, inner~sep = {7.2pt-.5ex}] at ($
             (current~page.north~west)+
             (\@weeklistshifts[1,\theweekday]
                 *\hunit+\paperwidth/15,
             \fpeval{-2.5-2*#3}*\vunit)
-            $) {\course@weeks};
+            $) {\tl_use:N\l_weeks_tl};
     }
     \group_end:
 }
