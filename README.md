@@ -1,9 +1,8 @@
 # The `LiteTable` document
 
-This template provides a beautiful design of class schedule with colorful course blocks.
+This class provides a beautiful design of class schedule with colorful course blocks.
 
-**Welcome to pull requests
-[here](https://github.com/xiamyphys/LiteTable).**
+**Welcome to pull requests [here](https://github.com/xiamyphys/litetable).**
 
 ## License
 
