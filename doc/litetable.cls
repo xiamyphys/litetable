@@ -1,6 +1,6 @@
 %% ***********************************************************
 %%   Copyright 2024 by Mingyu XIA <xiamyphys@gmail.com>      *
-%%                                                           *
+%%                      i w                                     *
 %%   This work may be distributed and/or modified under      *
 %%   the conditions of the LaTeX Project Public License      *
 %%                                                           *
