@@ -210,19 +210,19 @@
             \fpeval{-1.375-#2-#3}*\vunit)$) 
             {\tl_use:N\l_subject_tl};
         }
-    %     \bool_if:nTF { \cs_if_exist_p:c {course@location} && \cs_if_exist_p:c {course@teacher} } { \def\courseinfo@tmp@tl{ \\ } } { \def\courseinfo@tmp@tl{} }
-    %     \node [below, \course@color!60, align = center] at ($
-    %         (current~page.north~west)+
-    %         (\fpeval{\@weeklistshifts[1,\theweekday]-\@weeklist[2,\theweekday]/2}
-    %             *\hunit+\paperwidth/15,
-    %         \fpeval{-1.625-#2-#3}*\vunit)$) 
-    %         {\cs_if_exist_use:c { course@location } \courseinfo@tmp@tl \cs_if_exist_use:c { course@teacher }};
-    %     \node [above~left, \course@color!60, inner~sep = {7.2pt-.5ex}] at ($
-    %         (current~page.north~west)+
-    %         (\@weeklistshifts[1,\theweekday]
-    %             *\hunit+\paperwidth/15,
-    %         \fpeval{-2.5-2*#3}*\vunit)
-    %         $) {\course@weeks};
+        % \bool_if:nTF { \cs_if_exist_p:c {course@location} && \cs_if_exist_p:c {course@teacher} } { \def\courseinfo@tmp@tl{ \\ } } { \def\courseinfo@tmp@tl{} }
+        % \node [below, \course@color!60, align = center] at ($
+        %     (current~page.north~west)+
+        %     (\fpeval{\@weeklistshifts[1,\theweekday]-\@weeklist[2,\theweekday]/2}
+        %         *\hunit+\paperwidth/15,
+        %     \fpeval{-1.625-#2-#3}*\vunit)$) 
+        %     {\cs_if_exist_use:c { course@location } \courseinfo@tmp@tl \cs_if_exist_use:c { course@teacher }};
+        % \node [above~left, \course@color!60, inner~sep = {7.2pt-.5ex}] at ($
+        %     (current~page.north~west)+
+        %     (\@weeklistshifts[1,\theweekday]
+        %         *\hunit+\paperwidth/15,
+        %     \fpeval{-2.5-2*#3}*\vunit)
+        %     $) {\course@weeks};
         \bool_lazy_and:nnTF {\tl_if_exist_p:c {\l_location_tl}} {\tl_if_exist_p:c {\l_teacher_tl}} { \def\courseinfo@tmp@tl{ \\ } } { \def\courseinfo@tmp@tl{} }
         \node [below, \tl_use:N\l_color_tl!60, align = center] at ($
             (current~page.north~west)+
