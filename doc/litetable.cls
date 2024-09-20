@@ -41,7 +41,7 @@
 \usetikzlibrary{calc}
 \ExplSyntaxOn
 
-\RequirePackage{listofitems,keyval}
+\RequirePackage{listofitems}
 \ignoreemptyitems
 \newlength{\vunit}
 \NewDocumentCommand{\timelist}{ o m }{
@@ -145,6 +145,7 @@
 }
 
 \NewDocumentCommand{\course}{O{}mm}{%
+    \group_begin:
     \keys_set:nn{course}{#1}
     \fill [ \tl_use:N\l_color_tl!60, rounded~corners = 8pt] ($
             (current~page.north~west)+(.4pt,-.4pt)+
@@ -194,7 +195,7 @@
         %         *\hunit+\paperwidth/15,
         %     \fpeval{-1.75-#2-#3}*\vunit)$) 
         %     {\cs_if_exist_use:c { course@location } \shortcourse@tmp@tl \cs_if_exist_use:c { course@teacher }};
-        \bool_lazy_and:nnTF {\tl_if_exist_p:c {\l_location_tl}} {\tl_if_exist_p:c {\l_teacher_tl}} { \def\shortcourse@tmp@tl{ ,~ } } { \def\shortcourse@tmp@tl{} }
+        \bool_lazy_and:nnTF {\tl_if_exist_p:N {\l_location_tl}} {\tl_if_exist_p:N {\l_teacher_tl}} { \def\shortcourse@tmp@tl{ ,~ } } { \def\shortcourse@tmp@tl{} }
         \node [below, \tl_use:N\l_color_tl!60, align = center] at ($
             (current~page.north~west)+
             (\fpeval{\@weeklistshifts[1,\theweekday]-\@weeklist[2,\theweekday]/2}
@@ -223,7 +224,7 @@
         %         *\hunit+\paperwidth/15,
         %     \fpeval{-2.5-2*#3}*\vunit)
         %     $) {\course@weeks};
-        \bool_lazy_and:nnTF {\tl_if_exist_p:c {\l_location_tl}} {\tl_if_exist_p:c {\l_teacher_tl}} { \def\courseinfo@tmp@tl{ \\ } } { \def\courseinfo@tmp@tl{} }
+        \bool_lazy_and:nnTF {\tl_if_exist_p:N {\l_location_tl}} {\tl_if_exist_p:N {\l_teacher_tl}} { \def\courseinfo@tmp@tl{ \\ } } { \def\courseinfo@tmp@tl{} }
         \node [below, \tl_use:N\l_color_tl!60, align = center] at ($
             (current~page.north~west)+
             (\fpeval{\@weeklistshifts[1,\theweekday]-\@weeklist[2,\theweekday]/2}
@@ -237,6 +238,7 @@
             \fpeval{-2.5-2*#3}*\vunit)
             $) {\course@weeks};
     }
+    \group_end:
 }
 \endinput
 %%
