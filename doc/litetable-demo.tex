@@ -1,7 +1,5 @@
 \documentclass[letterpaper]{litetable}
 
-% \usepackage[quiet]{xeCJK}
-% \setCJKsansfont{LXGW WenKai}[AutoFakeBold = 5]
 \usepackage{twemojis,newtxtext}
 \usepackage[scaled = .9]{helvet}
 \renewcommand*\familydefault{\sfdefault}
@@ -22,15 +20,17 @@
 \begin{tikzpicture}[remember picture, overlay]
     \maketable{Skyrmion's Timetable}[SEM 7]
     \newday
-    \course [color = DarkBlue, subject = expl3, teacher = The {\LaTeX} Project] {6} {8}
+    \course [subject = {xia-my@ctan}] {4} {4}
+    \course [color = DarkBlue, subject = interface3, teacher = The {\LaTeX} Project] {7} {9}
     \newday
-    \course [color = DarkBlue, subject = xparse, teacher = The {\LaTeX} Project] {1} {2}
+    \course [color = FireBrick, subject = usrguide, teacher = {\LaTeX} Project Team, weeks = Weeks 7 - 14] {1} {2}
     \newday
-    \course [color = Indigo, subject = listofitems, location = French, teacher = Christian Tellechea] {10} {12}
+    \course [subject = Keep on {\TeX}ing] {7} {8}
+    \course [color = DarkGreen, subject = listofitems, location = French, teacher = Christian Tellechea] {10} {12}
     \newday
-    \course [color = Crimson, subject = tikz\\library: calc, teacher = The PGF/TikZ Team] {3} {5}
+    \course [color = Crimson, subject = Ti\textit{k\/}Z\\library: calc, teacher = The PGF/Ti\textit{k\/}Z Team] {3} {5}
     \newday
-    \course [subject = xcolor, weeks = Week 1 - 16, location = Germany, teacher = Dr. Uwe Kern] {8} {9}
+    \course [color = DarkViolet, subject = xcolor, weeks = Week 1 - 16, location = Germany, teacher = Dr. Uwe Kern] {8} {8}
     \more {School Starts: 06 / 09 / 2024\quad Summer Vacation: 26 / 01 / 2025}
 \end{tikzpicture}
 
@@ -46,6 +46,5 @@
 \begin{tikzpicture}[remember picture, overlay]
     \maketable{Skyrmion's Timetable}[SEM 8]
 \end{tikzpicture}
-
 
 \end{document}
