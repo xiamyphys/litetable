@@ -20,30 +20,31 @@
 % !Mode:: "TeX:UTF-8"
 \ProvidesExplClass {litetable} {2024/09/22} {3.0a} {Colorful timetable class}
 
+\ExplSyntaxOff
+
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
-
 \LoadClass{article}
 
 \RequirePackage[svgnames]{xcolor}
 \definecolor{darkergray}{HTML}{F1F3F5}% Blocks
 \definecolor{lightergray}{HTML}{FCFDFE}% Pagecolor
 \pagecolor{lightergray}
-\tl_clear:N \thepage
 
-\ExplSyntaxOff
 \RequirePackage{tikz}
 \tikzset{%
     every picture/.append style = { line join = round, line cap = round }
 }
 \usetikzlibrary{calc}
-\ExplSyntaxOn
 
 \RequirePackage{listofitems}
 \ignoreemptyitems
+
+\ExplSyntaxOn
+
 \int_new:N \l_course_num_int
 \dim_new:N \l_course_vunit_dim
-\NewDocumentCommand{\timelist}{ o m }{%
+\NewDocumentCommand{\timelist}{om}{%
     \setsepchar{,/-}
     \IfBlankTF{#2}{%
         \int_set:Nn \l_course_num_int { #1 }
@@ -81,12 +82,9 @@
     \tl_set:Ne #3 { \clist_use:Nn \l__sums_out_clist {,} }
 }
 
-\str_new:N \l_course_weeks_int
 \dim_new:N \l_course_hunit_dim
 \NewDocumentCommand{\weeklist}{om}{%
-    \IfValueT{#1}{%
-        \str_set:Nn \l_course_weeks_str { #1 }
-    }
+    \IfValueT{#1}{\tl_set:Nn \l_course_weeks_tl { #1 }}
     \setsepchar{;/,}
     \readlist*\@weeklist{#2}
     \partialsums{\@weeklist}{2}{\@weeklistaccumulate}
@@ -102,10 +100,8 @@
         }\paperwidth
     }
 }
-\newcounter{weekday}
-\def\newday{\addtocounter{weekday}{1}}
 
-\NewDocumentCommand{\maketable}{ m o }{%
+\NewDocumentCommand{\maketable}{mo}{%
     % Gray Block at top
     \fill [ darkergray ] (current~page.north~west)
             rectangle + (\paperwidth,{-1.5*\l_course_vunit_dim})
@@ -182,6 +178,8 @@
                 $){\@weeklist[1,\a]};
 }
 
+\int_new:N \l_course_weekday_int
+\newcommand{\newday}{\int_add:Nn \l_course_weekday_int {1}}
 \keys_define:nn{course}{%
     color.tl_set:N = \l_color_tl,
     color.initial:n = DarkSlateGray,
@@ -190,50 +188,50 @@
     teacher.tl_set:N = \l_teacher_tl,
     location.tl_set:N = \l_location_tl,
     weeks.tl_set:N = \l_weeks_tl,
-    weeks.initial:n = \l_course_weeks_str,
-    weeks.default:n = \l_course_weeks_str,
+    weeks.initial:n = \l_course_weeks_tl,
+    weeks.default:n = \l_course_weeks_tl,
 }
 \dim_new:N \l_course_shift_dim
 \NewDocumentCommand{\course}{O{}mm}{%
     \group_begin:
     \keys_set:nn{course}{#1}
     % Course block fg
-    \fill [ \tl_use:N \l_color_tl!60, rounded~corners = 8pt ] ($
+    \fill [ \l_color_tl!60, rounded~corners = 8pt ] ($
             (current~page.north~west)+(.4pt,-.4pt)+
             (\fp_eval:n {
-                \@weeklistshifts[1,\theweekday]-
-                \@weeklist[2,\theweekday]
+                \@weeklistshifts[1,\int_use:N \l_course_weekday_int]-
+                \@weeklist[2,\int_use:N \l_course_weekday_int]
             }*\l_course_hunit_dim+\paperwidth/15,
             \fp_eval:n {-.5-2*#2}*\l_course_vunit_dim)
         $) rectangle ($
             (current~page.north~west)+(-.4pt,.4pt)+
-            (\@weeklistshifts[1,\theweekday]*\l_course_hunit_dim
-            +\paperwidth/15,
+            (\@weeklistshifts[1,\int_use:N \l_course_weekday_int]
+            *\l_course_hunit_dim+\paperwidth/15,
             \fp_eval:n {-2.5-2*#3}*\l_course_vunit_dim)
         $);
     % Course block bg
-    \fill [ \tl_use:N \l_color_tl!10 ] ($
+    \fill [ \l_color_tl!10 ] ($
             (current~page.north~west)+(1.2pt,-.4pt)+
             (\fp_eval:n {
-                \@weeklistshifts[1,\theweekday]-
-                \@weeklist[2,\theweekday]
+                \@weeklistshifts[1,\int_use:N \l_course_weekday_int]-
+                \@weeklist[2,\int_use:N \l_course_weekday_int]
             }*\l_course_hunit_dim+\paperwidth/15,
             \fp_eval:n {-1-2*#2}*\l_course_vunit_dim)
         $) -- ($
             (current~page.north~west)+(-1.2pt,-.4pt)+
-            (\@weeklistshifts[1,\theweekday]*\l_course_hunit_dim
-            +\paperwidth/15,
+            (\@weeklistshifts[1,\int_use:N \l_course_weekday_int]
+            *\l_course_hunit_dim+\paperwidth/15,
             {\fp_eval:n {-1-2*#2}*\l_course_vunit_dim})
         $) {[rounded~corners = 7.2pt] -- ($
             (current~page.north~west)+(-1.2pt,1.2pt)+
-            (\@weeklistshifts[1,\theweekday]*\l_course_hunit_dim
-            +\paperwidth/15,
+            (\@weeklistshifts[1,\int_use:N \l_course_weekday_int]
+            *\l_course_hunit_dim+\paperwidth/15,
             \fp_eval:n {-2.5-2*#3}*\l_course_vunit_dim)
         $) -- ($
             (current~page.north~west)+(1.2pt,1.2pt)+
             (\fp_eval:n {
-                \@weeklistshifts[1,\theweekday]
-                -\@weeklist[2,\theweekday]
+                \@weeklistshifts[1,\int_use:N \l_course_weekday_int]
+                -\@weeklist[2,\int_use:N \l_course_weekday_int]
             }*\l_course_hunit_dim+\paperwidth/15,
             \fp_eval:n {-2.5-2*#3}*\l_course_vunit_dim)
         $)} -- cycle;
@@ -249,17 +247,19 @@
             \tl_set:Nn \l_shortcourse_anchor_tl { above }
         }
         \cs_if_exist:NT {\l_subject_tl } {%
-            \node [ \tl_use:N \l_shortcourse_anchor_tl,
-                    \tl_use:N \l_color_tl!60, align = center,
+            \node [ \l_shortcourse_anchor_tl,
+                    \l_color_tl!60, align = center,
                     font = \large\bfseries ]
                     at ($
                         (current~page.north~west)+
                         (\fp_eval:n {%
-                            \@weeklistshifts[1,\theweekday]-
-                            \@weeklist[2,\theweekday]/2}
+                            \@weeklistshifts[1,
+                                \int_use:N \l_course_weekday_int]-
+                            \@weeklist[2,
+                                \int_use:N \l_course_weekday_int]/2}
                         *\l_course_hunit_dim+\paperwidth/15,
                         \fp_eval:n {-1.75-#2-#3}*\l_course_vunit_dim)
-                    $) { \tl_use:N \l_subject_tl };
+                    $) { \l_subject_tl };
             }
         \bool_if:nTF {%
             !\tl_if_empty_p:N \l_location_tl &&
@@ -269,20 +269,21 @@
         }{%
             \tl_set:Nn \l_shortcourse_sep_tl { }
         }
-        \node [ below, \tl_use:N \l_color_tl!60, align = center ]
+        \node [ below, \l_color_tl!60, align = center ]
                 at ($
                     (current~page.north~west)+
                     (\fp_eval:n {%
-                        \@weeklistshifts[1,\theweekday]-
-                        \@weeklist[2,\theweekday]/2}
+                        \@weeklistshifts[1,
+                            \int_use:N \l_course_weekday_int]-
+                        \@weeklist[2,\int_use:N \l_course_weekday_int]/2}
                     *\l_course_hunit_dim+\paperwidth/15,
                     \fp_eval:n {-1.75-#2-#3}*\l_course_vunit_dim)
                     $) {%
                         \tl_if_exist:NT
-                            { \l_location_tl } { \tl_use:N \l_location_tl }
+                            { \l_location_tl } { \l_location_tl }
                             \l_shortcourse_sep_tl
                         \tl_if_exist:NT
-                            { \l_teacher_tl } { \tl_use:N \l_teacher_tl }
+                            { \l_teacher_tl } { \l_teacher_tl }
                     };
     }{%
         % Multiply-unit height course block
@@ -291,29 +292,27 @@
             \tl_if_empty_p:N \l_teacher_tl
         }{%
             \tl_set:Nn \l_course_anchor_tl {}
-            \tl_set:Nn \l_course_shift_tl {}
             \dim_set:Nn \l_course_shift_dim { 0\l_course_vunit_dim }
         }{%
             \tl_set:Nn \l_course_anchor_tl { above }
             \dim_set:Nn \l_course_shift_dim { .125\l_course_vunit_dim }
-            \tl_set:Nn \l_course_shift_tl {%
-                yshift = .125*\l_course_vunit_dim
-            }
         }
-        \cs_if_exist:NT {\l_subject_tl }{%
+        \cs_if_exist:NT { \l_subject_tl }{%
                 \node [%
-                        \tl_use:N \l_course_anchor_tl,
+                        \l_course_anchor_tl,
                         yshift = \dim_use:N \l_course_shift_dim,
-                        \tl_use:N \l_color_tl!60, align = center,
+                        \l_color_tl!60, align = center,
                         font = \large\bfseries ]
                         at ($
                             (current~page.north~west)+
                             (\fp_eval:n {%
-                                \@weeklistshifts[1,\theweekday]-
-                                \@weeklist[2,\theweekday]/2}
+                                \@weeklistshifts[1,
+                                    \int_use:N \l_course_weekday_int]-
+                                \@weeklist[2,
+                                    \int_use:N \l_course_weekday_int]/2}
                             *\l_course_hunit_dim+\paperwidth/15,
                             \fp_eval:n {-1.5-#2-#3}*\l_course_vunit_dim)
-                        $) { \tl_use:N \l_subject_tl };
+                        $) { \l_subject_tl };
             }
         \bool_if:nTF {%
             !\tl_if_empty_p:N \l_location_tl && 
@@ -323,38 +322,39 @@
         }{%
             \tl_set:Nn \l_courseinfo_sep_tl { }
         }
-        \node [ below, \tl_use:N \l_color_tl!60, align = center ]
+        \node [ below, \l_color_tl!60, align = center ]
                 at ($
                     (current~page.north~west)+
                     (\fp_eval:n {%
-                        \@weeklistshifts[1,\theweekday]-
-                        \@weeklist[2,\theweekday]/2}
+                        \@weeklistshifts[1,
+                            \int_use:N \l_course_weekday_int]-
+                        \@weeklist[2,\int_use:N \l_course_weekday_int]/2}
                     *\l_course_hunit_dim+\paperwidth/15,
                     \fp_eval:n {-1.625-#2-#3}*\l_course_vunit_dim)
                     $) {%
                         \tl_if_exist:NT
-                            { \l_location_tl } { \tl_use:N \l_location_tl }
+                            { \l_location_tl } { \l_location_tl }
                             \l_courseinfo_sep_tl
                         \tl_if_exist:NT
-                            { \l_teacher_tl } { \tl_use:N \l_teacher_tl }
+                            { \l_teacher_tl } { \l_teacher_tl }
                     };
-        \node [ above~left, \tl_use:N \l_color_tl!60,
+        \node [ above~left, \l_color_tl!60,
                 inner~sep = {7.2pt-.5ex} ]
                 at ($
                     (current~page.north~west)+
-                    (\@weeklistshifts[1,\theweekday]
+                    (\@weeklistshifts[1,\int_use:N \l_course_weekday_int]
                 *\l_course_hunit_dim+\paperwidth/15,
                 \fp_eval:n {-2.5-2*#3}*\l_course_vunit_dim)
-                $) { \tl_use:N \l_weeks_tl };
+                $) { \l_weeks_tl };
     }
     \group_end:
 }
 
 % Additional info
-\def\more#1{%
+\newcommand{\more}[1]{%
     \node [ left = 1ex, darkgray, font = \small\bfseries ] at
             ($(current~page.south~east)+(0,.5*\l_course_vunit_dim)$) {#1};
 }
-
+\tl_clear:N \thepage
 \endinput
 %%
