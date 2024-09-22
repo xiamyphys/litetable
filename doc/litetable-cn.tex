@@ -1,0 +1,181 @@
+\documentclass[letterpaper]{l3doc}
+
+\usepackage[mono = false]{libertine}
+\usepackage{geometry,pdfpages,tikz,tabularx,xfrac,hologo,authblk}
+\hologoFontSetup{general = \sffamily}
+\newenvironment{example}{\begin{list}{}{\leftmargin=3em}\item }{\end{list}}
+\fvset{xleftmargin = \parindent}
+\usepackage[fontset = none]{ctex}
+\setCJKmainfont[AutoFakeBold = 4, AutoFakeSlant]{LXGW WenKai}
+\setCJKsansfont[AutoFakeBold = 4, AutoFakeSlant]{LXGW WenKai}
+\setCJKmonofont[AutoFakeBold = 4, AutoFakeSlant]{LXGW WenKai}
+\usepackage[os = mac]{menukeys}
+
+\title{
+    \cls{litetable} 文档类：多彩的课程表
+    \thanks{\url{https://github.com/xiamyphys/litetable}}
+}
+
+\author{夏明宇，杭州电子科技大学}
+
+\affil{\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}}
+
+\date{Version 3.0a, \today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    本文档为 \cls{litetable} 文档类的用户手册. 该文档类提供了一个多彩的课程表设计. 欢迎通过邮件 \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com} 或 \href{https://github.com/xiamyphys/litetable/issues}{GitHub} 提供建议或反馈bug. 本手册提供英文、\textbf{中文}和粤语版本.
+\end{abstract}
+
+\section{介绍}
+
+\subsection{所需宏包}
+
+该文档类基于 \cls{article} 文档类. 需要 \pkg{expl3}，\pkg{xparse}，\pkg{tikz}，\pkg{listofitems} 和 \pkg{xcolor} 宏包. 
+
+\subsection{兼容性}
+
+所需 \pkg{expl3} 宏包的版本需支持``e-type'' 变体，所以该文档类不能在 \hologo{TeX}Live 2023及更早的版本上运行. 所用的测试平台为 macOS 15.1 / Overleaf / Ubuntu 22.04.2，并使用 \hologo{TeX}Live 2024发行版，在 \hologo{pdfLaTeX} 和 \hologo{XeLaTeX} 编译器下均可正常运行. Windows 和 Unix 平台的兼容性未知.
+
+\section{使用}
+
+\subsection{载入 \cls{litetable} 并生成课程表框架}
+
+同加载其他文档类一样，只需写下
+
+\begin{Verbatim}
+    \documentclass{litetable}
+\end{Verbatim}
+
+接下来的命令需要带有 \cmd{remember picture, overaly} 选项的 \cmd{tikzpicture} 环境.
+
+\subsubsection{命令：\cs{maketable}}
+
+\begin{example}
+    \cs{maketable}\oarg{semester}\marg{title}
+\end{example}
+
+此命令有两个参数，可生成一个空白的课程表框架. 第一个可选参数可在页面的右上角添加学期块，第二个强制参数可指定标题.
+
+\subsubsection{命令：\cs{more}}
+
+\begin{example}
+    \cs{more}\marg{comment}
+\end{example}
+
+此命令可在页面的右下角添加备注.
+
+\subsubsection{命令：\cs{timelist}}
+
+\begin{example}
+    \cs{timelist}\oarg{rows}\marg{time list}
+\end{example}
+
+此命令有两个参数，第一个可选参数 \oarg{\#1} 可直接决定课程表的行数，第二个强制参数 \marg{\#2} 可在课程表的左侧添加时间列表. 输入列表格式如下：开始时间与结束时间之间用短线 (-) 分隔，并用逗号 (,) 在时间组之间分隔. 例如
+
+\begin{Verbatim}
+    \timelist[13]{%
+        08:05 - 08:50, 08:55 - 09:40, 10:00 - 10:45, 10:50 - 11:35,
+        11:40 - 12:25, 13:30 - 14:15, 14:20 - 15:05, 15:15 - 16:00,
+        16:05 - 16:50, 18:30 - 19:15, 19:20 - 20:05, 20:10 - 20:55,
+    }
+\end{Verbatim}
+
+对于两个参数的不同使用情况，\cls{litetable} 会以如下规则生成对应行数的课程表框架.
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabularx}{.9\textwidth}{c X X}
+      \toprule
+        $\displaystyle\sfrac{\oarg{\#1}}{\marg{\#2}}$ &
+        \multicolumn{1}{c}{使用} &
+        \multicolumn{1}{c}{不使用}\\
+      \midrule
+        使用 &
+        效果与 \marg{\#2} 所描述的相同，但课程表的行数由 \oarg{\#1} 决定 &
+        效果与 \oarg{\#1} 所描述的相同\\
+      \midrule
+        不使用 &
+        效果与 \marg{\#2} 所描述的相同&
+        ERROR!\\
+      \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{itemize}
+    \item 若强制参数 \marg{\#2} 接收了$X$组时间，可选参数 \oarg{\#1} 接收的值为$X+a$，则课程表的左侧只有$1 \sim X$行会显示时间，后面几行不显示时间.
+    \item 若强制参数 \marg{\#2} 接收了$X+a$组时间，可选参数 \oarg{\#1} 接收的值为$X$， 则会生成只有$X$行的课程表，多余的时间组将被忽略，并返回一个警告.
+\end{itemize}
+
+\subsubsection{命令：\cs{weeklist}}
+
+\begin{example}
+    \cs{weeklist}\oarg{default weeks}\marg{week list}
+\end{example}
+
+此命令有两个参数. 第一个可选参数可决定默认的星期数并会在每个课程块的右下角显示，第二个强制参数可在课程表的顶部添加对应宽度比例的工作日. 输入列表的第一行为工作日格式，第二行为对应的宽度比例，两行之间用分号 (;) 分隔. 例如
+
+\begin{Verbatim}
+    \weeklist[Weeks 1 - 16]{%
+        \scshape Mon,    \scshape Tue,     \scshape Wed,
+        \scshape Thu,    \scshape Fri;     4,5,4,6,5
+    }
+\end{Verbatim}
+
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}[every node/.style={font=\small\sffamily\scshape}]
+        \draw [thick,->,>=stealth] (-5 in/15,0) -- (5 in,0);
+        \draw (-5 in/15,-.1) --++ (0,.2) node [above] {\verb|-1/15|};
+        \draw (0,-.1) --++ (0,.2) node [above] {\verb|0|};
+        \draw (4*5 in/24,-.1) --++ (0,.2) node [above] {\verb|4x|};
+        \draw (9*5 in/24,-.1) --++ (0,.2) node [above] {\verb|9x|};
+        \draw (13*5 in/24,-.1) --++ (0,.2) node [above] {\verb|13x|};
+        \draw (19*5 in/24,-.1) --++ (0,.2) node [above] {\verb|19x|};
+        \draw (5 in,-.1) --++ (0,.2) node [above] {\verb|24x|};
+        \node [above] at (2*5 in/24,0) {Mon};
+        \node [above] at (6.5*5 in/24,0) {Tue};
+        \node [above] at (11*5 in/24,0) {Wed};
+        \node [above] at (16*5 in/24,0) {Thu};
+        \node [above] at (21.5*5 in/24,0) {Fri};
+    \end{tikzpicture}
+\end{figure}
+
+此时 \cs{course} 命令中键 \keys{weeks} 的默认值被赋为 \cmd{Weeks 1 - 16}. 如果输入的工作日的数量比输入的宽度比例数量多，则多余的工作日将被忽略并返回一条警告.
+
+\subsection{添加课程块}
+
+使用 \cs{course} 命令在当前工作日添加课程块. 此命令有两个参数.
+
+\begin{example}
+    \cs{course}\oarg{keyvals}\marg{class start number}\oarg{class end number}
+\end{example}
+
+第一个可选参数接收下列键：\keys{color} \keys{subject} \keys{location} \keys{teacher} \keys{weeks}. 键 \keys{color} 的默认值为 \cmd{DarkSlateGray}，键 \keys{weeks} 的默认值由命令 \cs{weeklist} 的第一个参数决定. 第二个和第三个强制参数分别为课程的开始和结束序号. \cs{course} 命令的用例如下
+
+\begin{Verbatim}
+    \course [ color = DarkGreen, subject = listofitems, 
+              location = French, teacher = Christian Tellechea
+            ] {10} {12}
+\end{Verbatim}
+
+\begin{center}
+    \noindent\fbox{
+        \parbox{.96\linewidth}{
+            将此课程块的颜色设置为 \cmd{DarkGreen}，此课程名称为 \cmd{listofitems}，上课地点为 \cmd{French}，教师为 \cmd{Christian Tellechea}，在当日的第 \cmd{10} 节课开始，第 \cmd{12} 节课结束.
+        }
+    }
+\end{center}
+
+\begin{itemize}
+    \item 可通过 \cs{newday} 命令切换到下一个工作日.
+    \item 若课程块的高度只有一个单位，即$\marg{class start number} = \marg{class end number}$，则键 \keys{location} 和 \keys{teacher} 的值将输出在同一行并以逗号 (,) 间隔，键 \cmd{weeks} 的值将不会输出.
+    \item 若键 \keys{location} 和 \keys{teacher} 均未赋值，则键 \keys{subject} 的值将输出在课程块的中心.
+\end{itemize}
+
+\includepdf[pages = 1]{litetable-demo.pdf}
+
+\end{document}

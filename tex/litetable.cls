@@ -55,6 +55,11 @@
             \int_set:Nn \l_course_num_int { \@timelistlen }
         }{%
             \int_set:Nn \l_course_num_int { #1 }
+            \int_compare:nNnT {\@timelistlen} > {#1} {%
+                \msg_new:nnn {litetable} {timelist}
+                    {\noexpand\timelist~extra~time~group(s)~were~ignored}
+                \msg_warning:nn {litetable} {timelist}
+            }
         }
     }
     \dim_set:Nn \l_course_vunit_dim {%
@@ -84,7 +89,7 @@
 
 \dim_new:N \l_course_hunit_dim
 \NewDocumentCommand{\weeklist}{om}{%
-    \IfValueT{#1}{\tl_set:Nn \l_course_weeks_tl { #1 }}
+    \IfValueT{#1}{\tl_set:Nn \l_weeks_tl { #1 }}
     \setsepchar{;/,}
     \readlist*\@weeklist{#2}
     \partialsums{\@weeklist}{2}{\@weeklistaccumulate}
@@ -188,8 +193,8 @@
     teacher.tl_set:N = \l_teacher_tl,
     location.tl_set:N = \l_location_tl,
     weeks.tl_set:N = \l_weeks_tl,
-    weeks.initial:n = \l_course_weeks_tl,
-    weeks.default:n = \l_course_weeks_tl,
+    weeks.initial:n = \l_weeks_tl,
+    weeks.default:n = \l_weeks_tl,
 }
 \dim_new:N \l_course_shift_dim
 \NewDocumentCommand{\course}{O{}mm}{%
