@@ -60,7 +60,7 @@
         \readlist*\@timelist{#2}
         \IfNoValueTF{#1}
         {%
-            \int_set:Nn \l_time_num_int { \@timelistlen }
+            \int_set:Nn \l_time_num_int {\@timelistlen}
         }{%
             \int_set:Nn \l_time_num_int { #1 }
             \int_compare:nNnT {\@timelistlen} > {#1}
@@ -155,7 +155,7 @@
     }
     \tl_if_empty:NTF {\@timelist}
     {% Classes numbering without time
-        \int_step_inline:nnnn {0} {1} {\l_time_num_int} {
+        \int_step_inline:nnnn {1} {1} {\l_time_num_int} {
             \node [ yshift = -2*##1*\l_time_vunit_dim,
                     darkgray!80, font = \bfseries\large\ttfamily
                   ] at ($
@@ -192,7 +192,14 @@
         }
     }
     % Weekdays
-    \int_step_inline:nnnn {1} {1} {\listlen\@weeklist[2]} {
+    \int_step_inline:nnnn {1} {1} {
+        \int_min:nn
+        {
+            \listlen\@weeklist[1]
+        }{
+            \listlen\@weeklist[2]
+        }
+    } {
         \node [ font = \large\bfseries,
                 xshift = \clist_item:Nn \l_week_shift_clist {##1}/
                 \l_week_num_int*14/15*\paperwidth
