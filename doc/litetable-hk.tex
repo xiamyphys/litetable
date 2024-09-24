@@ -27,14 +27,14 @@
 \maketitle
 
 \begin{abstract}
-    本文檔系 \cls{litetable} 文檔类嘅用戶手冊放. 應該文檔類提供咗個多彩嘅課程表設計. 歡迎通過郵件 \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com} 或者 \href{https://github.com/xiamyphys/litetable/issues}{GitHub} 建議或者反饋bug. 本手冊提供英語、中文和\textbf{粵語}版本.
+    本文檔系 \cls{litetable} 文檔類嘅用户手冊放. 應該文檔類提供咗個多彩嘅課程表設計. 歡迎通過郵件 \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com} 或者 \href{https://github.com/xiamyphys/litetable/issues}{GitHub} 建議或者反饋bug. 本手冊提供英語、中文和\textbf{粵語}版本.
 \end{abstract}
 
 \section{介紹}
 
 \subsection{所使宏包}
 
-應該文檔類基於 \cls{article} 文檔类. 要 \pkg{expl3}，\pkg{xparse}，\pkg{tikz}，\pkg{listofitems} 同 \pkg{xcolor} 宏包. 
+應該文檔類基於 \cls{article} 文檔類. 要 \pkg{expl3}，\pkg{xparse}，\pkg{tikz}，\pkg{listofitems} 同 \pkg{xcolor} 宏包. 
 
 \subsection{相容性}
 
@@ -74,7 +74,7 @@
     \cs{timelist}\oarg{rows}\marg{time list}
 \end{example}
 
-此命令有兩個參數，第一個可選參數可直接決定課程表嘅行數，第二個強制参数可喺課程表嘅左側添加時間表. 輸入表格式如下：開始時間同結束時間之間用短線 (-) 分隔，並用逗號 (,) 系咪喺時間組之間分隔. 例如
+此命令有兩個參數，第一個可選參數可直接決定課程表嘅行數，第二個強制參數可喺課程表嘅左側添加時間表. 輸入表格式如下：開始時間同結束時間之間用短線 (-) 分隔，並用逗號 (,) 系咪喺時間組之間分隔. 例如
 
 \begin{Verbatim}
     \timelist[13]{%
@@ -84,7 +84,7 @@
     }
 \end{Verbatim}
 
-对于两个参数唔同使用情况，\cls{litetable} 会以如下规则建置对应行数嘅课程表框架.
+對於兩個參數唔同使用情況，\cls{litetable} 會以如下規則建置對應行數嘅課程表框架.
 
 \begin{table}[htbp]
     \centering
@@ -106,8 +106,8 @@
 \end{table}
 
 \begin{itemize}
-    \item 若强制参数 \marg{\#2} 接受咗$X$组时间，可选参数 \oarg{\#1} 接受嘅值为$X+a$，就课程表嘅左侧得$1 \sim X$行会显示时间，后面几行唔显示时间.
-    \item 若强制参数 \marg{\#2} 接受咗$X+a$组时间，可选参数 \oarg{\#1} 接收嘅值为$X$， 就课程表嘅左侧得$X$行嘅課程表，多餘嘅時間組將畀忽略，並返回一個警告.
+    \item 若強制參數 \marg{\#2} 接受咗$X$組時間，可選參數 \oarg{\#1} 接受嘅值為$X+a$，就課程表嘅左側得$1 \sim X$行會顯示時間，後面幾行唔顯示時間.
+    \item 若強制參數 \marg{\#2} 接受咗$X+a$組時間，可選參數 \oarg{\#1} 接收嘅值為$X$， 就課程表嘅左側得$X$行嘅課程表，多餘嘅時間組將畀忽略，並返回一個警告.
 \end{itemize}
 
 \subsubsection{命令：\cs{weeklist}}
@@ -116,7 +116,7 @@
     \cs{weeklist}\oarg{default weeks}\marg{week list}
 \end{example}
 
-此命令有两个参数. 第一个可选参数可决定预设嘅星期数并会喺每课程塊嘅嘅右下角显示，第二个强制参数可喺课程表嘅顶部添加对应宽度比例嘅工作日. 输入表嘅第一行为工作日格式，第二行为对应嘅宽度比例，两得之间用分号 (;) 分隔. 例如
+此命令有兩個參數. 第一個可選參數可決定預設嘅星期數並會喺每課程塊嘅嘅右下角顯示，第二個強制參數可喺課程表嘅頂部添加對應寬度比例嘅工作日. 輸入表嘅第一行為工作日格式，第二行為對應嘅寬度比例，兩得之間用分號 (;) 分隔. 例如
 
 \begin{Verbatim}
     \weeklist[Weeks 1 - 16]{%
