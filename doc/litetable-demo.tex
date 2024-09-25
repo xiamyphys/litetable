@@ -3,6 +3,9 @@
 \usepackage{twemojis,newtxtext}
 \usepackage[scaled = .9]{helvet}
 \renewcommand*\familydefault{\sfdefault}
+
+\begin{document}
+
 \timelist [ 13 ]
 {
     08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45,
@@ -19,13 +22,11 @@
     \texttwemoji{1fa99}\scshape~Fri -> 1
 }
 
-\begin{document}
-
 \begin{tikzpicture}[remember picture, overlay]
     \maketable [SEM 6] {Skyrmion's Timetable}
     \newday
     \course [ subject = {xia-my@ctan}] {4} {4}
-    \course [ color = DarkBlue, subject = interface3,
+    \course [ color = DarkBlue, subject = interface3\\expl3,
               teacher = The {\LaTeX} Project
             ] {7} {9}
     \newday
@@ -42,8 +43,8 @@
             ] {10} {12}
     \newday
     \course [ color = Crimson,
-              subject = Ti\textit{k\/}Z\\library: calc,
-              teacher = The PGF/Ti\textit{k\/}Z Team
+              subject = Ti\textit kZ,
+              teacher = The PGF/Ti\textit kZ Team
             ] {3} {5}
     \newday
     \course [ color = DarkViolet, subject = xcolor,
@@ -57,8 +58,8 @@
 
 \clearpage
 
-\timelist[12]{}
-\weeklist[Weeks 1 - 16]
+\timelist [ 12 ]{ }
+\weeklist [ Weeks 1 - 16 ]
 {
     Mon -> 1, Tue -> 1, Wed -> 1, Thu -> 1, Fri -> 1
 }
