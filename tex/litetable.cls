@@ -108,7 +108,7 @@
 }
 
 \int_new:N \l__week_day_int
-\newcommand{\newday}{\int_add:Nn \l__week_day_int {1}}
+\newcommand{\newday}{\int_incr:N \l__week_day_int}
 \NewDocumentCommand{\maketable}{om}{
     % Gray Block at top
     \fill [ darkergray ] (current~page.north~west)
