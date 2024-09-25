@@ -1,50 +1,70 @@
-\documentclass[letterpaper]{litetable}
+\documentclass[letterpaper, svgnames]{litetable}
 
 \usepackage{twemojis,newtxtext}
 \usepackage[scaled = .9]{helvet}
 \renewcommand*\familydefault{\sfdefault}
-
-\timelist[13]{%
-    08:05 - 08:50, 08:55 - 09:40, 10:00 - 10:45, 10:50 - 11:35, 11:40 - 12:25,% morning
-    13:30 - 14:15, 14:20 - 15:05, 15:15 - 16:00, 16:05 - 16:50,% afternoon
-    18:30 - 19:15, 19:20 - 20:05, 20:10 - 20:55,% evening
+\timelist [ 13 ]
+{
+    08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45,
+    10:50 -> 11:35, 11:40 -> 12:25, 13:30 -> 14:15,
+    14:20 -> 15:05, 15:15 -> 16:00, 16:05 -> 16:50,
+    18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
 }
-\weeklist[Weeks 1 - 16]{%
-    \scshape\texttwemoji{1f312}~Mon,    \scshape\texttwemoji{1f525}~Tue,
-    \scshape\texttwemoji{1f30a}~Wed,    \scshape\texttwemoji{1f332}~Thu,
-    \scshape\texttwemoji{1fa99}~Fri;    1,1,1,1,1
+\weeklist [ Weeks 1 - 16 ]
+{
+    \texttwemoji{1f312}\scshape~Mon -> 1,
+    \texttwemoji{1f525}\scshape~Tue -> 1,
+    \texttwemoji{1f30a}\scshape~Wed -> 1,
+    \texttwemoji{1f332}\scshape~Thu -> 1,
+    \texttwemoji{1fa99}\scshape~Fri -> 1
 }
 
 \begin{document}
 
 \begin{tikzpicture}[remember picture, overlay]
-    \maketable{Skyrmion's Timetable}[SEM 7]
+    \maketable [SEM 6] {Skyrmion's Timetable}
     \newday
-    \course [subject = {xia-my@ctan}] {4} {4}
-    \course [color = DarkBlue, subject = interface3, teacher = The {\LaTeX} Project] {7} {9}
+    \course [ subject = {xia-my@ctan}] {4} {4}
+    \course [ color = DarkBlue, subject = interface3,
+              teacher = The {\LaTeX} Project
+            ] {7} {9}
     \newday
-    \course [color = FireBrick, subject = usrguide, teacher = {\LaTeX} Project Team, weeks = Weeks 7 - 14] {1} {2}
+    \course [ color = FireBrick, subject = usrguide,
+              teacher = {\LaTeX} Project Team,
+              weeks = Weeks 7 - 14
+            ] {1} {2}
     \newday
-    \course [subject = Keep on {\TeX}ing] {7} {8}
-    \course [color = DarkGreen, subject = listofitems, location = French, teacher = Christian Tellechea] {10} {12}
+    \course [ color = DarkSlateGray,
+              subject = Keep on {\TeX}ing
+            ] {7} {8}
+    \course [ color = DarkGreen, subject = listofitems,
+              location = French, teacher = Christian Tellechea
+            ] {10} {12}
     \newday
-    \course [color = Crimson, subject = Ti\textit{k\/}Z\\library: calc, teacher = The PGF/Ti\textit{k\/}Z Team] {3} {5}
+    \course [ color = Crimson,
+              subject = Ti\textit{k\/}Z\\library: calc,
+              teacher = The PGF/Ti\textit{k\/}Z Team
+            ] {3} {5}
     \newday
-    \course [color = DarkViolet, subject = xcolor, weeks = Week 1 - 16, location = Germany, teacher = Dr. Uwe Kern] {8} {8}
-    \more {School Starts: 06 / 09 / 2024\quad Summer Vacation: 26 / 01 / 2025}
+    \course [ color = DarkViolet, subject = xcolor,
+              weeks = Week 1 - 16, location = Germany,
+              teacher = Dr. Uwe Kern
+            ] {8} {8}
+    \more {School Starts: 06 / 09 / 2024\quad
+           Summer Vacation: 26 / 01 / 2025
+          }
 \end{tikzpicture}
 
 \clearpage
 
 \timelist[12]{}
-\weeklist{%
-    \scshape\texttwemoji{1f312}~Mon,    \scshape\texttwemoji{1f525}~Tue,
-    \scshape\texttwemoji{1f30a}~Wed,    \scshape\texttwemoji{1f332}~Thu,
-    \scshape\texttwemoji{1fa99}~Fri;    1,1,1,1,1
+\weeklist[Weeks 1 - 16]
+{
+    Mon -> 1, Tue -> 1, Wed -> 1, Thu -> 1, Fri -> 1
 }
 
 \begin{tikzpicture}[remember picture, overlay]
-    \maketable{Skyrmion's Timetable}[SEM 8]
+    \maketable [SEM 7] {Skyrmion's Timetable}
 \end{tikzpicture}
 
 \end{document}

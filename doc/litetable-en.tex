@@ -58,7 +58,7 @@ The following commands need the \cmd{tikzpicture} environment with \cmd{remember
     \cs{maketable}\oarg{semester}\marg{title}
 \end{example}
 
-This command has two arguments that can create an empty timetable frame. The first optional argument can add the semester block at the northeast corner of the page, the second mandatory argument can assign the title.
+This command has two arguments that can create an empty timetable frame. The first optional argument can add the semester block at the northeast corner of the page, and the second mandatory argument can assign the title.
 
 \subsubsection{The \cs{more} command}
 
@@ -74,13 +74,14 @@ This command can add a comment at the southwest corner of the page.
     \cs{timelist}\oarg{rows}\marg{time list}
 \end{example}
 
-This command has two arguments, the first optional argument \oarg{\#1} can directly assign the number of rows on the timetable, and the second mandatory argument \marg{\#2} can add time to the left side of the timetable. Format for inputting array is the following: separate the start time and the end time with a dash (-) and separate the time groups with a comma (,). For example
+This command has two arguments, the first optional argument \oarg{\#1} can directly assign the number of rows on the timetable, and the second mandatory argument \marg{\#2} can add time to the left side of the timetable. The following example is the format for inputting array
 
 \begin{Verbatim}
-    \timelist[13]{%
-        08:05 - 08:50, 08:55 - 09:40, 10:00 - 10:45, 10:50 - 11:35,
-        11:40 - 12:25, 13:30 - 14:15, 14:20 - 15:05, 15:15 - 16:00,
-        16:05 - 16:50, 18:30 - 19:15, 19:20 - 20:05, 20:10 - 20:55,
+    \timelist[13]{
+        08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45,
+        10:50 -> 11:35, 11:40 -> 12:25, 13:30 -> 14:15,
+        14:20 -> 15:05, 15:15 -> 16:00, 16:05 -> 16:50,
+        18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
     }
 \end{Verbatim}
 
@@ -107,7 +108,7 @@ For different usage scenarios of the two arguments, \cls{litetable} will generat
 
 \begin{itemize}
     \item If the mandatory argument \marg{\#2} receives $X$ sets of time, and the optional argument \oarg{\#1} receives a value of $X+a$, then only lines $1\sim X$ on the left side of the timetable display the time, while the other lines do not display the time.
-    \item If the mandatory argument \marg{\#2} receives $X+a$ sets of time, and the optional \oarg{\#1} receives a value of $X$, then there will generate a timetable with only $X$ rows with extra time sets ignored, and it will return a warning.
+    \item If the mandatory argument \marg{\#2} receives $X+a$ sets of time, and the optional \oarg{\#1} receives a value of $X$, then the extra time sets ignored, and it will return a warning.
 \end{itemize}
 
 \subsubsection{The \cs{weeklist} command}
@@ -116,13 +117,10 @@ For different usage scenarios of the two arguments, \cls{litetable} will generat
     \cs{weeklist}\oarg{default weeks}\marg{week list}
 \end{example}
 
-This command has two arguments. The first optional argument can determine the default number of weeks and print at every course block's southeast corner. The second mandatory argument can add workdays with corresponding width ratios at the top of the timetable. The first line of the input array is the formats of the working days, and the second line is the corresponding width ratio. Two lines are separated by a semicolon (;). For example
+This command has two arguments. The first optional argument can determine the default number of weeks and print at every course block's southeast corner. The second mandatory argument can add workdays with corresponding width ratios at the top of the timetable. The following example is the format for inputting array
 
 \begin{Verbatim}
-    \weeklist[Weeks 1 - 16]{%
-        \scshape Mon,    \scshape Tue,     \scshape Wed,
-        \scshape Thu,    \scshape Fri;     4,5,4,6,5
-    }
+    \weeklist[Weeks 1 - 16]{Mon -> 4, Tue -> 5, Wed -> 4, Thu -> 6, Fri -> 5}
 \end{Verbatim}
 
 \begin{figure}[!ht]
