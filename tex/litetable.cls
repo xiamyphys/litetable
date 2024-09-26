@@ -28,31 +28,41 @@
 \RequirePackage{tikz}
 \definecolor{darkergray}{HTML}{F4F6F8}
 
-% For texlive 2022 and later
+% For texlive 2021 and later
 \cs_if_exist:NF \clist_put_right:Ne 
 { \cs_generate_variant:Nn \clist_put_right:Nn { Ne } }
 \cs_if_exist:NF \clist_set:Ne 
 { \cs_generate_variant:Nn \clist_set:Nn { Ne } }
 \cs_if_exist:NT \clist_count:e 
 { \cs_generate_variant:Nn \clist_count:n { e } }
+\cs_if_exist:NF \exp_args:NNNe 
+{
+  \cs_new:Npn \exp_args:NNNe #1#2#3#4
+  {
+    \exp_after:wN #1
+    \exp_after:wN #2
+    \exp_after:wN #3
+    \tex_expanded:D { {#4} }
+  }
+}
 
 % For left -> right data type
-\cs_new_protected_nopar:Npn \__litetable_get_left:nnN #1#2
+\cs_new_protected_nopar:Npn \__litetable_get_left:nN #1#2
 {
   \group_begin:
   \seq_set_split:Nnn \l__litetable_tmpa_seq { -> } { #1 }
   \exp_args:NNNe \group_end: \tl_set:Nn #2
   { \seq_item:Nn \l__litetable_tmpa_seq { 1 } }
 }
-\cs_new_protected_nopar:Npn \__litetable_get_right:nnN #1#2
+\cs_new_protected_nopar:Npn \__litetable_get_right:nN #1#2
 {
   \group_begin:
   \seq_set_split:Nnn \l__litetable_tmpa_seq { -> } { #1 }
   \exp_args:NNNe \group_end: \tl_set:Nn #2 
   { \seq_item:Nn \l__litetable_tmpa_seq { 2 } }
 }
-\cs_generate_variant:Nn \__litetable_get_left:nnN { e }
-\cs_generate_variant:Nn \__litetable_get_right:nnN { e }
+\cs_generate_variant:Nn \__litetable_get_left:nN { e }
+\cs_generate_variant:Nn \__litetable_get_right:nN { e }
 
 \int_new:N \l__time_num_int
 \dim_new:N \l__time_vunit_dim
@@ -105,10 +115,10 @@
     \clist_count:N \l__litetable_weeklist_clist
   }
   {
-    \__litetable_get_right:enN
+    \__litetable_get_right:eN
     {
       \clist_item:Nn \l__litetable_weeklist_clist {##1}
-    } {\l__litetable_tmpb_tl}
+    } \l__litetable_tmpb_tl
     \clist_put_right:Ne \l__week_ratio_clist
     {
       \l__litetable_tmpb_tl
@@ -203,14 +213,14 @@
       \clist_count:N \l__litetable_timelist_clist
     }
     {
-      \__litetable_get_left:enN
+      \__litetable_get_left:eN
       {
         \clist_item:Nn \l__litetable_timelist_clist {##1}
-      } {\l__litetable_tmpa_tl}
-      \__litetable_get_right:enN
+      } \l__litetable_tmpa_tl
+      \__litetable_get_right:eN
       {
         \clist_item:Nn \l__litetable_timelist_clist {##1}
-      } {\l__litetable_tmpb_tl}
+      } \l__litetable_tmpb_tl
       \node [ shift = {(\paperwidth/30,\fp_eval:n {
               -1.9-2*##1}\l__time_vunit_dim)
               }, gray, font = \ttfamily ,align = center
@@ -224,10 +234,10 @@
     \clist_count:N \l__litetable_weeklist_clist
   }
   {
-    \__litetable_get_left:enN
+    \__litetable_get_left:eN
     {
       \clist_item:Nn \l__litetable_weeklist_clist {##1}
-    } {\l__litetable_tmpa_tl}
+    } \l__litetable_tmpa_tl
     \node [ font = \large\bfseries,
             shift = {({\fp_eval:n {
             (\clist_item:Nn \l__week_accum_clist {##1}
