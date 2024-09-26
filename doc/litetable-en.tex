@@ -1,7 +1,7 @@
 \documentclass[letterpaper]{l3doc}
 
 \usepackage[mono = false]{libertine}
-\usepackage{geometry,pdfpages,tikz,tabularx,xfrac,hologo,authblk}
+\usepackage{geometry,pdfpages,tikz,xfrac,hologo,authblk}
 \hologoFontSetup{general = \sffamily}
 \newenvironment{example}{\begin{list}{}{\leftmargin=3em}\item }{\end{list}}
 \fvset{xleftmargin = \parindent}
@@ -20,7 +20,7 @@
 
 \affil{\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}}
 
-\date{Version 3.0C, \today}
+\date{Version 3.1A, \today}
 
 \begin{document}
 
@@ -34,7 +34,7 @@
 
 \subsection{Packages required}
 
-This class is based on the \cls{article} class. It requires \pkg{expl3}, \pkg{xparse}, \pkg{tikz}, \pkg{listofitems}, and \pkg{xcolor} packages. 
+This class is based on the \cls{article} class. It is conducted on \hologo{LaTeX3} and requires \pkg{tikz} package.
 
 \subsection{Compatibility}
 
@@ -55,10 +55,11 @@ The following commands need the \cmd{tikzpicture} environment with \cmd{remember
 \subsubsection{The \cs{maketable} command}
 
 \begin{example}
-    \cs{maketable}\oarg{semester}\marg{title}
+    \cs{maketable}\oarg{semester}\marg{title}\qquad
+    \cs{maketable}\marg{title}\oarg{semester}
 \end{example}
 
-This command has two arguments that can create an empty timetable frame. The first optional argument can add the semester block at the northeast corner of the page, and the second mandatory argument can assign the title.
+This command has two arguments that can create an empty timetable frame. The optional argument can add the semester block at the northeast corner of the page, and the mandatory argument can assign the title.
 
 \subsubsection{The \cs{more} command}
 
@@ -71,50 +72,34 @@ This command can add a comment at the southwest corner of the page.
 \subsubsection{The \cs{timelist} command}
 
 \begin{example}
-    \cs{timelist}\oarg{rows}\marg{time list}
+    \cs{timelist}\oarg{rows}\marg{time list}\qquad
+    \cs{timelist}\marg{time list}\oarg{rows}
 \end{example}
 
-This command has two arguments, the first optional argument \oarg{\#1} can directly assign the number of rows on the timetable, and the second mandatory argument \marg{\#2} can add time to the left side of the timetable. The following example is the format for inputting array
+This command has two arguments, the optional argument can directly assign the number of rows on the timetable, and the mandatory argument can add time to the left side of the timetable. The following example is the format for inputting array
 
 \begin{Verbatim}
-    \timelist[13]{
-        08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45,
-        10:50 -> 11:35, 11:40 -> 12:25, 13:30 -> 14:15,
-        14:20 -> 15:05, 15:15 -> 16:00, 16:05 -> 16:50,
-        18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
+    \timelist[13]
+    {
+      08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45, 10:50 -> 11:35,
+      11:40 -> 12:25, 13:30 -> 14:15, 14:20 -> 15:05, 15:15 -> 16:00,
+      16:05 -> 16:50, 18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
     }
 \end{Verbatim}
 
 For different usage scenarios of the two arguments, \cls{litetable} will generate a corresponding row-based timetable frame according to the following rules.
 
-\begin{table}[htbp]
-    \centering
-    \begin{tabularx}{\linewidth}{c X X}
-      \toprule
-        $\displaystyle\sfrac{\oarg{\#1}}{\marg{\#2}}$ &
-        \multicolumn{1}{c}{To use} &
-        \multicolumn{1}{c}{Not to use}\\
-      \midrule
-        To use &
-        The effect is the same as described in \marg{\#2}, but the number of rows in the timetable is determined by \oarg{\#1} &
-        The effect is the same as described in \oarg{\#1}\\
-      \midrule
-        Not to use &
-        The effect is the same as described in \marg{\#2} &
-        ERROR!\\
-      \bottomrule
-    \end{tabularx}
-\end{table}
-
 \begin{itemize}
-    \item If the mandatory argument \marg{\#2} receives $X$ sets of time, and the optional argument \oarg{\#1} receives a value of $X+a$, then only lines $1\sim X$ on the left side of the timetable display the time, while the other lines do not display the time.
-    \item If the mandatory argument \marg{\#2} receives $X+a$ sets of time, and the optional \oarg{\#1} receives a value of $X$, then the extra time sets ignored, and it will return a warning.
+    \item If the mandatory argument receives $X$ sets of time, and the optional argument receives a value of $X+a$, then only lines $1\sim X$ on the left side of the timetable display the time, while the other lines do not display the time.
+    \item If the mandatory argument receives $X+a$ sets of time, and the optional receives a value of $X$, then the extra time sets ignored, and it will return a warning.
+    \item If you just want to add a series of numbers to the left side of the timetable without time, just left the mandatory argument empty.
 \end{itemize}
 
 \subsubsection{The \cs{weeklist} command}
 
 \begin{example}
-    \cs{weeklist}\oarg{default weeks}\marg{week list}
+    \cs{weeklist}\oarg{default weeks}\marg{week list}\qquad
+    \cs{weeklist}\marg{week list}\oarg{default weeks}
 \end{example}
 
 This command has two arguments. The first optional argument can determine the default number of weeks and print at every course block's southeast corner. The second mandatory argument can add workdays with corresponding width ratios at the top of the timetable. The following example is the format for inputting array
@@ -149,21 +134,21 @@ Now, the default value of the key \keys{weeks} is set to \cmd{Weeks 1 - 16}. If 
 Using the \cs{course} command to add course blocks on the current workday. This command has two arguments.
 
 \begin{example}
-    \cs{course}\oarg{keyvals}\marg{class start number}\oarg{class end number}
+    \cs{course}\oarg{keyvals}\marg{class start number}\marg{class end number}
 \end{example}
 
 The first optional argument accepts the following keys: \keys{color} \keys{subject} \keys{location} \keys{teacher} \keys{weeks}. The default value of the key \keys{color} is \cmd{DarkSlateGray}, and the default value of the key \keys{weeks} is determined by the first argument of the command \cs{weeklist}. The second and third mandatory arguments are the start and end numbers of the course, respectively. The following is a use case of the command \cs{course}
 
 \begin{Verbatim}
-    \course [ color = DarkGreen, subject = listofitems, 
-              location = French, teacher = Christian Tellechea
-            ] {10} {12}
+    \course [ color = DarkSlateGray, subject = litetable,
+              location = Hong Kong, teacher = M.Y. Xia
+            ] {8} {8}
 \end{Verbatim}
 
 \begin{center}
     \noindent\fbox{
         \parbox{.94\linewidth}{\footnotesize
-            Set the color of this course block to \cmd{DarkGreen}, the course name to \cmd{listofitems}, the class location to \cmd {French}, and the teacher to \cmd{Christian Tellechea}, starting from the \cmd{10}th class of the day and ending from the \cmd{12}th class of the same day.
+            Set the color of this course block to \cmd{DarkSlateGray}, the course name to \cmd{litetable}, the class location to \cmd {Hong Kong}, and the teacher to \cmd{M.Y. Xia}, starting from the \cmd{8}th class of the day and ending from the \cmd{8}th class of the same day.
         }
     }
 \end{center}

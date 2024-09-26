@@ -15,45 +15,42 @@
 }
 \weeklist [ Weeks 1 - 16 ]
 {
-    \texttwemoji{1f312}\scshape~Mon -> 1,
-    \texttwemoji{1f525}\scshape~Tue -> 1,
-    \texttwemoji{1f30a}\scshape~Wed -> 1,
-    \texttwemoji{1f332}\scshape~Thu -> 1,
-    \texttwemoji{1fa99}\scshape~Fri -> 1
+    \scshape\texttwemoji{1f312} Mon -> 1,
+    \scshape\texttwemoji{1f525} Tue -> 1,
+    \scshape\texttwemoji{1f30a} Wed -> 1,
+    \scshape\texttwemoji{1f332} Thu -> 1,
+    \scshape\texttwemoji{1fa99} Fri -> 1
 }
 
 \begin{tikzpicture}[remember picture, overlay]
     \maketable [SEM 6] {Skyrmion's Timetable}
     \newday
-    \course [ subject = {xia-my@ctan}] {4} {4}
-    \course [ color = DarkBlue, subject = interface3\\expl3,
+    \course [ color = DarkBlue, subject = interface3,
               teacher = The {\LaTeX} Project
-            ] {7} {9}
+            ] {5} {5}
     \newday
+    \course [ color = Purple, subject = expl3,
+              teacher = The {\LaTeX} Project
+            ] {8} {8}
     \course [ color = FireBrick, subject = usrguide,
               teacher = {\LaTeX} Project Team,
               weeks = Weeks 7 - 14
             ] {1} {2}
     \newday
-    \course [ color = DarkSlateGray,
-              subject = Keep on {\TeX}ing
-            ] {7} {8}
-    \course [ color = DarkGreen, subject = listofitems,
-              location = French, teacher = Christian Tellechea
-            ] {10} {12}
+    \course [ subject = Keep on {\TeX}ing
+            ] {10} {11}
     \newday
     \course [ color = Crimson,
               subject = Ti\textit kZ,
               teacher = The PGF/Ti\textit kZ Team
             ] {3} {5}
     \newday
-    \course [ color = DarkViolet, subject = xcolor,
-              weeks = Week 1 - 16, location = Germany,
-              teacher = Dr. Uwe Kern
+    \course [ color = DarkSlateGray, subject = litetable,
+              location = Hong Kong, teacher = M.Y. Xia
             ] {8} {8}
-    \more {School Starts: 06 / 09 / 2024\quad
-           Summer Vacation: 26 / 01 / 2025
-          }
+    \more   { School Starts: 06 / 09 / 2024\quad
+              Summer Vacation: 26 / 01 / 2025
+            }
 \end{tikzpicture}
 
 \clearpage
@@ -66,6 +63,7 @@
 
 \begin{tikzpicture}[remember picture, overlay]
     \maketable [SEM 7] {Skyrmion's Timetable}
+    % 
 \end{tikzpicture}
 
 \end{document}

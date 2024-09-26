@@ -1,7 +1,7 @@
 \documentclass[letterpaper]{l3doc}
 
 \usepackage[mono = false]{libertine}
-\usepackage{geometry,pdfpages,tikz,tabularx,xfrac,hologo,authblk}
+\usepackage{geometry,pdfpages,tikz,xfrac,hologo,authblk}
 \hologoFontSetup{general = \sffamily}
 \newenvironment{example}{\begin{list}{}{\leftmargin=3em}\item }{\end{list}}
 \fvset{xleftmargin = \parindent}
@@ -20,7 +20,7 @@
 
 \affil{\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}}
 
-\date{Version 3.0C, \today}
+\date{Version 3.1A, \today}
 
 \begin{document}
 
@@ -34,7 +34,7 @@
 
 \subsection{所使宏包}
 
-應該文檔類基於 \cls{article} 文檔類. 要 \pkg{expl3}，\pkg{xparse}，\pkg{tikz}，\pkg{listofitems} 同 \pkg{xcolor} 宏包. 
+應該文檔類基於 \cls{article} 文檔類. 佢由 \hologo{LaTeX3} 構建，仲需要 \pkg{xcolor} 宏包. 
 
 \subsection{相容性}
 
@@ -55,10 +55,11 @@
 \subsubsection{命令：\cs{maketable}}
 
 \begin{example}
+    \cs{maketable}\oarg{semester}\marg{title}\qquad
     \cs{maketable}\marg{title}\oarg{semester}
 \end{example}
 
-此命令有兩個參數，可建置一個空白嘅課程表框架. 第一個可選參數可喺頁面嘅嘅右度角添加學期，第二個強制參數可指定標題.
+此命令有兩個參數，可建置一個空白嘅課程表框架. 可選參數可喺頁面嘅嘅右度角添加學期，強制參數可指定標題.
 
 \subsubsection{命令：\cs{more}}
 
@@ -71,50 +72,34 @@
 \subsubsection{命令：\cs{timelist}}
 
 \begin{example}
-    \cs{timelist}\oarg{rows}\marg{time list}
+    \cs{timelist}\oarg{rows}\marg{time list}\qquad
+    \cs{timelist}\marg{time list}\oarg{rows}
 \end{example}
 
-此命令有兩個參數，第一個可選參數可直接決定課程表嘅行數，第二個強制參數可喺課程表嘅左側添加時間表. 輸入數組嘅用例如下
+此命令有兩個參數，可選參數可直接決定課程表嘅行數，強制參數可喺課程表嘅左側添加時間表. 輸入數組嘅用例如下
 
 \begin{Verbatim}
-    \timelist[13]{
-        08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45,
-        10:50 -> 11:35, 11:40 -> 12:25, 13:30 -> 14:15,
-        14:20 -> 15:05, 15:15 -> 16:00, 16:05 -> 16:50,
-        18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
+    \timelist[13]
+    {
+      08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45, 10:50 -> 11:35,
+      11:40 -> 12:25, 13:30 -> 14:15, 14:20 -> 15:05, 15:15 -> 16:00,
+      16:05 -> 16:50, 18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
     }
 \end{Verbatim}
 
 對於兩個參數唔同使用情況，\cls{litetable} 會以如下規則建置對應行數嘅課程表框架.
 
-\begin{table}[htbp]
-    \centering
-    \begin{tabularx}{.9\textwidth}{c X X}
-      \toprule
-        $\displaystyle\sfrac{\oarg{\#1}}{\marg{\#2}}$ &
-        \multicolumn{1}{c}{使用} &
-        \multicolumn{1}{c}{唔使用}\\
-      \midrule
-        使用 &
-        效果與 \marg{\#2} 所描述嘅相同，但課程表嘅行數由 \oarg{\#1} 決定 &
-        效果與 \oarg{\#1} 所描述嘅相同\\
-      \midrule
-        不使用 &
-        效果與 \marg{\#2} 所描述嘅相同&
-        ERROR!\\
-      \bottomrule
-    \end{tabularx}
-\end{table}
-
 \begin{itemize}
-    \item 若強制參數 \marg{\#2} 接受咗$X$組時間，可選參數 \oarg{\#1} 接受嘅值為$X+a$，就課程表嘅左側得$1 \sim X$行會顯示時間，後面幾行唔顯示時間.
-    \item 若強制參數 \marg{\#2} 接受咗$X+a$組時間，可選參數 \oarg{\#1} 接收嘅值為$X$， 就課程表嘅左側得$X$行嘅課程表，多餘嘅時間組將畀忽略，並返回一個警告.
+    \item 若強制參數接受咗$X$組時間，可選參數接受嘅值為$X+a$，就課程表嘅左側得$1 \sim X$行會顯示時間，後面幾行唔顯示時間.
+    \item 若強制參數接受咗$X+a$組時間，可選參數接收嘅值為$X$， 就課程表嘅左側得$X$行嘅課程表，多餘嘅時間組將畀忽略，並返回一個警告.
+    \item 如果只系想喺課程表左側添加一部序號，令強制變量為得閒即可.
 \end{itemize}
 
 \subsubsection{命令：\cs{weeklist}}
 
 \begin{example}
-    \cs{weeklist}\oarg{default weeks}\marg{week list}
+    \cs{weeklist}\oarg{default weeks}\marg{week list}\qquad
+    \cs{weeklist}\marg{week list}\oarg{default weeks}
 \end{example}
 
 此命令有兩個參數. 第一個可選參數可決定預設嘅星期數並會喺每課程塊嘅嘅右下角顯示，第二個強制參數可喺課程表嘅頂部添加對應寬度比例嘅工作日. 輸入數組嘅用例如下
@@ -149,21 +134,21 @@
 使用 \cs{course} 命令喺當前工作日添加課程塊. 此命令有兩個參數.
 
 \begin{example}
-    \cs{course}\oarg{keyvals}\marg{class start number}\oarg{class end number}
+    \cs{course}\oarg{keyvals}\marg{class start number}\marg{class end number}
 \end{example}
 
 第一個可選參數接受下列鍵：\keys{color} \keys{subject} \keys{location} \keys{teacher} \keys{weeks}. 鍵 \keys{color} 嘅默認值為 \cmd{DarkSlateGray}，鍵 \keys{weeks} 嘅默認值由命令 \cs{weeklist} 嘅第一個參數決定. 第二個同第三個強制參數勒分別為課程嘅開始同結束序號. \cs{course} 命令嘅用例如下
 
 \begin{Verbatim}
-    \course [ color = DarkGreen, subject = listofitems, 
-              location = French, teacher = Christian Tellechea
-            ] {10} {12}
+    \course [ color = DarkSlateGray, subject = litetable,
+              location = Hong Kong, teacher = M.Y. Xia
+            ] {8} {8}
 \end{Verbatim}
 
 \begin{center}
     \noindent\fbox{
         \parbox{.96\linewidth}{
-            將此課程塊嘅顏色設置為 \cmd{DarkGreen}，此課程名為 \cmd{listofitems}，上堂地方為 \cmd{French}，老師為 \cmd{Christian Tellechea}，喺當日嘅第 \cmd{10} 節課開始，第 \cmd{12} 節課結束.
+            將此課程塊嘅顏色設置為 \cmd{DarkSlateGray}，此課程名為 \cmd{litetable}，上堂地方為 \cmd{Hong Kong}，老師為 \cmd{M.Y. Xia}，喺當日嘅第 \cmd{8} 節課開始，第 \cmd{8} 節課結束.
         }
     }
 \end{center}
