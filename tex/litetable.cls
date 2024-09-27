@@ -17,7 +17,7 @@
 %%                               and README.md.              *
 %%   available at https://github.com/xiamyphys/litetable     *
 %% ***********************************************************
-\ProvidesExplClass{litetable}{2024/09/26}{3.1A}{Course Schedule}
+\ProvidesExplClass{litetable}{2024/09/28}{3.1A}{Course Schedule}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
@@ -25,7 +25,7 @@
 \LoadClass{article}
 
 \pagestyle{empty}
-\RequirePackage{tikz}
+\RequirePackage{tikz,geometry}
 \definecolor{darkergray}{HTML}{F4F6F8}
 
 % For texlive 2021 and later
@@ -139,10 +139,7 @@
     }
     \clist_put_right:Ne \l__week_accum_clist
     {
-      \int_eval:n
-      {
-        \clist_use:Nn \l__week_accumtmp_clist { + }
-      }
+      \int_eval:n { \clist_use:Nn \l__week_accumtmp_clist { + } }
     }
   }
   \int_set:Nn \l__week_num_int
@@ -322,7 +319,8 @@
     {
       !\tl_if_empty_p:N \l__course_location_tl &&
       !\tl_if_empty_p:N \l__course_teacher_tl
-    }{\tl_set:Nn \l_shortcourse_sep_tl { ,~ }}
+    }
+    {\tl_set:Nn \l_shortcourse_sep_tl { ,~ }}
     {\tl_set:Nn \l_shortcourse_sep_tl { }}
     \node [ shift = {(\fp_eval:n {
             \clist_item:Nn \l__week_accum_clist
