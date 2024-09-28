@@ -3,7 +3,7 @@
 \usepackage[mono = false]{libertine}
 \usepackage{geometry,pdfpages,tikz,xfrac,hologo,authblk}
 \hologoFontSetup{general = \sffamily}
-\newenvironment{example}{\begin{list}{}{\leftmargin=3em}\item }{\end{list}}
+\newenvironment{example}{\begin{list}{}{\leftmargin=\parindent}\item }{\end{list}}
 \fvset{xleftmargin = \parindent}
 % \usepackage[fontset = none]{ctex}
 \linespread{1.15}
@@ -11,12 +11,13 @@
 \setlength{\parindent}{2em}
 \usepackage[os = mac]{menukeys}
 
-\title{
-    The \cls{litetable} Class: Colorful Timetable
-    \thanks{\url{https://github.com/xiamyphys/litetable}}
+\title
+{
+  The \cls{litetable} Class: Colorful Timetable
+  \thanks{\url{https://github.com/xiamyphys/litetable}}
 }
 
-\author{Mingyu Xia, Hangzhou Dianzi University}
+\author{Mingyu Xia, The Chinese University of Hong Kong, Shenzhen}
 
 \affil{\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}}
 
@@ -27,7 +28,7 @@
 \maketitle
 
 \begin{abstract}
-    This is the manual for \cls{litetable} class, which provides a design of timetable with colorful course blocks. Welcome to feedback bugs or ideas via email \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com} or \href{https://github.com/xiamyphys/litetable/issues}{GitHub}. This manual is available in three versions: \textbf{English}, Chinese, and Cantonese.
+  This is the manual for \cls{litetable} class, which provides a design of timetable with colorful course blocks. Welcome to feedback bugs or ideas via email \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com} or \href{https://github.com/xiamyphys/litetable/issues}{GitHub}. This manual is available in three versions: \textbf{English}, Chinese, and Cantonese.
 \end{abstract}
 
 \section{Introduction}
@@ -47,7 +48,7 @@ The test platforms are macOS 15.1 / Overleaf / Ubuntu 22.04.2 with \hologo{TeX}L
 Just like loading any class, write
 
 \begin{Verbatim}
-    \documentclass{litetable}
+  \documentclass{litetable}
 \end{Verbatim}
 
 The following commands need the \cmd{tikzpicture} environment with \cmd{remember picture, overaly} option.
@@ -55,8 +56,8 @@ The following commands need the \cmd{tikzpicture} environment with \cmd{remember
 \subsubsection{The \cs{maketable} command}
 
 \begin{example}
-    \cs{maketable}\oarg{semester}\marg{title}\qquad
-    \cs{maketable}\marg{title}\oarg{semester}
+  \cs{maketable}\oarg{semester}\marg{title}\qquad
+  \cs{maketable}\marg{title}\oarg{semester}
 \end{example}
 
 This command has two arguments that can create an empty timetable frame. The optional argument can add the semester block at the northeast corner of the page, and the mandatory argument can assign the title.
@@ -64,7 +65,7 @@ This command has two arguments that can create an empty timetable frame. The opt
 \subsubsection{The \cs{more} command}
 
 \begin{example}
-    \cs{more}\marg{comment}
+  \cs{more}\marg{comment}
 \end{example}
 
 This command can add a comment at the southwest corner of the page.
@@ -72,59 +73,59 @@ This command can add a comment at the southwest corner of the page.
 \subsubsection{The \cs{timelist} command}
 
 \begin{example}
-    \cs{timelist}\oarg{rows}\marg{time list}\qquad
-    \cs{timelist}\marg{time list}\oarg{rows}
+  \cs{timelist}\oarg{rows}\marg{time list}\qquad
+  \cs{timelist}\marg{time list}\oarg{rows}
 \end{example}
 
 This command has two arguments, the optional argument can directly assign the number of rows on the timetable, and the mandatory argument can add time to the left side of the timetable. The following example is the format for inputting array
 
 \begin{Verbatim}
-    \timelist[13]
-    {
-      08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45, 10:50 -> 11:35,
-      11:40 -> 12:25, 13:30 -> 14:15, 14:20 -> 15:05, 15:15 -> 16:00,
-      16:05 -> 16:50, 18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
-    }
+  \timelist[13]
+  {
+    08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45, 10:50 -> 11:35,
+    11:40 -> 12:25, 13:30 -> 14:15, 14:20 -> 15:05, 15:15 -> 16:00,
+    16:05 -> 16:50, 18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
+  }
 \end{Verbatim}
 
 For different usage scenarios of the two arguments, \cls{litetable} will generate a corresponding row-based timetable frame according to the following rules.
 
 \begin{itemize}
-    \item If the mandatory argument receives $X$ sets of time, and the optional argument receives a value of $X+a$, then only lines $1\sim X$ on the left side of the timetable display the time, while the other lines do not display the time.
-    \item If the mandatory argument receives $X+a$ sets of time, and the optional receives a value of $X$, then the extra time sets ignored, and it will return a warning.
-    \item If you just want to add a series of numbers to the left side of the timetable without time, just left the mandatory argument empty.
+  \item If the mandatory argument receives $X$ sets of time, and the optional argument receives a value of $X+a$, then only lines $1\sim X$ on the left side of the timetable display the time, while the other lines do not display the time.
+  \item If the mandatory argument receives $X+a$ sets of time, and the optional receives a value of $X$, then the extra time sets ignored, and it will return a warning.
+  \item If you just want to add a series of numbers to the left side of the timetable without time, just left the mandatory argument empty.
 \end{itemize}
 
 \subsubsection{The \cs{weeklist} command}
 
 \begin{example}
-    \cs{weeklist}\oarg{default weeks}\marg{week list}\qquad
-    \cs{weeklist}\marg{week list}\oarg{default weeks}
+  \cs{weeklist}\oarg{default weeks}\marg{week list}\qquad
+  \cs{weeklist}\marg{week list}\oarg{default weeks}
 \end{example}
 
 This command has two arguments. The first optional argument can determine the default number of weeks and print at every course block's southeast corner. The second mandatory argument can add workdays with corresponding width ratios at the top of the timetable. The following example is the format for inputting array
 
 \begin{Verbatim}
-    \weeklist[Weeks 1 - 16]{Mon -> 4, Tue -> 5, Wed -> 4, Thu -> 6, Fri -> 5}
+  \weeklist[Weeks 1 - 16]{Mon -> 4, Tue -> 5, Wed -> 4, Thu -> 6, Fri -> 5}
 \end{Verbatim}
 
-\begin{figure}[!ht]
-    \centering
-    \begin{tikzpicture}[every node/.style={font=\small\sffamily\scshape}]
-        \draw [thick,->,>=stealth] (-5 in/15,0) -- (5 in,0);
-        \draw (-5 in/15,-.1) --++ (0,.2) node [above] {\verb|-1/15|};
-        \draw (0,-.1) --++ (0,.2) node [above] {\verb|0|};
-        \draw (4*5 in/24,-.1) --++ (0,.2) node [above] {\verb|4x|};
-        \draw (9*5 in/24,-.1) --++ (0,.2) node [above] {\verb|9x|};
-        \draw (13*5 in/24,-.1) --++ (0,.2) node [above] {\verb|13x|};
-        \draw (19*5 in/24,-.1) --++ (0,.2) node [above] {\verb|19x|};
-        \draw (5 in,-.1) --++ (0,.2) node [above] {\verb|24x|};
-        \node [above] at (2*5 in/24,0) {Mon};
-        \node [above] at (6.5*5 in/24,0) {Tue};
-        \node [above] at (11*5 in/24,0) {Wed};
-        \node [above] at (16*5 in/24,0) {Thu};
-        \node [above] at (21.5*5 in/24,0) {Fri};
-    \end{tikzpicture}
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small\sffamily\scshape}]
+    \draw [thick,->,>=stealth] (-.84\linewidth/15,0) -- (.84\linewidth,0);
+    \draw (-.84\linewidth/15,-.1) --++ (0,.2) node [above] {\verb|-1/15|};
+    \draw (0,-.1) --++ (0,.2) node [above] {\verb|0|};
+    \draw (4*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|4x|};
+    \draw (9*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|9x|};
+    \draw (13*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|13x|};
+    \draw (19*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|19x|};
+    \draw (.84\linewidth,-.1) --++ (0,.2) node [above] {\verb|24x|};
+    \node [above] at (2*.84\linewidth/24,0) {Mon};
+    \node [above] at (6.5*.84\linewidth/24,0) {Tue};
+    \node [above] at (11*.84\linewidth/24,0) {Wed};
+    \node [above] at (16*.84\linewidth/24,0) {Thu};
+    \node [above] at (21.5*.84\linewidth/24,0) {Fri};
+  \end{tikzpicture}
 \end{figure}
 
 Now, the default value of the key \keys{weeks} is set to \cmd{Weeks 1 - 16}. If the number of workdays is larger than the ratios you input, then the extra workdays will be ignored and it will return a warning.
@@ -134,29 +135,31 @@ Now, the default value of the key \keys{weeks} is set to \cmd{Weeks 1 - 16}. If 
 Using the \cs{course} command to add course blocks on the current workday. This command has two arguments.
 
 \begin{example}
-    \cs{course}\oarg{keyvals}\marg{class start number}\marg{class end number}
+  \cs{course}\oarg{keyvals}\marg{class start number}\marg{class end number}
 \end{example}
 
 The first optional argument accepts the following keys: \keys{color} \keys{subject} \keys{location} \keys{teacher} \keys{weeks}. The default value of the key \keys{color} is \cmd{DarkSlateGray}, and the default value of the key \keys{weeks} is determined by the first argument of the command \cs{weeklist}. The second and third mandatory arguments are the start and end numbers of the course, respectively. The following is a use case of the command \cs{course}
 
 \begin{Verbatim}
-    \course [ color = DarkSlateGray, subject = litetable,
-              location = Hong Kong, teacher = M.Y. Xia
-            ] {8} {8}
+  \course [ color = DarkSlateGray, subject = litetable,
+            location = Hong Kong, teacher = M.Y. Xia
+          ] {8} {8}
 \end{Verbatim}
 
 \begin{center}
-    \noindent\fbox{
-        \parbox{.94\linewidth}{\footnotesize
-            Set the color of this course block to \cmd{DarkSlateGray}, the course name to \cmd{litetable}, the class location to \cmd {Hong Kong}, and the teacher to \cmd{M.Y. Xia}, starting from the \cmd{8}th class of the day and ending from the \cmd{8}th class of the same day.
-        }
+  \noindent\fbox
+  {
+    \parbox{.94\linewidth}
+    {\footnotesize
+      Set the color of this course block to \cmd{DarkSlateGray}, the course name to \cmd{litetable}, the class location to \cmd {Hong Kong}, and the teacher to \cmd{M.Y. Xia}, starting from the \cmd{8}th class of the day and ending from the \cmd{8}th class of the same day.
     }
+}
 \end{center}
 
 \begin{itemize}
-    \item One can switch to the next workday via the command \cs{newday}.
-    \item If the course block's height is only one unit, that is $\marg{class start number} = \marg{class end number}$, the values of keys \keys{location} and \keys{teacher} will print on the same line with a comma (,) separated, and the value of the key \keys{weeks} will not be printed.
-    \item If neither the key \cmd{location} nor the key \cmd{teacher} is assigned value, then the value of the key \keys{subject} will print at the center of the course block.
+  \item One can switch to the next workday via the command \cs{newday}.
+  \item If the course block's height is only one unit, that is $\marg{class start number} = \marg{class end number}$, the values of keys \keys{location} and \keys{teacher} will print on the same line with a comma (,) separated, and the value of the key \keys{weeks} will not be printed.
+  \item If neither the key \cmd{location} nor the key \cmd{teacher} is assigned value, then the value of the key \keys{subject} will print at the center of the course block.
 \end{itemize}
 
 \includepdf[pages = 1]{litetable-demo.pdf}

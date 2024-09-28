@@ -3,7 +3,7 @@
 \usepackage[mono = false]{libertine}
 \usepackage{geometry,pdfpages,tikz,xfrac,hologo,authblk}
 \hologoFontSetup{general = \sffamily}
-\newenvironment{example}{\begin{list}{}{\leftmargin=3em}\item }{\end{list}}
+\newenvironment{example}{\begin{list}{}{\leftmargin=\parindent}\item }{\end{list}}
 \fvset{xleftmargin = \parindent}
 \usepackage[fontset = none]{ctex}
 \setCJKmainfont[AutoFakeBold = 4, AutoFakeSlant]{LXGW WenKai}
@@ -11,12 +11,13 @@
 \setCJKmonofont[AutoFakeBold = 4, AutoFakeSlant]{LXGW WenKai}
 \usepackage[os = mac]{menukeys}
 
-\title{
-    \cls{litetable} 文檔類：多彩嘅課程表
-    \thanks{\url{https://github.com/xiamyphys/litetable}}
+\title
+{
+  \cls{litetable} 文檔類：多彩嘅課程表
+  \thanks{\url{https://github.com/xiamyphys/litetable}}
 }
 
-\author{夏明宇，杭州電子科技大學}
+\author{夏明宇，香港中文大學（深圳）}
 
 \affil{\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}}
 
@@ -27,7 +28,7 @@
 \maketitle
 
 \begin{abstract}
-    本文檔系 \cls{litetable} 文檔類嘅用户手冊放. 應該文檔類提供咗個多彩嘅課程表設計. 歡迎通過郵件 \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com} 或者 \href{https://github.com/xiamyphys/litetable/issues}{GitHub} 建議或者反饋bug. 本手冊提供英語、中文和\textbf{粵語}版本.
+  本文檔系 \cls{litetable} 文檔類嘅用户手冊放. 應該文檔類提供咗個多彩嘅課程表設計. 歡迎通過郵件 \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com} 或者 \href{https://github.com/xiamyphys/litetable/issues}{GitHub} 建議或者反饋bug. 本手冊提供英語、中文和\textbf{粵語}版本.
 \end{abstract}
 
 \section{介紹}
@@ -47,7 +48,7 @@
 同載入其他文檔類一樣，只令寫下
 
 \begin{Verbatim}
-    \documentclass{litetable}
+  \documentclass{litetable}
 \end{Verbatim}
 
 跟住落嚟嘅命令需要帶有 \cmd{remember picture，overaly} 選項嘅 \cmd{tikzpicture} 環境.
@@ -55,8 +56,8 @@
 \subsubsection{命令：\cs{maketable}}
 
 \begin{example}
-    \cs{maketable}\oarg{semester}\marg{title}\qquad
-    \cs{maketable}\marg{title}\oarg{semester}
+  \cs{maketable}\oarg{semester}\marg{title}\qquad
+  \cs{maketable}\marg{title}\oarg{semester}
 \end{example}
 
 此命令有兩個參數，可建置一個空白嘅課程表框架. 可選參數可喺頁面嘅嘅右度角添加學期，強制參數可指定標題.
@@ -64,7 +65,7 @@
 \subsubsection{命令：\cs{more}}
 
 \begin{example}
-    \cs{more}\marg{comment}
+  \cs{more}\marg{comment}
 \end{example}
 
 此命令可喺頁面嘅嘅右下角添加備注.
@@ -72,59 +73,59 @@
 \subsubsection{命令：\cs{timelist}}
 
 \begin{example}
-    \cs{timelist}\oarg{rows}\marg{time list}\qquad
-    \cs{timelist}\marg{time list}\oarg{rows}
+  \cs{timelist}\oarg{rows}\marg{time list}\qquad
+  \cs{timelist}\marg{time list}\oarg{rows}
 \end{example}
 
 此命令有兩個參數，可選參數可直接決定課程表嘅行數，強制參數可喺課程表嘅左側添加時間表. 輸入數組嘅用例如下
 
 \begin{Verbatim}
-    \timelist[13]
-    {
-      08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45, 10:50 -> 11:35,
-      11:40 -> 12:25, 13:30 -> 14:15, 14:20 -> 15:05, 15:15 -> 16:00,
-      16:05 -> 16:50, 18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
-    }
+  \timelist[13]
+  {
+    08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45, 10:50 -> 11:35,
+    11:40 -> 12:25, 13:30 -> 14:15, 14:20 -> 15:05, 15:15 -> 16:00,
+    16:05 -> 16:50, 18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
+  }
 \end{Verbatim}
 
 對於兩個參數唔同使用情況，\cls{litetable} 會以如下規則建置對應行數嘅課程表框架.
 
 \begin{itemize}
-    \item 若強制參數接受咗$X$組時間，可選參數接受嘅值為$X+a$，就課程表嘅左側得$1 \sim X$行會顯示時間，後面幾行唔顯示時間.
-    \item 若強制參數接受咗$X+a$組時間，可選參數接收嘅值為$X$， 就課程表嘅左側得$X$行嘅課程表，多餘嘅時間組將畀忽略，並返回一個警告.
-    \item 如果只系想喺課程表左側添加一部序號，令強制變量為得閒即可.
+  \item 若強制參數接受咗$X$組時間，可選參數接受嘅值為$X+a$，就課程表嘅左側得$1 \sim X$行會顯示時間，後面幾行唔顯示時間.
+  \item 若強制參數接受咗$X+a$組時間，可選參數接收嘅值為$X$， 就課程表嘅左側得$X$行嘅課程表，多餘嘅時間組將畀忽略，並返回一個警告.
+  \item 如果只系想喺課程表左側添加一部序號，令強制變量為得閒即可.
 \end{itemize}
 
 \subsubsection{命令：\cs{weeklist}}
 
 \begin{example}
-    \cs{weeklist}\oarg{default weeks}\marg{week list}\qquad
-    \cs{weeklist}\marg{week list}\oarg{default weeks}
+  \cs{weeklist}\oarg{default weeks}\marg{week list}\qquad
+  \cs{weeklist}\marg{week list}\oarg{default weeks}
 \end{example}
 
 此命令有兩個參數. 第一個可選參數可決定預設嘅星期數並會喺每課程塊嘅嘅右下角顯示，第二個強制參數可喺課程表嘅頂部添加對應寬度比例嘅工作日. 輸入數組嘅用例如下
 
 \begin{Verbatim}
-    \weeklist[Weeks 1 - 16]{Mon -> 4, Tue -> 5, Wed -> 4, Thu -> 6, Fri -> 5}
+  \weeklist[Weeks 1 - 16]{Mon -> 4, Tue -> 5, Wed -> 4, Thu -> 6, Fri -> 5}
 \end{Verbatim}
 
-\begin{figure}[!ht]
-    \centering
-    \begin{tikzpicture}[every node/.style={font=\small\sffamily\scshape}]
-        \draw [thick,->,>=stealth] (-5 in/15,0) -- (5 in,0);
-        \draw (-5 in/15,-.1) --++ (0,.2) node [above] {\verb|-1/15|};
-        \draw (0,-.1) --++ (0,.2) node [above] {\verb|0|};
-        \draw (4*5 in/24,-.1) --++ (0,.2) node [above] {\verb|4x|};
-        \draw (9*5 in/24,-.1) --++ (0,.2) node [above] {\verb|9x|};
-        \draw (13*5 in/24,-.1) --++ (0,.2) node [above] {\verb|13x|};
-        \draw (19*5 in/24,-.1) --++ (0,.2) node [above] {\verb|19x|};
-        \draw (5 in,-.1) --++ (0,.2) node [above] {\verb|24x|};
-        \node [above] at (2*5 in/24,0) {Mon};
-        \node [above] at (6.5*5 in/24,0) {Tue};
-        \node [above] at (11*5 in/24,0) {Wed};
-        \node [above] at (16*5 in/24,0) {Thu};
-        \node [above] at (21.5*5 in/24,0) {Fri};
-    \end{tikzpicture}
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small\sffamily\scshape}]
+    \draw [thick,->,>=stealth] (-.84\linewidth/15,0) -- (.84\linewidth,0);
+    \draw (-.84\linewidth/15,-.1) --++ (0,.2) node [above] {\verb|-1/15|};
+    \draw (0,-.1) --++ (0,.2) node [above] {\verb|0|};
+    \draw (4*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|4x|};
+    \draw (9*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|9x|};
+    \draw (13*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|13x|};
+    \draw (19*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|19x|};
+    \draw (.84\linewidth,-.1) --++ (0,.2) node [above] {\verb|24x|};
+    \node [above] at (2*.84\linewidth/24,0) {Mon};
+    \node [above] at (6.5*.84\linewidth/24,0) {Tue};
+    \node [above] at (11*.84\linewidth/24,0) {Wed};
+    \node [above] at (16*.84\linewidth/24,0) {Thu};
+    \node [above] at (21.5*.84\linewidth/24,0) {Fri};
+  \end{tikzpicture}
 \end{figure}
 
 此時 \cs{course} 命令中鍵 \keys{weeks} 嘅默認值畀賦為 \cmd{Weeks 1 - 16}. 如果輸入工作日嘅數量過輸入嘅寬度比例數量多，就多餘工作日將畀忽略並返回一條警告.
@@ -134,29 +135,31 @@
 使用 \cs{course} 命令喺當前工作日添加課程塊. 此命令有兩個參數.
 
 \begin{example}
-    \cs{course}\oarg{keyvals}\marg{class start number}\marg{class end number}
+  \cs{course}\oarg{keyvals}\marg{class start number}\marg{class end number}
 \end{example}
 
 第一個可選參數接受下列鍵：\keys{color} \keys{subject} \keys{location} \keys{teacher} \keys{weeks}. 鍵 \keys{color} 嘅默認值為 \cmd{DarkSlateGray}，鍵 \keys{weeks} 嘅默認值由命令 \cs{weeklist} 嘅第一個參數決定. 第二個同第三個強制參數勒分別為課程嘅開始同結束序號. \cs{course} 命令嘅用例如下
 
 \begin{Verbatim}
-    \course [ color = DarkSlateGray, subject = litetable,
-              location = Hong Kong, teacher = M.Y. Xia
-            ] {8} {8}
+  \course [ color = DarkSlateGray, subject = litetable,
+            location = Hong Kong, teacher = M.Y. Xia
+          ] {8} {8}
 \end{Verbatim}
 
 \begin{center}
-    \noindent\fbox{
-        \parbox{.96\linewidth}{
-            將此課程塊嘅顏色設置為 \cmd{DarkSlateGray}，此課程名為 \cmd{litetable}，上堂地方為 \cmd{Hong Kong}，老師為 \cmd{M.Y. Xia}，喺當日嘅第 \cmd{8} 節課開始，第 \cmd{8} 節課結束.
-        }
+  \noindent\fbox
+  {
+    \parbox{.96\linewidth}
+    {
+      將此課程塊嘅顏色設置為 \cmd{DarkSlateGray}，此課程名為 \cmd{litetable}，上堂地方為 \cmd{Hong Kong}，老師為 \cmd{M.Y. Xia}，喺當日嘅第 \cmd{8} 節課開始，第 \cmd{8} 節課結束.
     }
+  }
 \end{center}
 
 \begin{itemize}
-    \item 可通過 \cs{newday} 命令切換到落個工作日.
-    \item 若課程塊嘅高度淨系得個單位，即$\marg{class start number} = \marg{class end number}$，就鍵 \keys{location} 同 \keys{teacher} 嘅值將輸出喺同一行並以逗號 (,) 隔，鍵 \cmd{weeks} 嘅值將唔會輸出.
-    \item 若鍵 \keys{location} 同 \keys{teacher} 均未賦值，就鍵 \keys{subject} 嘅值將輸出喺課程塊嘅中心.
+  \item 可通過 \cs{newday} 命令切換到落個工作日.
+  \item 若課程塊嘅高度淨系得個單位，即$\marg{class start number} = \marg{class end number}$，就鍵 \keys{location} 同 \keys{teacher} 嘅值將輸出喺同一行並以逗號 (,) 隔，鍵 \cmd{weeks} 嘅值將唔會輸出.
+  \item 若鍵 \keys{location} 同 \keys{teacher} 均未賦值，就鍵 \keys{subject} 嘅值將輸出喺課程塊嘅中心.
 \end{itemize}
 
 \includepdf[pages = 1]{litetable-demo.pdf}
