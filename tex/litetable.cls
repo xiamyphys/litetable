@@ -17,7 +17,7 @@
 %%                               and README.md.              *
 %%   available at https://github.com/xiamyphys/litetable     *
 %% ***********************************************************
-\ProvidesExplClass{litetable}{2024/09/28}{3.1A}{Course Schedule}
+\ProvidesExplClass{litetable}{2024/09/30}{3.1A}{Course Schedule}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
@@ -25,10 +25,10 @@
 \LoadClass{article}
 
 \pagestyle{empty}
-\RequirePackage{tikz,geometry}
+\RequirePackage{tikz}
 \definecolor{darkergray}{HTML}{F4F6F8}
 
-% For texlive 2021 and later
+% Module for texlive 2021 and later: by @ljguo
 \cs_if_exist:NF \clist_put_right:Ne 
 { \cs_generate_variant:Nn \clist_put_right:Nn { Ne } }
 \cs_if_exist:NF \clist_set:Ne 
@@ -46,7 +46,7 @@
   }
 }
 
-% For left -> right data type
+% Module for left -> right data structure: by @ljguo
 \cs_new_protected_nopar:Npn \__litetable_get_left:nN #1#2
 {
   \group_begin:
@@ -107,7 +107,7 @@
 \int_new:N \l__week_num_int
 \dim_new:N \l__week_hunit_dim
 \cs_new_protected_nopar:Npn \litetable_weeklist:nn #1#2
-{   
+{
   \tl_set:Nn \l__default_weeks_tl { #1 }
   \clist_set:Nn \l__litetable_weeklist_clist { #2 }
   \int_step_inline:nn 
@@ -157,8 +157,13 @@
 \NewDocumentCommand \weeklist { O{} m O{} } 
 { \litetable_weeklist:nn { #1#3 } { #2 } }
 
+\NewDocumentCommand \more { m }
+{ \tl_set:Nn \l__litetable_comment_tl { #1 } }
+
 \int_new:N \l__litetable_week_day_int
-\newcommand \newday {\int_incr:N \l__litetable_week_day_int}
+\int_set:Nn \l__litetable_week_day_int {1}
+\NewDocumentCommand \newday { O {1} }
+{ \int_add:Nn \l__litetable_week_day_int { #1 } }
 
 \cs_new_protected_nopar:Npn \litetable_maketable:nn #1#2
 {
@@ -244,6 +249,15 @@
           ] at (current~page.north~west)
     { \l__litetable_tmpa_tl };
   }
+  % Comment
+  \cs_if_exist:NT \l__litetable_comment_tl
+  {
+    \node [ yshift = .5*\l__time_vunit_dim, 
+          left = 1ex, darkgray, font = \small\bfseries
+        ] at (current~page.south~east)
+    { \l__litetable_comment_tl };
+  }
+  \tl_gclear:N \l__litetable_comment_tl
 }
 \NewDocumentCommand \maketable { O{} m O{} } 
 { \litetable_maketable:nn { #2 } { #1#3 } }
@@ -351,10 +365,7 @@
     }
     {
       \tl_set:Nn \l_course_anchor_tl { above }
-      \dim_set:Nn \l__course_infoshift_dim
-      {
-        .125\l__time_vunit_dim
-      }
+      \dim_set:Nn \l__course_infoshift_dim { \l__time_vunit_dim/8 }
     }
     \cs_if_exist:NT { \l__course_subject_tl }
     {
@@ -407,19 +418,20 @@
         )}] at (current~page.north~west) { \l__default_weeks_tl };
   }
 }
+\litetable_msg_new:nn { course }
+{ \exp_not:N \course~block(s)~exceed~workdays~were~ignored }
 \NewDocumentCommand \course { O{} m m }
 { 
   \group_begin:
-  \keys_set:nn { litetable / course } { #1 }
-  \__litetable_course_block_aux:nn { #2 } { #3 }
+  \int_compare:nNnTF {\l__litetable_week_day_int-1} <
+  {\clist_count:N \l__litetable_weeklist_clist}
+  {
+    \keys_set:nn { litetable / course } { #1 }
+    \__litetable_course_block_aux:nn { #2 } { #3 }
+  }{
+    \litetable_msg_warning:n { course }
+  }
   \group_end:
-}
-
-\newcommand \more [1]% Additional info
-{
-  \node [ yshift = .5*\l__time_vunit_dim, 
-          left = 1ex, darkgray, font = \small\bfseries
-        ] at (current~page.south~east) {#1};
 }
 
 \endinput

@@ -1,166 +1,149 @@
 \documentclass[letterpaper]{l3doc}
 
+\hypersetup{urlcolor = teal, filecolor = violet}
 \usepackage[mono = false]{libertine}
-\usepackage{geometry,pdfpages,tikz,xfrac,hologo,authblk}
+\usepackage{pdfpages,hologo,framed}
 \hologoFontSetup{general = \sffamily}
-\newenvironment{example}{\begin{list}{}{\leftmargin=\parindent}\item }{\end{list}}
-\fvset{xleftmargin = \parindent}
+\FrameSep = 0pt
 \usepackage[fontset = none]{ctex}
-\setCJKmainfont[AutoFakeBold = 4, AutoFakeSlant]{LXGW WenKai}
-\setCJKsansfont[AutoFakeBold = 4, AutoFakeSlant]{LXGW WenKai}
-\setCJKmonofont[AutoFakeBold = 4, AutoFakeSlant]{LXGW WenKai}
+\setCJKmainfont[BoldFont = *-Bold]{LXGW WenKai}
+\setCJKsansfont[BoldFont = *-Bold]{LXGW WenKai}
+\setCJKmonofont[BoldFont = *-Bold]{LXGW WenKai}
 \usepackage[os = mac]{menukeys}
+\AddToHook{env/function/before}{\vspace*{-.5\baselineskip}}
 
 \title
 {
-  \cls{litetable} 文檔類：多彩嘅課程表
-  \thanks{\url{https://github.com/xiamyphys/litetable}}
+  \bfseries\cls{litetable} 文檔類：多彩嘅課程表
+  \footnote{\url{https://github.com/xiamyphys/litetable}}
 }
-
-\author{夏明宇，香港中文大學（深圳）}
-
-\affil{\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}}
-
+\author
+{
+  夏明宇 \texttt{<\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}>}
+  \thanks{\href{https://github.com/ljguo1020}{郭李軍}開發咗讀取 \meta{left} -> \meta{right} 型資料結構糢塊同低版本 \hologo{TeX} Live 相容糢塊.}
+}
 \date{Version 3.1A, \today}
 
 \begin{document}
 
 \maketitle
 
-\begin{abstract}
-  本文檔系 \cls{litetable} 文檔類嘅用户手冊放. 應該文檔類提供咗個多彩嘅課程表設計. 歡迎通過郵件 \href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com} 或者 \href{https://github.com/xiamyphys/litetable/issues}{GitHub} 建議或者反饋bug. 本手冊提供英語、中文和\textbf{粵語}版本.
-\end{abstract}
-
 \section{介紹}
 
-\subsection{所使宏包}
+\cls{litetable} 文檔類提供咗個多彩嘅課程表設計，基於 \cls{article} 文檔類，由 \pkg{expl3} 和 \pkg{tikz} 構建. 相容發行版 \hologo{TeX} Live 2021 同更高版本，喺 \hologo{pdfLaTeX} 同 \hologo{XeLaTeX} 編譯器下均可正常運行. 本文檔系 \cls{litetable} 文檔類嘅用户手冊放，手冊放同時有\href{./litetable-en.pdf}{英文}同\href{./litetable-cn.pdf}{官話}版本\footnote{\href{https://qm.qq.com/q/RyssAhG4qy}{QQ Group: 760570712}}.
 
-應該文檔類基於 \cls{article} 文檔類. 佢由 \hologo{LaTeX3} 構建，仲需要 \pkg{xcolor} 宏包. 
-
-\subsection{相容性}
-
-所用嘅測試平台為 macOS 15.1 / Overleaf / Ubuntu 22.04.2，並使用 \hologo{TeX}Live 2021 -- 2024 發行版，喺 \hologo{pdfLaTeX} 同 \hologo{XeLaTeX} 編譯器下均可正常運行.
-
-\section{使用}
-
-\subsection{載入 \cls{litetable} 並建置課程表框架}
+\section{載入 \cls{litetable} 並建置課程表框架}
 
 同載入其他文檔類一樣，只令寫下
 
-\begin{Verbatim}
-  \documentclass{litetable}
-\end{Verbatim}
+\begin{framed}
+  \begin{verbatim}
+    \documentclass{litetable}
+  \end{verbatim}
+\end{framed}
 
-跟住落嚟嘅命令需要帶有 \cmd{remember picture，overaly} 選項嘅 \cmd{tikzpicture} 環境.
+如果用戶需要輸入中文，可自行載入 \pkg{ctex} 宏包並設置字型.
 
-\subsubsection{命令：\cs{maketable}}
+\begin{function}{\timelist,\weeklist}
+  \begin{syntax}
+    \cs{timelist}\oarg{rows}\marg{time list}             \cs{timelist}\marg{time list}\oarg{rows}
+    \cs{weeklist}\oarg{default weeks}\marg{week list}    \cs{weeklist}\marg{week list}\oarg{default weeks}
+  \end{syntax}
 
-\begin{example}
-  \cs{maketable}\oarg{semester}\marg{title}\qquad
-  \cs{maketable}\marg{title}\oarg{semester}
-\end{example}
+  以上命令均有兩個參數. 命令 \cs{timelist} 嘅可選參數可直接決定課程表嘅行數，命令 \cs{weeklist} 嘅可選參數可決定預設嘅星期數目並會喺每課程塊嘅嘅右下角顯示. 兩個命令嘅強制參數均接受數組，可分別就系課程表嘅左側添加時間表、喺課程表嘅頂部添加對應寬度比例工作日.
+  
+  若命令 \cs{timelist} 中時間數組數字大於可選參數接受值，就多餘嘅時間數組將畀忽略，並返回一個警告. 如果只系課程表左側添加一部序號，令強制參數為空即可.
+\end{function}
 
-此命令有兩個參數，可建置一個空白嘅課程表框架. 可選參數可喺頁面嘅嘅右度角添加學期，強制參數可指定標題.
+\begin{function}{\more}
+  \begin{syntax}
+    \cs{more}\marg{comment}
+  \end{syntax}
 
-\subsubsection{命令：\cs{more}}
+  此命令可喺頁面嘅嘅右下角添加備注.
+\end{function}
 
-\begin{example}
-  \cs{more}\marg{comment}
-\end{example}
+\begin{function}{\maketable}
+  \begin{syntax}
+    \cs{maketable}\oarg{semester}\marg{title}            \cs{maketable}\marg{title}\oarg{semester}
+  \end{syntax}
 
-此命令可喺頁面嘅嘅右下角添加備注.
+  此命令有兩個參數，可建置一個空白嘅課程表框架，使喺命令 \cs{timelist} 同 \cs{weeklist} 後，並喺帶有 \cmd{remember picture，overaly} 選項嘅 \env{tikzpicture} 環境中執行. 可選參數可喺頁面嘅嘅右度角添加學期，強制參數可指定標題.
+\end{function}
 
-\subsubsection{命令：\cs{timelist}}
+\section{添加課程塊}
 
-\begin{example}
-  \cs{timelist}\oarg{rows}\marg{time list}\qquad
-  \cs{timelist}\marg{time list}\oarg{rows}
-\end{example}
+\begin{function}{\course}
+  \begin{syntax}
+    \cs{course}\oarg{keyvals}\marg{start number}\marg{end number}
+  \end{syntax}
 
-此命令有兩個參數，可選參數可直接決定課程表嘅行數，強制參數可喺課程表嘅左側添加時間表. 輸入數組嘅用例如下
+  \cs{course} 命令可喺當前工作日添加課程塊，要喺命令 \cs{maketable} 後，並喺帶有 \cmd{remember picture，overaly} 選項嘅 \env{tikzpicture} 環境中執行.
+  
+  此命令有三個參數. 第一個可選參數接受下列鍵：\keys{\cmdmac~color} \keys{\cmdmac~subject} \keys{\cmdmac~location} \keys{\cmdmac~teacher} \keys{\cmdmac~weeks}. 鍵 \keys{\cmdmac~color} 默認值為 \cmd{teal}，鍵 \keys{\cmdmac~weeks} 默認值由命令 \cs{weeklist} 嘅可選參數決定. 第二個同第三個強制參數勒分別為課程嘅開始同結束序號.
+  
+  \cs{course} 命令嘅用例如下：將此課程塊嘅顏色設置為 \cmd{DarkSlateGray}，此課程名為 \cmd{litetable}，上堂地方為 \cmd{Hong Kong}，老師為 \cmd{M.Y. Xia}，喺當日嘅第 \cmd{8} 節課開始，第 \cmd{8} 節課結束.
 
-\begin{Verbatim}
-  \timelist[13]
-  {
-    08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45, 10:50 -> 11:35,
-    11:40 -> 12:25, 13:30 -> 14:15, 14:20 -> 15:05, 15:15 -> 16:00,
-    16:05 -> 16:50, 18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
-  }
-\end{Verbatim}
+  \begin{framed}
+    \begin{verbatim}
+      \course [ color = DarkSlateGray, subject = litetable,
+                location = Hong Kong, teacher = M.Y. Xia
+              ] {8} {8}
+    \end{verbatim}
+  \end{framed}
 
-對於兩個參數唔同使用情況，\cls{litetable} 會以如下規則建置對應行數嘅課程表框架.
-
-\begin{itemize}
-  \item 若強制參數接受咗$X$組時間，可選參數接受嘅值為$X+a$，就課程表嘅左側得$1 \sim X$行會顯示時間，後面幾行唔顯示時間.
-  \item 若強制參數接受咗$X+a$組時間，可選參數接收嘅值為$X$， 就課程表嘅左側得$X$行嘅課程表，多餘嘅時間組將畀忽略，並返回一個警告.
-  \item 如果只系想喺課程表左側添加一部序號，令強制變量為得閒即可.
+\begin{itemize}[topsep = 0pt]
+  \item 若課程塊高度得一格，即$\marg{start number} = \marg{end number}$，就鍵 \keys{\cmdmac~location} 同 \keys{\cmdmac~teacher} 嘅值將輸出喺同一行並以逗號 (,) 隔，鍵 \keys{\cmdmac~weeks} 嘅值將會隱藏.
+  \item 若鍵 \keys{\cmdmac~location} 同 \keys{\cmdmac~teacher} 均未賦值，就鍵 \keys{\cmdmac~subject} 嘅值將輸出喺課程塊中心.
+  \item 超出課程表工作日範圍嘅課程塊將唔會顯示，只會返回一條警告.
 \end{itemize}
+\end{function}
 
-\subsubsection{命令：\cs{weeklist}}
+\begin{function}{\newday}
+  \begin{syntax}
+    \cs{newday}\oarg{integral value}
+  \end{syntax}
 
-\begin{example}
-  \cs{weeklist}\oarg{default weeks}\marg{week list}\qquad
-  \cs{weeklist}\marg{week list}\oarg{default weeks}
-\end{example}
+  此命令有一個可選參數，可令其後面添加嘅課程塊後移 \meta{intergal value} 個工作日. 可選參數嘅默認值為\cmd{1}，即後移\cmd{1}個工作日.
+\end{function}
 
-此命令有兩個參數. 第一個可選參數可決定預設嘅星期數並會喺每課程塊嘅嘅右下角顯示，第二個強制參數可喺課程表嘅頂部添加對應寬度比例嘅工作日. 輸入數組嘅用例如下
+\clearpage
 
-\begin{Verbatim}
-  \weeklist[Weeks 1 - 16]{Mon -> 4, Tue -> 5, Wed -> 4, Thu -> 6, Fri -> 5}
-\end{Verbatim}
+\section{最小工作範例}
 
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}[every node/.style={font=\small\sffamily\scshape}]
-    \draw [thick,->,>=stealth] (-.84\linewidth/15,0) -- (.84\linewidth,0);
-    \draw (-.84\linewidth/15,-.1) --++ (0,.2) node [above] {\verb|-1/15|};
-    \draw (0,-.1) --++ (0,.2) node [above] {\verb|0|};
-    \draw (4*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|4x|};
-    \draw (9*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|9x|};
-    \draw (13*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|13x|};
-    \draw (19*.84\linewidth/24,-.1) --++ (0,.2) node [above] {\verb|19x|};
-    \draw (.84\linewidth,-.1) --++ (0,.2) node [above] {\verb|24x|};
-    \node [above] at (2*.84\linewidth/24,0) {Mon};
-    \node [above] at (6.5*.84\linewidth/24,0) {Tue};
-    \node [above] at (11*.84\linewidth/24,0) {Wed};
-    \node [above] at (16*.84\linewidth/24,0) {Thu};
-    \node [above] at (21.5*.84\linewidth/24,0) {Fri};
-  \end{tikzpicture}
-\end{figure}
+此MWE建置嘅课程表有13行但系得前12行标注时间，课程表顶部共有五个工作日，工作日之间嘅宽度比例为$4:5:4:6:5$，键 \keys{\cmdmac~weeks} 嘅默认值畀赋为 \cmd{Weeks 1 - 16}. 添加咗註解同兩個課程塊.
 
-此時 \cs{course} 命令中鍵 \keys{weeks} 嘅默認值畀賦為 \cmd{Weeks 1 - 16}. 如果輸入工作日嘅數量過輸入嘅寬度比例數量多，就多餘工作日將畀忽略並返回一條警告.
+\begin{framed}
+  \begin{verbatim}
+    \documentclass{litetable}
 
-\subsection{添加課程塊}
+    \begin{document}
 
-使用 \cs{course} 命令喺當前工作日添加課程塊. 此命令有兩個參數.
-
-\begin{example}
-  \cs{course}\oarg{keyvals}\marg{class start number}\marg{class end number}
-\end{example}
-
-第一個可選參數接受下列鍵：\keys{color} \keys{subject} \keys{location} \keys{teacher} \keys{weeks}. 鍵 \keys{color} 嘅默認值為 \cmd{DarkSlateGray}，鍵 \keys{weeks} 嘅默認值由命令 \cs{weeklist} 嘅第一個參數決定. 第二個同第三個強制參數勒分別為課程嘅開始同結束序號. \cs{course} 命令嘅用例如下
-
-\begin{Verbatim}
-  \course [ color = DarkSlateGray, subject = litetable,
-            location = Hong Kong, teacher = M.Y. Xia
-          ] {8} {8}
-\end{Verbatim}
-
-\begin{center}
-  \noindent\fbox
-  {
-    \parbox{.96\linewidth}
+    \timelist[13]
     {
-      將此課程塊嘅顏色設置為 \cmd{DarkSlateGray}，此課程名為 \cmd{litetable}，上堂地方為 \cmd{Hong Kong}，老師為 \cmd{M.Y. Xia}，喺當日嘅第 \cmd{8} 節課開始，第 \cmd{8} 節課結束.
+      08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45, 10:50 -> 11:35,
+      11:40 -> 12:25, 13:30 -> 14:15, 14:20 -> 15:05, 15:15 -> 16:00,
+      16:05 -> 16:50, 18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
     }
-  }
-\end{center}
+    \weeklist[Weeks 1 - 16]
+    {
+      Mon -> 4, Tue -> 5, Wed -> 4, Thu -> 6, Fri -> 5
+    }
+    \more{Author: Mingyu Xia \& Lijun Guo}
 
-\begin{itemize}
-  \item 可通過 \cs{newday} 命令切換到落個工作日.
-  \item 若課程塊嘅高度淨系得個單位，即$\marg{class start number} = \marg{class end number}$，就鍵 \keys{location} 同 \keys{teacher} 嘅值將輸出喺同一行並以逗號 (,) 隔，鍵 \cmd{weeks} 嘅值將唔會輸出.
-  \item 若鍵 \keys{location} 同 \keys{teacher} 均未賦值，就鍵 \keys{subject} 嘅值將輸出喺課程塊嘅中心.
-\end{itemize}
+    \begin{tikzpicture}[remember picture, overlay]
+      \maketable
+      \course [ subject = Keep on {\TeX}ing
+              ] {10} {11}
+      \newday
+      \course [ color = DarkSlateGray, subject = litetable,
+              location = Hong Kong, teacher = M.Y. Xia
+              ] {8} {8}
+    \end{tikzpicture}
+
+    \end{document}
+  \end{verbatim}
+\end{framed}
 
 \includepdf[pages = 1]{litetable-demo.pdf}
 
