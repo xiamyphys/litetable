@@ -17,18 +17,17 @@
 %%                               and README.md.              *
 %%   available at https://github.com/xiamyphys/litetable     *
 %% ***********************************************************
-\ProvidesExplClass{litetable}{2024/09/30}{3.1A}{Course Schedule}
+\RequirePackage{xparse}% For TeX Live 2019 - 2020 Compatibility
+\ProvidesExplClass{litetable}{2024/10/01}{3.1B}{Course Schedule}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
-
 \LoadClass{article}
 
 \pagestyle{empty}
 \RequirePackage{tikz}
-\definecolor{darkergray}{HTML}{F4F6F8}
 
-% Module for texlive 2021 and later: by @ljguo
+% Module for texlive 2021 and later (by @ljguo)
 \cs_if_exist:NF \clist_put_right:Ne 
 { \cs_generate_variant:Nn \clist_put_right:Nn { Ne } }
 \cs_if_exist:NF \clist_set:Ne 
@@ -46,7 +45,7 @@
   }
 }
 
-% Module for left -> right data structure: by @ljguo
+% Module for left -> right data structure (by @ljguo)
 \cs_new_protected_nopar:Npn \__litetable_get_left:nN #1#2
 {
   \group_begin:
@@ -96,7 +95,7 @@
   }
   \dim_set:Nn \l__time_vunit_dim
   {
-    \fp_eval:n {1/(2*\l__time_num_int+3.5)}\paperheight
+    \fp_eval:n {1/(2\l__time_num_int+3.5)}\paperheight
   }
 }
 \NewDocumentCommand \timelist { O{} m O{} } 
@@ -165,30 +164,36 @@
 \NewDocumentCommand \newday { O {1} }
 { \int_add:Nn \l__litetable_week_day_int { #1 } }
 
-\cs_new_protected_nopar:Npn \litetable_maketable:nn #1#2
+\keys_define:nn { litetable / frame }
+{
+  sem.tl_set:N = \l__bg_sem_tl,
+  color.tl_set:N = \l__bg_color_tl,
+  color.initial:n = gray,
+}
+\cs_new_protected_nopar:Npn \litetable_maketable:nn #1
 {
   % Darker Block at top
-  \fill [ darkergray ] (current~page.north~west)
+  \fill [ \l__bg_color_tl!5 ] (current~page.north~west)
           rectangle + (\paperwidth,-1.5\l__time_vunit_dim)
           node [ midway, black, font = \huge\bfseries ] {#1};
-  \tl_if_empty:nF { #2 }% Semester
+  \tl_if_empty:NF { \l__bg_sem_tl }% Semester
   {
     \node [ shift = {(-.02\paperwidth,-.75\l__time_vunit_dim)},
             left, rectangle, fill = DarkBlue!10,
             text = DarkBlue!60, inner~sep = 2ex,
             rounded~corners = 8pt, font = \large
           ] at (current~page.north~east)
-    {\ensuremath\rightleftharpoons\ #2};
+    {\ensuremath\rightleftharpoons\ \l__bg_sem_tl};
   }
   % Darker Blocks
   \int_step_inline:nnnn {0} {2} {\l__time_num_int}
   {
-    \filldraw [ fill = darkergray, draw = gray, thick,
-                densely~dashed, line~cap = round
-              ] ([shift = {(-.4pt,{\fp_eval:n {
-                  -2*##1-2.5}\l__time_vunit_dim})
-                }]current~page.north~west) rectangle +
-              ({\paperwidth+.8pt},-2*\l__time_vunit_dim);
+    \filldraw [ fill = \l__bg_color_tl!5, draw = gray,
+                thick, densely~dashed, line~cap = round
+              ]
+    ([shift = {(-.4pt,\fp_eval:n {-2*##1-2.5}\l__time_vunit_dim)}]
+    current~page.north~west) rectangle +
+    ({\paperwidth+.8pt},-2\l__time_vunit_dim);
   }
   % Classes numbering
   \clist_if_empty:NTF {\l__litetable_timelist_clist}
@@ -241,18 +246,17 @@
       \clist_item:Nn \l__litetable_weeklist_clist {##1}
     } \l__litetable_tmpa_tl
     \node [ font = \large\bfseries,
-            shift = {({\fp_eval:n {
+            shift = {(\fp_eval:n {
             (\clist_item:Nn \l__week_accum_clist {##1}
             -\clist_item:Nn \l__week_ratio_clist {##1}/2)/
-            \l__week_num_int*14/15+1/15}\paperwidth},
+            \l__week_num_int*14/15+1/15}\paperwidth,
             -2\l__time_vunit_dim)}
-          ] at (current~page.north~west)
-    { \l__litetable_tmpa_tl };
+          ] at (current~page.north~west) { \l__litetable_tmpa_tl };
   }
   % Comment
-  \cs_if_exist:NT \l__litetable_comment_tl
+  \tl_if_empty:NF \l__litetable_comment_tl
   {
-    \node [ yshift = .5*\l__time_vunit_dim, 
+    \node [ yshift = .5\l__time_vunit_dim, 
           left = 1ex, darkgray, font = \small\bfseries
         ] at (current~page.south~east)
     { \l__litetable_comment_tl };
@@ -260,7 +264,12 @@
   \tl_gclear:N \l__litetable_comment_tl
 }
 \NewDocumentCommand \maketable { O{} m O{} } 
-{ \litetable_maketable:nn { #2 } { #1#3 } }
+{
+  \group_begin:
+  \keys_set:nn { litetable / frame } { #1#3 }
+  \litetable_maketable:nn { #2 }
+  \group_end:
+}
 
 \keys_define:nn { litetable / course }
 {
@@ -280,30 +289,32 @@
   \clip [ preaction = {draw, ultra~thick, \l__course_color_tl!60},
           preaction = {fill, \l__course_color_tl!10},
           rounded~corners = 8pt ] 
-        ([shift = {(\fp_eval:n {
-          \clist_item:Nn \l__week_accum_clist
-            {\l__litetable_week_day_int}-
-          \clist_item:Nn \l__week_ratio_clist
-            {\l__litetable_week_day_int}
-        }\l__week_hunit_dim+\paperwidth/15+1.2pt,
-        \fp_eval:n {-.5-2*#1}\l__time_vunit_dim-1.2pt)
-        }]current~page.north~west) rectangle + 
-        (\clist_item:Nn \l__week_ratio_clist
-          {\l__litetable_week_day_int}\l__week_hunit_dim-2.4pt,
-        \fp_eval:n {2*(#1-#2-1)}\l__time_vunit_dim+2.4pt);
+  ([shift = {(
+    \fp_eval:n
+    {
+      \clist_item:Nn \l__week_accum_clist
+        {\l__litetable_week_day_int}-
+      \clist_item:Nn \l__week_ratio_clist
+        {\l__litetable_week_day_int}
+    }\l__week_hunit_dim+\paperwidth/15+1.2pt,
+    \fp_eval:n {-.5-2*#1}\l__time_vunit_dim-1.2pt)
+  }]current~page.north~west) rectangle + (
+  \clist_item:Nn \l__week_ratio_clist {\l__litetable_week_day_int}
+  \l__week_hunit_dim-2.4pt,
+  \fp_eval:n {2*(#1-#2-1)}\l__time_vunit_dim+2.4pt);
   % Course block bg
   \fill [ \l__course_color_tl!60 ]
-        ([shift = {(\fp_eval:n {
-          \clist_item:Nn \l__week_accum_clist
-            {\l__litetable_week_day_int}-
-          \clist_item:Nn \l__week_ratio_clist
-            {\l__litetable_week_day_int}
-        }\l__week_hunit_dim+\paperwidth/15,
-        \fp_eval:n {-.5-2*#1}\l__time_vunit_dim)
-        }]current~page.north~west) rectangle +
-        (\clist_item:Nn \l__week_ratio_clist
-          {\l__litetable_week_day_int}\l__week_hunit_dim,
-        -.5*\l__time_vunit_dim);
+  ([shift = {(
+    \fp_eval:n {
+      \clist_item:Nn \l__week_accum_clist
+        {\l__litetable_week_day_int}-
+      \clist_item:Nn \l__week_ratio_clist
+        {\l__litetable_week_day_int}
+    }\l__week_hunit_dim+\paperwidth/15,
+    \fp_eval:n {-.5-2*#1}\l__time_vunit_dim)
+  }]current~page.north~west) rectangle + (
+  \clist_item:Nn \l__week_ratio_clist{\l__litetable_week_day_int}
+  \l__week_hunit_dim,-.5\l__time_vunit_dim);
   \end{scope}
   % Course info
   \tl_if_eq:NNTF {#1} {#2}% Single-unit height course block
@@ -420,14 +431,14 @@
 }
 \litetable_msg_new:nn { course }
 { \exp_not:N \course~block(s)~exceed~workdays~were~ignored }
-\NewDocumentCommand \course { O{} m m }
+\NewDocumentCommand \course { O{} m O{} m O{} }
 { 
   \group_begin:
   \int_compare:nNnTF {\l__litetable_week_day_int-1} <
   {\clist_count:N \l__litetable_weeklist_clist}
   {
-    \keys_set:nn { litetable / course } { #1 }
-    \__litetable_course_block_aux:nn { #2 } { #3 }
+    \keys_set:nn { litetable / course } { #1#3#5 }
+    \__litetable_course_block_aux:nn { #2 } { #4 }
   }{
     \litetable_msg_warning:n { course }
   }

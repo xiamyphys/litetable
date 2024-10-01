@@ -27,10 +27,12 @@
 }
 
 \begin{tikzpicture}[remember picture, overlay]
-  \maketable [SEM 6] {Skyrmion's Timetable}
+  \maketable [ color = MidnightBlue,
+               sem = SEM 6
+             ] { Skyrmion's Course Schedule }
   \course [ color = DarkBlue, subject = interface3,
             teacher = The {\LaTeX} Project
-          ] {5} {5}
+          ] {4} {5}
   \newday
   \course [ color = Purple, subject = expl3,
           teacher = The {\LaTeX} Project
@@ -39,11 +41,9 @@
           teacher = {\LaTeX} Project Team, weeks = Weeks 7 - 14
           ] {1} {2}
   \newday
-  \course [ subject = Keep on {\TeX}ing
-          ] {10} {11}
+  \course [ subject = Keep on {\TeX}ing ] {10} {11}
   \newday
-  \course [ color = Crimson,
-            subject = Ti\textit kZ,
+  \course [ color = Crimson, subject = Ti\textit kZ,
             teacher = The PGF/Ti\textit kZ Team
           ] {3} {5}
   \newday
@@ -54,14 +54,14 @@
 
 \clearpage
 
-\timelist [ 12 ]{ }
+\timelist [ 12 ] { }
 \weeklist [ Weeks 1 - 16 ]
 {
   Mon -> 1, Tue -> 1, Wed -> 1, Thu -> 1, Fri -> 1
 }
 
 \begin{tikzpicture}[remember picture, overlay]
-  \maketable [SEM 7] {Skyrmion's Timetable}
+  \maketable { Skyrmion's Course Schedule }
   %
 \end{tikzpicture}
 
