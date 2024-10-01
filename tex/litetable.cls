@@ -11,7 +11,7 @@
 %%                                                           *
 %%   This work has the LPPL maintenance status `maintained'. *
 %%                                                           *
-%%   The Current Maintainer of this work is M.Y. XIA.        *
+% The Current Maintainers of this work are M.Y. XIA & L.J. Guo
 %%                                                           *
 %%   This work consists of the files litetable.cls,          *
 %%                               and README.md.              *
@@ -282,9 +282,9 @@
   weeks.initial:n = \l__default_weeks_tl,
 }
 \dim_new:N \l__course_infoshift_dim
-\cs_new_protected_nopar:Npn \__litetable_course_block_aux:nn #1#2
+\cs_new_protected_nopar:Npn \__litetable_course_box_aux:nn #1#2
 {
-  % Course block fg
+  % Course box fg
   \begin{scope}
   \clip [ preaction = {draw, ultra~thick, \l__course_color_tl!60},
           preaction = {fill, \l__course_color_tl!10},
@@ -302,7 +302,7 @@
   \clist_item:Nn \l__week_ratio_clist {\l__litetable_week_day_int}
   \l__week_hunit_dim-2.4pt,
   \fp_eval:n {2*(#1-#2-1)}\l__time_vunit_dim+2.4pt);
-  % Course block bg
+  % Course box bg
   \fill [ \l__course_color_tl!60 ]
   ([shift = {(
     \fp_eval:n {
@@ -317,7 +317,7 @@
   \l__week_hunit_dim,-.5\l__time_vunit_dim);
   \end{scope}
   % Course info
-  \tl_if_eq:NNTF {#1} {#2}% Single-unit height course block
+  \tl_if_eq:NNTF {#1} {#2}% Single-unit height course box
   {
     \bool_if:nTF
     {
@@ -365,7 +365,7 @@
     };
   }
   {
-    \bool_if:nTF% Multiply-unit height course block
+    \bool_if:nTF% Multiply-unit height course box
     {
       \tl_if_empty_p:N \l__course_location_tl &&
       \tl_if_empty_p:N \l__course_teacher_tl
@@ -430,7 +430,7 @@
   }
 }
 \litetable_msg_new:nn { course }
-{ \exp_not:N \course~block(s)~exceed~workdays~were~ignored }
+{ \exp_not:N \course~box(s)~exceed~workdays~were~ignored }
 \NewDocumentCommand \course { O{} m O{} m O{} }
 { 
   \group_begin:
@@ -438,7 +438,7 @@
   {\clist_count:N \l__litetable_weeklist_clist}
   {
     \keys_set:nn { litetable / course } { #1#3#5 }
-    \__litetable_course_block_aux:nn { #2 } { #4 }
+    \__litetable_course_box_aux:nn { #2 } { #4 }
   }{
     \litetable_msg_warning:n { course }
   }
