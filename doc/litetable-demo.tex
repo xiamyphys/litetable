@@ -7,44 +7,44 @@
 \begin{document}
 
 \timelist [ 13 ]
-{
-  08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45,
-  10:50 -> 11:35, 11:40 -> 12:25, 13:30 -> 14:15,
-  14:20 -> 15:05, 15:15 -> 16:00, 16:05 -> 16:50,
-  18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
-}
+  {
+    08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45,
+    10:50 -> 11:35, 11:40 -> 12:25, 13:30 -> 14:15,
+    14:20 -> 15:05, 15:15 -> 16:00, 16:05 -> 16:50,
+    18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
+  }
 \weeklist [ Weeks 1 - 16 ]
-{
-  \scshape\texttwemoji{1f312} Mon -> 1,
-  \scshape\texttwemoji{1f525} Tue -> 1,
-  \scshape\texttwemoji{1f30a} Wed -> 1,
-  \scshape\texttwemoji{1f332} Thu -> 1,
-  \scshape\texttwemoji{1fa99} Fri -> 1
-}
+  {
+    \scshape\texttwemoji{1f312} Mon -> 1,
+    \scshape\texttwemoji{1f525} Tue -> 1,
+    \scshape\texttwemoji{1f30a} Wed -> 1,
+    \scshape\texttwemoji{1f332} Thu -> 1,
+    \scshape\texttwemoji{1fa99} Fri -> 1
+  }
 \more
-{
-  School Starts: 06 / 09 / 2024\quad Summer Vacation: 26 / 01 / 2025
-}
+  {
+    School Starts: 06 / 09 / 2024\quad Summer Vacation: 26 / 01 / 2025
+  }
 
-\begin{tikzpicture}[remember picture, overlay]
+\begin{tikzpicture} [ remember picture, overlay ]
   \maketable [ color = MidnightBlue,
                sem = SEM 6
              ] { Skyrmion's Course Schedule }
   \course [ color = DarkBlue, subject = interface3,
-            teacher = The {\LaTeX} Project
+            teacher = The \LaTeX{} Project
           ] {4} {5}
   \newday
   \course [ color = Purple, subject = expl3,
-          teacher = The {\LaTeX} Project
+            teacher = The \LaTeX{} Project
           ] {8} {8}
   \course [ color = FireBrick, subject = usrguide,
-          teacher = {\LaTeX} Project Team, weeks = Weeks 7 - 14
+            teacher = \LaTeX{} Project Team, weeks = Weeks 7 - 14
           ] {1} {2}
   \newday
-  \course [ subject = Keep on {\TeX}ing ] {10} {11}
+  \course [ subject = Keep on \TeX{}ing ] {10} {11}
   \newday
-  \course [ color = Crimson, subject = Ti\textit kZ,
-            teacher = The PGF/Ti\textit kZ Team
+  \course [ color = Crimson, subject = \textup{Ti\textit{k\/}Z},
+            teacher = The PGF/\textup{Ti\textit{k\/}Z} Team
           ] {3} {5}
   \newday
   \course [ color = DarkSlateGray, subject = litetable,
@@ -55,12 +55,9 @@
 \clearpage
 
 \timelist [ 12 ] { }
-\weeklist [ Weeks 1 - 16 ]
-{
-  Mon -> 1, Tue -> 1, Wed -> 1, Thu -> 1, Fri -> 1
-}
+\weeklist [ Weeks 1 - 16 ] { Mon -> 1, Tue -> 1, Wed -> 1, Thu -> 1, Fri -> 1 }
 
-\begin{tikzpicture}[remember picture, overlay]
+\begin{tikzpicture} [ remember picture, overlay ]
   \maketable { Skyrmion's Course Schedule }
   %
 \end{tikzpicture}

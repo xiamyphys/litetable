@@ -23,7 +23,7 @@
   Mingyu Xia \texttt{<\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}>}
   \thanks{\href{https://github.com/ljguo1020}{Lijun Guo} developed modules for reading \meta{left} -> \meta{right} data structure and supporting low version \hologo {TeX} Live.}
 }
-\date{Version 3.1B, \today}
+\date{Version 3.1C, \today}
 
 \begin{document}
 
@@ -39,7 +39,7 @@ Just like loading any class, write
 
 \begin{framed}
   \begin{verbatim}
-    \documentclass{litetable}
+    \documentclass {litetable}
   \end{verbatim}
 \end{framed}
 
@@ -47,18 +47,18 @@ One can load the \pkg{ctex} package and set the font to input the CJK characters
 
 \begin{function}{\timelist,\weeklist}
   \begin{syntax}
-    \cs{timelist}\oarg{rows}\marg{time list}             \cs{timelist}\marg{time list}\oarg{rows}
-    \cs{weeklist}\oarg{default weeks}\marg{week list}    \cs{weeklist}\marg{week list}\oarg{default weeks}
+    \cs{timelist} \oarg{rows} \marg{time list}          \cs{timelist} \marg{time list} \oarg{rows}
+    \cs{weeklist} \oarg{default weeks} \marg{week list} \cs{weeklist} \marg{week list} \oarg{default weeks}
   \end{syntax}
 
-  The optional argument of the command \cs{timelist} can force the number of rows on the timetable, and that of the command \cs{weeklist} can set the default number of weeks and print it at every course box's southeast corner. Each mandatory argument of the two commands accepts an array that can add a time list to the left side of the timetable and add workdays with corresponding width ratios at the top of the timetable, respectively. The example for inputting the arrays is shown in Appendix \ref{mwe}
+  The optional argument of the command \cs{timelist} can force the number of rows on the timetable, and that of the command \cs{weeklist} can set the default number of weeks and print it at every course box's southeast corner. Each mandatory argument of the two commands accepts an array that can add a time list to the left side of the timetable and add workdays with corresponding width ratios at the top of the timetable, respectively. The example for inputting the arrays is shown in Appendix \ref{mwe}.
 
   If the number of time arrays received by the command \cs{timelist} is greater than the forced number of rows, then the extra time sets are ignored, and it will return a warning. If one wants to add a series of numbers to the left side of the timetable without time, just leave the mandatory argument blank.
 \end{function}
 
 \begin{function}{\more}
   \begin{syntax}
-    \cs{more}\marg{comment}
+    \cs{more} \marg{comment}
   \end{syntax}
 
   This command can add a comment at the southwest corner of the page.
@@ -66,7 +66,7 @@ One can load the \pkg{ctex} package and set the font to input the CJK characters
 
 \begin{function}{\maketable}
   \begin{syntax}
-    \cs{maketable}\oarg{keyvals}\marg{title}\oarg{keyvals}
+    \cs{maketable} \oarg{keyvals} \marg{title} \oarg{keyvals}
   \end{syntax}
 
   This command can create a blank timetable frame, and it should execute after commands \cs{timelist} and \cs{weeklist} in the \env{tikzpicture} environment with the option of \cmd{[remember picture, overaly]}. The optional argument accepts keys, it can set the background color of the timetable, and add the semester at the northeast corner of the page, the default value of the key \keys{\cmdmac~color} is \cmd{gray}. The mandatory argument can set the title.
@@ -76,7 +76,7 @@ One can load the \pkg{ctex} package and set the font to input the CJK characters
 
 \begin{function}{\course}
   \begin{syntax}
-    \cs{course}\oarg{keyvals}\marg{start number}\oarg{keyvals}\marg{end number}\oarg{keyvals}
+    \cs{course} \oarg{keyvals} \marg{start number} \oarg{keyvals} \marg{end number} \oarg{keyvals}
   \end{syntax}
 \end{function}
 
@@ -92,7 +92,7 @@ The optional argument accepts the following keys: \keys{\cmdmac~color} \keys{\cm
 
 \begin{function}{\newday}
   \begin{syntax}
-    \cs{newday}\oarg{intergal value}
+    \cs{newday} \oarg{intergal value}
   \end{syntax}
 
   This command has an optional argument that can move the course boxes right \meta{intergal value} working days. The default value of the optional argument is \cmd{1} to move right \cmd{1} workday.
@@ -111,24 +111,24 @@ The following MWE could generate a timetable of 13 lines but only the top 12 lin
 
     \begin{document}
 
-    \timelist[13]
-    {
-      08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45, 10:50 -> 11:35,
-      11:40 -> 12:25, 13:30 -> 14:15, 14:20 -> 15:05, 15:15 -> 16:00,
-      16:05 -> 16:50, 18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
-    }
-    \weeklist[Weeks 1 - 16]
-    {
-      Mon -> 4, Tue -> 5, Wed -> 4, Thu -> 6, Fri -> 5
-    }
-    \more{Author: Mingyu Xia \& Lijun Guo}
+    \timelist [ 13 ]
+      {
+        08:05 -> 08:50, 08:55 -> 09:40, 10:00 -> 10:45, 10:50 -> 11:35,
+        11:40 -> 12:25, 13:30 -> 14:15, 14:20 -> 15:05, 15:15 -> 16:00,
+        16:05 -> 16:50, 18:30 -> 19:15, 19:20 -> 20:05, 20:10 -> 20:55
+      }
+    \weeklist [ Weeks 1 - 16 ]
+      {
+        Mon -> 4, Tue -> 5, Wed -> 4, Thu -> 6, Fri -> 5
+      }
+    \more { Author: Mingyu Xia \& Lijun Guo }
 
-    \begin{tikzpicture}[remember picture, overlay]
+    \begin{tikzpicture} [ remember picture, overlay ]
       \maketable
       \course [ subject = Keep on {\TeX}ing ] {10} {11}
       \newday
       \course [ color = DarkSlateGray, subject = litetable,
-              location = Hong Kong, teacher = M.Y. Xia
+                location = Hong Kong, teacher = M.Y. Xia
               ] {8} {8}
     \end{tikzpicture}
 
