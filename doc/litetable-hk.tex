@@ -23,7 +23,7 @@
   夏明宇 \texttt{<\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}>}
   \thanks{\href{https://github.com/ljguo1020}{郭李軍}開發咗讀取 \meta{left} -> \meta{right} 型資料結構糢塊同低版本 \hologo{TeX} Live 相容糢塊.}
 }
-\date{Version 3.1C, \today}
+\date{Version 3.1D, \today}
 
 \begin{document}
 
@@ -47,8 +47,8 @@
 
 \begin{function}{\timelist,\weeklist}
   \begin{syntax}
-    \cs{timelist} \oarg{rows} \marg{time list}          \cs{timelist} \marg{time list} \oarg{rows}
-    \cs{weeklist} \oarg{default weeks} \marg{week list} \cs{weeklist} \marg{week list} \oarg{default weeks}
+    \cs{timelist} \oarg{rows} \marg{list}            \cs{timelist} \marg{list} \oarg{rows}
+    \cs{weeklist} \oarg{default weeks} \marg{list}   \cs{weeklist} \marg{list} \oarg{default weeks}
   \end{syntax}
 
   命令 \cs{timelist} 嘅可選參數可強制設定課程表嘅行數，命令 \cs{weeklist} 嘅可選參數可設定預設嘅星期數目並會喺每個課程盒子嘅右下角顯示. 兩個命令嘅強制參數均接受數組，可分別就系課程表嘅左側添加時間表、喺課程表嘅頂部添加對應寬度比例嘅工作日. 輸入數組嘅用例見Appendix \ref{mwe}.

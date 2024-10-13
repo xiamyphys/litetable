@@ -23,7 +23,7 @@
   Mingyu Xia \texttt{<\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}>}
   \thanks{\href{https://github.com/ljguo1020}{Lijun Guo} developed modules for reading \meta{left} -> \meta{right} data structure and supporting low version \hologo {TeX} Live.}
 }
-\date{Version 3.1C, \today}
+\date{Version 3.1D, \today}
 
 \begin{document}
 
@@ -47,8 +47,8 @@ One can load the \pkg{ctex} package and set the font to input the CJK characters
 
 \begin{function}{\timelist,\weeklist}
   \begin{syntax}
-    \cs{timelist} \oarg{rows} \marg{time list}          \cs{timelist} \marg{time list} \oarg{rows}
-    \cs{weeklist} \oarg{default weeks} \marg{week list} \cs{weeklist} \marg{week list} \oarg{default weeks}
+    \cs{timelist} \oarg{rows} \marg{list}            \cs{timelist} \marg{list} \oarg{rows}
+    \cs{weeklist} \oarg{default weeks} \marg{list}   \cs{weeklist} \marg{list} \oarg{default weeks}
   \end{syntax}
 
   The optional argument of the command \cs{timelist} can force the number of rows on the timetable, and that of the command \cs{weeklist} can set the default number of weeks and print it at every course box's southeast corner. Each mandatory argument of the two commands accepts an array that can add a time list to the left side of the timetable and add workdays with corresponding width ratios at the top of the timetable, respectively. The example for inputting the arrays is shown in Appendix \ref{mwe}.
@@ -82,7 +82,7 @@ One can load the \pkg{ctex} package and set the font to input the CJK characters
 
 The \cs{course} command can add course boxes on the current workday, it should execute after command \cs{maketable} in the \env{tikzpicture} environment with the option of \cmd{[remember picture, overaly]}.
 
-The optional argument accepts the following keys: \keys{\cmdmac~color} \keys{\cmdmac~subject} \keys{\cmdmac~location} \keys{\cmdmac~teacher} \keys{\cmdmac~weeks}. The default value of the key \keys{\cmdmac~color} is \cmd{teal}, and the default value of the key \keys{\cmdmac~weeks} is determined by the argument of the command \cs{weeklist}. The first and second mandatory arguments are the start and end numbers of the course, respectively.  The example of this command is shown in Appendix \ref{mwe}
+The optional argument accepts the following keys: \keys{\cmdmac~color} \keys{\cmdmac~subject} \keys{\cmdmac~location} \keys{\cmdmac~teacher} \keys{\cmdmac~weeks}. The default value of the key \keys{\cmdmac~color} is \cmd{teal}, and the default value of the key \keys{\cmdmac~weeks} is determined by the argument of the command \cs{weeklist}. The first and second mandatory arguments are the start and end numbers of the course, respectively.  The example of this command is shown in Appendix \ref{mwe}.
 
 \begin{itemize}
   \item If the course box's height is only one unit, that is $\meta{start number} = \meta{end number}$, the values of keys \keys{\cmdmac~location} and \keys{\cmdmac~teacher} will print on the same line with a comma (,) separated, and the value of the key \keys{\cmdmac~weeks} will be hidden.

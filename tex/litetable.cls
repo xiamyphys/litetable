@@ -17,7 +17,7 @@
 %%    available at https://github.com/xiamyphys/litetable              *
 %% *********************************************************************
 \RequirePackage{xparse}% For TeX Live 2019 - 2020 Compatibility
-\ProvidesExplClass {litetable} {2024/10/09} {3.1C} {Course Schedule}
+\ProvidesExplClass {litetable} {2024/10/13} {3.1D} {Course Schedule}
 
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
@@ -81,13 +81,13 @@
       {
         \int_set:Nn \l__time_num_int {#1}
         \int_compare:nNnTF {#1} <
-        { \clist_count:N \l__litetable_timelist_clist }
-        {
-          \int_set:Nn \l__time_num_int
-            { \clist_count:N \l__litetable_timelist_clist }
-          \litetable_msg_warning:n { timelist }
-        }
-        { \int_set:Nn \l__time_num_int {#1} }
+          { \clist_count:N \l__litetable_timelist_clist }
+          {
+            \int_set:Nn \l__time_num_int
+              { \clist_count:N \l__litetable_timelist_clist }
+            \litetable_msg_warning:n { timelist }
+          }
+          { \int_set:Nn \l__time_num_int {#1} }
       }
     \dim_set:Nn \l__time_vunit_dim
       { \fp_eval:n { 1/( 2\l__time_num_int + 3.5 ) } \paperheight }
@@ -173,7 +173,7 @@
           ]
           ([shift = {(-.4pt, \fp_eval:n { - 2 * ##1 - 2.5 } \l__time_vunit_dim)}]
             current~page.north~west
-          ) rectangle + ({\paperwidth + .8pt}, -2\l__time_vunit_dim);
+          ) rectangle + (\paperwidth + .8pt, -2\l__time_vunit_dim);
       }
     % Classes numbering
     \clist_if_empty:NTF { \l__litetable_timelist_clist }
@@ -216,7 +216,7 @@
               [ shift =
                   {(
                     \paperwidth/30,
-                    \fp_eval:n { -1.9 - 2 * ##1 } \l__time_vunit_dim
+                    \fp_eval:n { - 1.9 - 2 * ##1 } \l__time_vunit_dim
                   )}, gray, font = \ttfamily, align = center
               ] at (current~page.north~west)
               { \l__litetable_tmpa_tl\\\l__litetable_tmpb_tl };
@@ -312,7 +312,7 @@
           (
             \clist_item:Nn \l__week_ratio_clist
               { \l__litetable_week_day_int } \l__week_hunit_dim,
-            - .5\l__time_vunit_dim
+            -\l__time_vunit_dim/2
           );
     \end{scope}
     % Course info
@@ -337,7 +337,7 @@
                       \clist_item:Nn \l__week_ratio_clist
                         { \l__litetable_week_day_int }/2
                     } \l__week_hunit_dim + \paperwidth/15,
-                    \fp_eval:n { -1.75 - #1 - #2 } \l__time_vunit_dim
+                    \fp_eval:n { - 1.75 - #1 - #2 } \l__time_vunit_dim
                 )}, align = center, font = \large\bfseries,
                 \l_shortcourse_anchor_tl, \l__course_color_tl!60
               ] at (current~page.north~west) { \l__course_subject_tl };
@@ -387,20 +387,20 @@
         \cs_if_exist:NT { \l__course_subject_tl }
           {
             \node 
-            [ shift =
-              {(
-                \fp_eval:n
-                  {
-                    \clist_item:Nn \l__week_accum_clist
-                      { \l__litetable_week_day_int } -
-                    \clist_item:Nn \l__week_ratio_clist
-                      { \l__litetable_week_day_int }/2
-                  } \l__week_hunit_dim + \paperwidth/15,
-                \fp_eval:n { - 1.5 - #1 - #2 } \l__time_vunit_dim+
-                \l__course_infoshift_dim
-              )}, font = \large\bfseries, \l_course_anchor_tl,
-              \l__course_color_tl!60, align = center
-            ] at (current~page.north~west) { \l__course_subject_tl };
+              [ shift =
+                {(
+                  \fp_eval:n
+                    {
+                      \clist_item:Nn \l__week_accum_clist
+                        { \l__litetable_week_day_int } -
+                      \clist_item:Nn \l__week_ratio_clist
+                        { \l__litetable_week_day_int }/2
+                    } \l__week_hunit_dim + \paperwidth/15,
+                  \fp_eval:n { - 1.5 - #1 - #2 } \l__time_vunit_dim +
+                  \l__course_infoshift_dim
+                )}, font = \large\bfseries, \l_course_anchor_tl,
+                \l__course_color_tl!60, align = center
+              ] at (current~page.north~west) { \l__course_subject_tl };
           }
         \bool_if:nTF
           {

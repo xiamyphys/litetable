@@ -23,7 +23,7 @@
   夏明宇 \texttt{<\href{mailto:xiamyphys@gmail.com}{xiamyphys@gmail.com}>}
   \thanks{\href{https://github.com/ljguo1020}{郭李军}开发了读取 \meta{left} -> \meta{right} 型数据结构模块和低版本 \hologo{TeX} Live 兼容模块.}
 }
-\date{Version 3.1C, \today}
+\date{Version 3.1D, \today}
 
 \begin{document}
 
@@ -47,8 +47,8 @@
 
 \begin{function}{\timelist,\weeklist}
   \begin{syntax}
-    \cs{timelist} \oarg{rows} \marg{time list}          \cs{timelist} \marg{time list} \oarg{rows}
-    \cs{weeklist} \oarg{default weeks} \marg{week list} \cs{weeklist} \marg{week list} \oarg{default weeks}
+    \cs{timelist} \oarg{rows} \marg{list}            \cs{timelist} \marg{list} \oarg{rows}
+    \cs{weeklist} \oarg{default weeks} \marg{list}   \cs{weeklist} \marg{list} \oarg{default weeks}
   \end{syntax}
 
   命令 \cs{timelist} 的可选参数可强制设定课程表的行数，命令 \cs{weeklist} 的可选参数可设定默认的星期数目并会在每个课程盒子的右下角显示. 两个命令的强制参数均接收数组，可分别在课程表的左侧添加时间列表、在课程表的顶部添加对应宽度比例的工作日. 输入数组的用例见Appendix \ref{mwe}.
